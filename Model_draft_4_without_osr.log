@@ -1,0 +1,126 @@
+Starting Dynare (version 5.0).
+Calling Dynare with arguments: none
+Starting preprocessing of the model file ...
+WARNING: in the 'steady_state_model' block, variable 'y_cu' is not assigned a value
+Ramsey Problem: added 11 Multipliers.
+Found 11 equation(s).
+Found 25 FOC equation(s) for Ramsey Problem.
+Evaluating expressions...done
+Computing static model derivatives (order 1).
+Computing dynamic model derivatives (order 2).
+Computing dynamic model derivatives (order 2).
+Computing static model derivatives (order 3).
+Processing outputs ...
+done
+Preprocessing completed.
+
+
+MODEL SUMMARY
+
+  Number of variables:         25
+  Number of stochastic shocks: 4
+  Number of state variables:   8
+  Number of jumpers:           11
+  Number of static variables:  6
+
+
+MATRIX OF COVARIANCE OF EXOGENOUS SHOCKS
+Variables              eps_a        eps_xi   eps_a_starr  eps_xi_starr
+eps_a               1.000000      0.000000      0.000000      0.000000
+eps_xi              0.000000      0.000000      0.000000      0.000000
+eps_a_starr         0.000000      0.000000      0.000000      0.000000
+eps_xi_starr        0.000000      0.000000      0.000000      0.000000
+
+POLICY AND TRANSITION FUNCTIONS
+                                   a              xi               y             pie               g         a_starr        xi_starr         y_starr       pie_starr         g_starr              ii               s          pie_cu            y_cu
+a(-1)                       0.800000               0        0.797498        0.000907        0.048569               0               0        0.121992        0.001581       -3.284747       -0.322566       -0.030491        0.000914        0.790743
+xi(-1)                             0        0.800000       -0.000844        0.000616        0.010199               0               0       -0.000200       -0.000034        0.006016       -0.003844        0.005107        0.000609       -0.000838
+a_starr(-1)                        0               0        0.001232        0.000016       -0.033179        0.800000               0        0.676738       -0.000658        3.300137       -0.003258        0.030491        0.000009        0.007987
+xi_starr(-1)                       0               0       -0.000002               0        0.000061               0        0.800000       -0.000646        0.000650        0.004244       -0.000039       -0.005107        0.000006       -0.000008
+MULT_1(-1)                         0               0        0.125710        0.000458       -3.360387               0               0        0.125240        0.000313       -3.345987       -1.599154       -0.011550        0.000456        0.125705
+MULT_2(-1)                         0               0        0.000132        0.000005       -0.001590               0               0        0.000060        0.000001       -0.001638       -0.000041       -0.000214        0.000005        0.000131
+MULT_3(-1)                         0               0        0.125240        0.000313       -3.345987               0               0        0.171714        0.014701       -4.771549       -1.599154        1.143402        0.000456        0.125705
+MULT_4(-1)                         0               0        0.000060        0.000001       -0.001638               0               0        0.007146        0.000366        0.003128       -0.000041        0.021146        0.000005        0.000131
+eps_a                       1.000000               0        0.996873        0.001134        0.060711               0               0        0.152490        0.001976       -4.105934       -0.403208       -0.038114        0.001143        0.988429
+eps_xi                             0        1.000000       -0.001056        0.000770        0.012749               0               0       -0.000250       -0.000043        0.007520       -0.004805        0.006384        0.000762       -0.001047
+eps_a_starr                        0               0        0.001540        0.000020       -0.041474        1.000000               0        0.845923       -0.000822        4.125171       -0.004073        0.038114        0.000012        0.009984
+eps_xi_starr                       0               0       -0.000003               0        0.000076               0        1.000000       -0.000808        0.000812        0.005305       -0.000049       -0.006384        0.000008       -0.000011
+[Warning: Aggregate variance and sum of variances by shocks differ by
+more than 0.01 %] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('th_autocovariances', 'C:\dynare\5.0\matlab\th_autocovariances.m', 206)" style="font-weight:bold">th_autocovariances</a> (<a href="matlab: opentoline('C:\dynare\5.0\matlab\th_autocovariances.m',206,0)">line 206</a>)
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('disp_th_moments', 'C:\dynare\5.0\matlab\disp_th_moments.m', 40)" style="font-weight:bold">disp_th_moments</a> (<a href="matlab: opentoline('C:\dynare\5.0\matlab\disp_th_moments.m',40,0)">line 40</a>)
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('stoch_simul', 'C:\dynare\5.0\matlab\stoch_simul.m', 210)" style="font-weight:bold">stoch_simul</a> (<a href="matlab: opentoline('C:\dynare\5.0\matlab\stoch_simul.m',210,0)">line 210</a>)
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('Model_draft_4_without_osr.driver', 'C:\Users\33689\Documents\GitHub\Master-Thesis\+Model_draft_4_without_osr\driver.m', 377)" style="font-weight:bold">Model_draft_4_without_osr.driver</a> (<a href="matlab: opentoline('C:\Users\33689\Documents\GitHub\Master-Thesis\+Model_draft_4_without_osr\driver.m',377,0)">line 377</a>)
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('dynare', 'C:\dynare\5.0\matlab\dynare.m', 281)" style="font-weight:bold">dynare</a> (<a href="matlab: opentoline('C:\dynare\5.0\matlab\dynare.m',281,0)">line 281</a>)] 
+
+
+THEORETICAL MOMENTS
+VARIABLE          MEAN  STD. DEV.   VARIANCE
+a               0.0000     1.6667     2.7778
+xi              0.0000     0.0000     0.0000
+y               0.0000     1.6533     2.7335
+pie             0.0000     0.0017     0.0000
+g               0.0000     0.3106     0.0964
+a_starr         0.0000     0.0000     0.0000
+xi_starr        0.0000     0.0000     0.0000
+y_starr         0.0000     0.2495     0.0623
+pie_starr       0.0000     0.0045     0.0000
+g_starr         0.0000     6.7416    45.4488
+ii              0.0000     0.6695     0.4482
+s               0.0000     0.3408     0.1162
+pie_cu          0.0000     0.0018     0.0000
+y_cu            0.0000     1.6392     2.6871
+
+
+
+VARIANCE DECOMPOSITION (in percent)
+                    eps_a        eps_xi   eps_a_starr  eps_xi_starr
+a                  100.00          0.00          0.00          0.00
+xi                   0.13         99.87          0.00          0.00
+y                  100.00          0.00          0.00          0.00
+pie                100.00          0.00          0.00          0.00
+g                  100.00          0.00          0.00          0.00
+a_starr              0.00          0.00        100.00          0.00
+xi_starr             0.00          0.00          0.00        100.00
+y_starr            100.00          0.00          0.00          0.00
+pie_starr          100.00          0.00          0.00          0.00
+g_starr            100.00          0.00          0.00          0.00
+ii                 100.00          0.00          0.00          0.00
+s                  100.00          0.00          0.00          0.00
+pie_cu             100.00          0.00          0.00          0.00
+y_cu               100.00          0.00          0.00          0.00
+
+
+
+MATRIX OF CORRELATIONS
+Variables            a          y        pie          g    y_starr  pie_starr    g_starr         ii          s     pie_cu       y_cu
+a               1.0000     0.9999     0.9052     0.6470     0.9681     0.5157    -0.9924    -1.0000    -0.3378     0.9005     0.9999
+y               0.9999     1.0000     0.9102     0.6379     0.9690     0.5244    -0.9933    -1.0000    -0.3303     0.9056     1.0000
+pie             0.9052     0.9102     1.0000     0.2615     0.9155     0.7694    -0.9304    -0.9090    -0.0576     0.9999     0.9102
+g               0.6470     0.6379     0.2615     1.0000     0.5558    -0.2097    -0.5845    -0.6400    -0.6640     0.2511     0.6378
+y_starr         0.9681     0.9690     0.9155     0.5558     1.0000     0.4633    -0.9455    -0.9689    -0.4380     0.9093     0.9691
+pie_starr       0.5157     0.5244     0.7694    -0.2097     0.4633     1.0000    -0.6103    -0.5223     0.5906     0.7796     0.5244
+g_starr        -0.9924    -0.9933    -0.9304    -0.5845    -0.9455    -0.6103     1.0000     0.9931     0.2201    -0.9276    -0.9933
+ii             -1.0000    -1.0000    -0.9090    -0.6400    -0.9689    -0.5223     0.9931     1.0000     0.3323    -0.9044    -1.0000
+s              -0.3378    -0.3303    -0.0576    -0.6640    -0.4380     0.5906     0.2201     0.3323     1.0000    -0.0415    -0.3305
+pie_cu          0.9005     0.9056     0.9999     0.2511     0.9093     0.7796    -0.9276    -0.9044    -0.0415     1.0000     0.9056
+y_cu            0.9999     1.0000     0.9102     0.6378     0.9691     0.5244    -0.9933    -1.0000    -0.3305     0.9056     1.0000
+
+
+
+COEFFICIENTS OF AUTOCORRELATION
+Order             1       2       3       4       5
+a            0.8000  0.6400  0.5120  0.4096  0.3277
+y            0.7978  0.6361  0.5069  0.4036  0.3211
+pie          0.7535  0.5587  0.4051  0.2844  0.1898
+g            0.9800  0.9548  0.9259  0.8945  0.8615
+y_starr      0.7898  0.6228  0.4904  0.3855  0.3025
+pie_starr    0.8804  0.7838  0.7055  0.6420  0.5903
+g_starr      0.7928  0.6272  0.4950  0.3895  0.3053
+ii           0.7983  0.6370  0.5081  0.4050  0.3226
+s            0.9937  0.9873  0.9807  0.9740  0.9672
+pie_cu       0.7545  0.5604  0.4073  0.2869  0.1926
+y_cu         0.7978  0.6361  0.5068  0.4035  0.3210
+Total computing time : 0h00m03s
+Note: 1 warning(s) encountered in the preprocessor
+Note: warning(s) encountered in MATLAB/Octave code

@@ -1,0 +1,129 @@
+Starting Dynare (version 5.0).
+Calling Dynare with arguments: none
+Starting preprocessing of the model file ...
+Ramsey Problem: added 14 Multipliers.
+Found 14 equation(s).
+Found 29 FOC equation(s) for Ramsey Problem.
+Evaluating expressions...done
+Computing static model derivatives (order 1).
+Computing dynamic model derivatives (order 2).
+Computing dynamic model derivatives (order 2).
+Computing static model derivatives (order 3).
+Processing outputs ...
+done
+Preprocessing completed.
+
+[Warning: Some of the parameters have no value
+(KAPPA, VARTHETA) when using stoch_simul. If these
+parameters are not initialized in a steadystate
+file or a steady_state_model-block, Dynare may not
+be able to solve the model. Note that simul,
+perfect_foresight_setup, and
+perfect_foresight_solver do not automatically call
+the steady state file.] 
+
+MODEL SUMMARY
+
+  Number of variables:         29
+  Number of stochastic shocks: 3
+  Number of state variables:   7
+  Number of jumpers:           6
+  Number of static variables:  16
+
+
+MATRIX OF COVARIANCE OF EXOGENOUS SHOCKS
+Variables       eps_a     eps_z     eps_u
+eps_a        0.000000  0.000000  0.000000
+eps_z        0.000000  0.000000  0.000000
+eps_u        0.000000  0.000000  1.000000
+
+POLICY AND TRANSITION FUNCTIONS
+                                   a               z               c               y           y_nat           y_gap             y_e               x             r_e          r_real              ii             pie               n               w               u
+a(-1)                       0.900000               0        0.900000        0.900000        0.900000               0        0.900000               0       -0.090000       -0.090000       -0.090000               0               0        0.900000               0
+z(-1)                              0        0.500000               0               0               0               0               0               0        0.250000        0.250000        0.250000               0               0               0               0
+MULT_1(-1)                         0               0        1.393905        1.393905               0        1.393905               0        1.393905               0       -0.962134       -0.855230        0.345122        1.858540       10.686604               0
+MULT_2(-1)                         0               0       15.214499       15.214499               0       15.214499               0       15.214499               0      -18.703559      -19.567428        1.756592       20.285998      116.644490               0
+MULT_9(-1)                         0               0       -1.407985       -1.407985               0       -1.407985               0       -1.407985               0        0.971852        0.863869       -0.348608       -1.877313      -10.794549               0
+eps_a                       1.000000               0        1.000000        1.000000        1.000000               0        1.000000               0       -0.100000       -0.100000       -0.100000               0               0        1.000000               0
+eps_z                              0        1.000000               0               0               0               0               0               0        0.500000        0.500000        0.500000               0               0               0               0
+eps_u                              0               0       -2.787810       -2.787810       -5.825243        3.037433               0       -2.787810               0        1.924267        1.710460        0.309757       -3.717080      -21.373207        1.000000
+
+
+THEORETICAL MOMENTS
+VARIABLE         MEAN  STD. DEV.   VARIANCE
+a              0.0000     0.0000     0.0000
+z              0.0000     0.0000     0.0000
+c              0.0000     2.9320     8.5967
+y              0.0000     2.9320     8.5967
+y_nat          0.0000     5.8252    33.9335
+y_gap          0.0000     3.1703    10.0508
+y_e            0.0000     0.0000     0.0000
+x              0.0000     2.9320     8.5967
+r_e            0.0000     0.0000     0.0000
+r_real         0.0000     2.0238     4.0958
+ii             0.0000     1.7989     3.2362
+pie            0.0000     0.3828     0.1465
+n              0.0000     3.9094    15.2831
+w              0.0000    22.4788   505.2968
+u              0.0000     1.0000     1.0000
+
+
+
+VARIANCE DECOMPOSITION (in percent)
+           eps_a   eps_z   eps_u
+a         100.00    0.00    0.00
+z           0.00  100.00    0.00
+c           0.00    0.00  100.00
+y           0.00    0.00  100.00
+y_nat       0.00    0.00  100.00
+y_gap       0.00    0.00  100.00
+y_e       100.00    0.00    0.00
+x           0.00    0.00  100.00
+r_e        13.64   86.36    0.00
+r_real      0.00    0.00  100.00
+ii          0.00    0.00  100.00
+pie         0.00    0.00  100.00
+n           0.00    0.00  100.00
+w           0.00    0.00  100.00
+u           0.00    0.00  100.00
+
+
+
+MATRIX OF CORRELATIONS
+Variables         c       y   y_nat   y_gap       x  r_real      ii     pie       n       w       u
+c            1.0000  1.0000  0.9508 -0.8222  1.0000 -1.0000 -1.0000 -0.5875  1.0000  1.0000 -0.9508
+y            1.0000  1.0000  0.9508 -0.8222  1.0000 -1.0000 -1.0000 -0.5875  1.0000  1.0000 -0.9508
+y_nat        0.9508  0.9508  1.0000 -0.9581  0.9508 -0.9508 -0.9508 -0.8092  0.9508  0.9508 -1.0000
+y_gap       -0.8222 -0.8222 -0.9581  1.0000 -0.8222  0.8222  0.8222  0.9436 -0.8222 -0.8222  0.9581
+x            1.0000  1.0000  0.9508 -0.8222  1.0000 -1.0000 -1.0000 -0.5875  1.0000  1.0000 -0.9508
+r_real      -1.0000 -1.0000 -0.9508  0.8222 -1.0000  1.0000  1.0000  0.5875 -1.0000 -1.0000  0.9508
+ii          -1.0000 -1.0000 -0.9508  0.8222 -1.0000  1.0000  1.0000  0.5875 -1.0000 -1.0000  0.9508
+pie         -0.5875 -0.5875 -0.8092  0.9436 -0.5875  0.5875  0.5875  1.0000 -0.5875 -0.5875  0.8092
+n            1.0000  1.0000  0.9508 -0.8222  1.0000 -1.0000 -1.0000 -0.5875  1.0000  1.0000 -0.9508
+w            1.0000  1.0000  0.9508 -0.8222  1.0000 -1.0000 -1.0000 -0.5875  1.0000  1.0000 -0.9508
+u           -0.9508 -0.9508 -1.0000  0.9581 -0.9508  0.9508  0.9508  0.8092 -0.9508 -0.9508  1.0000
+
+
+
+COEFFICIENTS OF AUTOCORRELATION
+Order          1       2       3       4       5
+c         0.3098  0.0959  0.0297  0.0092  0.0029
+y         0.3098  0.0959  0.0297  0.0092  0.0029
+y_nat     0.0000 -0.0000 -0.0000 -0.0000 -0.0000
+y_gap    -0.2355 -0.0730 -0.0226 -0.0070 -0.0022
+x         0.3098  0.0959  0.0297  0.0092  0.0029
+r_real    0.3098  0.0959  0.0297  0.0092  0.0029
+ii        0.3098  0.0959  0.0297  0.0092  0.0029
+pie      -0.3451 -0.1069 -0.0331 -0.0103 -0.0032
+n         0.3098  0.0959  0.0297  0.0092  0.0029
+w         0.3098  0.0959  0.0297  0.0092  0.0029
+u         0.0000  0.0000  0.0000  0.0000  0.0000
+
+Approximated value of unconditional welfare:  0.00000000
+
+Approximated value of conditional welfare:
+    - with initial Lagrange multipliers set to 0: 0.00000000
+    - with initial Lagrange multipliers set to steady state: 0.00000000
+
+Total computing time : 0h00m02s
+Note: warning(s) encountered in MATLAB/Octave code

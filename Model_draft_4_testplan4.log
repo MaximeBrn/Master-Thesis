@@ -1,0 +1,33 @@
+Starting Dynare (version 5.0).
+Calling Dynare with arguments: none
+Starting preprocessing of the model file ...
+WARNING: in the 'steady_state_model' block, variable 'C' is not assigned a value
+WARNING: in the 'steady_state_model' block, variable 'N' is not assigned a value
+WARNING: in the 'steady_state_model' block, variable 'G' is not assigned a value
+WARNING: in the 'steady_state_model' block, variable 'C_starr' is not assigned a value
+WARNING: in the 'steady_state_model' block, variable 'N_starr' is not assigned a value
+WARNING: in the 'steady_state_model' block, variable 'G_starr' is not assigned a value
+Found 8 equation(s).
+Evaluating expressions...done
+Computing static model derivatives (order 1).
+Computing dynamic model derivatives (order 2).
+Processing outputs ...
+done
+Preprocessing completed.
+
+
+
+
+
+Residuals of the static equations:
+
+Equation number 1 : NaN : 1
+Equation number 2 : NaN : 2
+Equation number 3 : -Inf : 3
+Equation number 4 : -Inf : 4
+Equation number 5 : 0 : 5
+Equation number 6 : 0 : 6
+Equation number 7 : 0 : A
+Equation number 8 : 0 : A_starr
+
+
