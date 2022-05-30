@@ -8,6 +8,8 @@ var
     g           ${g}$        (long_name='Home government consumption (log dev ss)')
     g_nat
     g_gap 
+    c
+    n
 
     a_starr     ${a^*}$     (long_name='Foreign technology shock process (log dev ss)')
     xi_starr    ${xi^*}$    (long_name='Foreign labor disutility shock process (log dev ss)')
@@ -18,6 +20,9 @@ var
     g_starr     ${g^*}$     (long_name='Foreign government consumption (log dev ss)')
     g_nat_starr
     g_gap_starr
+    c_starr
+    n_starr
+    
     ii           ${i}$                   (long_name='nominal interest rate (log dev ss)')
     s           ${s}$                   (long_name='terms of trade (log dev ss)')
     s_nat
@@ -39,8 +44,8 @@ parameters
     W_ALPHA_bar_starr LAMBDA_starr ETA RHOA RHOXI 
     
     @#if MONPOL != 1
-    COEF_yH COEF_yF COEF_pieH COEF_pieF COEF_aH COEF_aF
-    COEF_yH_starr COEF_yF_starr COEF_pieH_starr COEF_pieF_starr COEF_aH_starr COEF_aF_starr
+    COEF_y_gapH COEF_y_gapF COEF_pieH COEF_pieF 
+    COEF_y_gapH_starr COEF_y_gapF_starr COEF_pieH_starr COEF_pieF_starr
     @#endif
     ;
 
@@ -75,9 +80,9 @@ xi_starr = RHOXI*xi_starr(-1) + eps_xi_starr;
 
 s_nat=(1+PHI)*(a-a_starr)-PHI*(y_nat-y_nat_starr)-(xi-xi_starr);
 
-0=xi+(SIGMA/(1-DELTA)+PHI)*y_nat-SIGMA*GAMMA/(1-DELTA)*g_nat+(1-ALPHA_bar*h-W_ALPHA_bar)*s_nat-(1+PHI)*a;
+0=xi+(SIGMA/(1-DELTA)+PHI)*y_nat-SIGMA*DELTA/(1-DELTA)*g_nat+(1-ALPHA_bar*h-W_ALPHA_bar)*s_nat-(1+PHI)*a;
 
-0=xi_starr+(SIGMA/(1-DELTA)+PHI)*y_nat_starr-SIGMA*GAMMA/(1-DELTA)*g_nat_starr+(W_ALPHA_bar_starr-ALPHA_bar*h)*s_nat-(1+PHI)*a_starr;
+0=xi_starr+(SIGMA/(1-DELTA)+PHI)*y_nat_starr-SIGMA*DELTA/(1-DELTA)*g_nat_starr+(W_ALPHA_bar_starr-ALPHA_bar*h)*s_nat-(1+PHI)*a_starr;
 
 -GAMMA*g_nat=xi+PHI*y_nat-(1+PHI)*a;
 -GAMMA*g_nat_starr=xi_starr+PHI*y_nat_starr-(1+PHI)*a_starr;
@@ -95,14 +100,22 @@ pie_cu = h*pie+(1-h)*pie_starr;
 y_cu = h*y+(1-h)*y_starr;
 
 y_cu_gap=y_cu-h*y_nat+(1-h)*y_nat_starr;
+
+
+c=1/(1-DELTA)*(y-DELTA*g)-(W_ALPHA_bar+ALPHA_bar-1)/SIGMA*s;
+c_starr=1/(1-DELTA)*(y_starr-DELTA*g_starr)+W_ALPHA_bar_starr/SIGMA*s;
+
+n = y-a;
+n_starr = y_starr-a_starr;
+
 @#if MONPOL != 1
-g=COEF_yH*y+COEF_yF*y_starr+COEF_pieH*pie+COEF_pieF*pie_starr+COEF_aH*a+COEF_aF*a_starr;
-g_starr=COEF_yH_starr*y+COEF_yF_starr*y_starr+COEF_pieH_starr*pie+COEF_pieF_starr*pie_starr+COEF_aH_starr*a+COEF_aF_starr*a_starr;
+g=COEF_y_gapH*y_gap+COEF_y_gapF*y_gap_starr+COEF_pieH*pie+COEF_pieF*pie_starr;
+g_starr=COEF_y_gapH_starr*y_gap+COEF_y_gapF_starr*y_gap_starr+COEF_pieH_starr*pie+COEF_pieF_starr*pie_starr;
 @#endif
 end;
 
 steady_state_model;
-a=0; xi=0; y=0; g=0; pie=0; a_starr=0; xi_starr=0; y_starr=0; g_starr=0; pie_starr=0; ii=0; s=0;
+a=0; xi=0; y=0; g=0; pie=0; a_starr=0; xi_starr=0; y_starr=0; g_starr=0; pie_starr=0; ii=0; s=0;y_nat=0;y_gap=0;g_nat=0;g_gap=0;y_nat_starr=0;y_gap_starr=0;g_nat_starr=0;g_gap_starr=0;s_nat=0;pie_cu=0;y_cu=0;y_cu_gap=0;
 end;
 
 

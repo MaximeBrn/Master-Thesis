@@ -22,6 +22,6 @@ function g3 = dynamic_g3(T, y, x, params, steady_state, it_, T_flag)
 if T_flag
     T = Model_draft_4_testplan4.dynamic_g3_tt(T, y, x, params, steady_state, it_);
 end
-g3 = sparse([],[],[],8,1728);
+g3 = sparse([],[],[],10,5832);
 
 end

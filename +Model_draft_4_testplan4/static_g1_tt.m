@@ -17,7 +17,7 @@ assert(length(T) >= 6);
 
 T = Model_draft_4_testplan4.static_resid_tt(T, y, x, params);
 
-T(5) = getPowerDeriv(y(3),(-params(9)),1);
-T(6) = getPowerDeriv(y(7),(-params(9)),1);
+T(5) = 1/params(5)*getPowerDeriv(y(3)/params(5),(-params(9)),1);
+T(6) = 1/(1-params(5))*getPowerDeriv(y(8)/(1-params(5)),(-params(9)),1);
 
 end

@@ -15,9 +15,9 @@ function T = static_resid_tt(T, y, x, params)
 
 assert(length(T) >= 4);
 
-T(1) = y(3)^(-params(9));
-T(2) = y(7)^(-params(9));
+T(1) = (y(3)/params(5))^(-params(9));
+T(2) = (y(8)/(1-params(5)))^(-params(9));
 T(3) = (y(2)/params(5))^params(4);
-T(4) = (y(6)/(1-params(5)))^params(4);
+T(4) = (y(7)/(1-params(5)))^params(4);
 
 end

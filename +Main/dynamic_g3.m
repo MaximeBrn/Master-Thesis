@@ -22,6 +22,6 @@ function g3 = dynamic_g3(T, y, x, params, steady_state, it_, T_flag)
 if T_flag
     T = Main.dynamic_g3_tt(T, y, x, params, steady_state, it_);
 end
-g3 = sparse([],[],[],47,343000);
+g3 = sparse([],[],[],55,474552);
 
 end

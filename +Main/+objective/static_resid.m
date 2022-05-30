@@ -19,7 +19,7 @@ if T_flag
     T = Main.objective.static_resid_tt(T, y, x, params);
 end
 residual = zeros(1, 1);
-residual(1) = params(6)*(1/params(12)*y(6)^2+(1+params(5))*y(5)^2)+(1-params(6))*(1/params(14)*y(15)^2+(1+params(5))*y(14)^2);
+residual(1) = params(6)*(1/params(12)*y(6)^2+(1+params(5))*y(5)^2)+(1-params(6))*(1/params(14)*y(17)^2+(1+params(5))*y(16)^2);
 if ~isreal(residual)
   residual = real(residual)+imag(residual).^2;
 end

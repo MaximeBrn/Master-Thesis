@@ -18,11 +18,11 @@ function g1 = static_g1(T, y, x, params, T_flag)
 if T_flag
     T = Main.objective.static_g1_tt(T, y, x, params);
 end
-g1 = zeros(1, 47);
+g1 = zeros(1, 55);
 g1(1,5)=params(6)*(1+params(5))*2*y(5);
 g1(1,6)=params(6)*1/params(12)*2*y(6);
-g1(1,14)=(1-params(6))*(1+params(5))*2*y(14);
-g1(1,15)=(1-params(6))*1/params(14)*2*y(15);
+g1(1,16)=(1-params(6))*(1+params(5))*2*y(16);
+g1(1,17)=(1-params(6))*1/params(14)*2*y(17);
 if ~isreal(g1)
     g1 = real(g1)+2*imag(g1);
 end

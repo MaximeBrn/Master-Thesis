@@ -18,11 +18,11 @@ function T = dynamic_g2_tt(T, y, x, params, steady_state, it_)
 %   T           [#temp variables by 1]       double  vector of temporary terms
 %
 
-assert(length(T) >= 16);
+assert(length(T) >= 20);
 
 T = Model_draft_4_testplan4.dynamic_g1_tt(T, y, x, params, steady_state, it_);
 
-T(15) = getPowerDeriv(y(5),(-params(9)),2);
-T(16) = getPowerDeriv(y(9),(-params(9)),2);
+T(19) = T(9)*T(9)*getPowerDeriv(y(7)/params(5),(-params(9)),2);
+T(20) = T(14)*T(14)*getPowerDeriv(y(12)/(1-params(5)),(-params(9)),2);
 
 end
