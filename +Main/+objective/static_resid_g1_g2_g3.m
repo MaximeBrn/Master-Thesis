@@ -5,9 +5,9 @@ function [residual, g1, g2, g3] = static_resid_g1_g2_g3(T, y, x, params, T_flag)
 %
 
     if T_flag
-        T = Main.objective.static_g3_tt(T, y, x, params);
+        T = main.objective.static_g3_tt(T, y, x, params);
     end
-    [residual, g1, g2] = Main.objective.static_resid_g1_g2(T, y, x, params, false);
-    g3       = Main.objective.static_g3(T, y, x, params, false);
+    [residual, g1, g2] = main.objective.static_resid_g1_g2(T, y, x, params, false);
+    g3       = main.objective.static_g3(T, y, x, params, false);
 
 end

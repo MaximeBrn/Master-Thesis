@@ -1,0 +1,115 @@
+Starting Dynare (version 5.0).
+Calling Dynare with arguments: none
+Starting preprocessing of the model file ...
+WARNING: in the 'steady_state_model' block, variable 'y_nat_cu' is not assigned a value
+WARNING: in the 'steady_state_model' block, variable 'g_nat_cu' is not assigned a value
+Ramsey Problem: added 11 Multipliers.
+Found 11 equation(s).
+Found 24 FOC equation(s) for Ramsey Problem.
+Evaluating expressions...done
+Computing static model derivatives (order 1).
+Computing dynamic model derivatives (order 2).
+Computing dynamic model derivatives (order 2).
+Computing static model derivatives (order 3).
+Processing outputs ...
+done
+Preprocessing completed.
+
+[Warning: Some of the parameters have no value (end) when using stoch_simul.
+If these parameters are not initialized in a steadystate file or a
+steady_state_model-block, Dynare may not be able to solve the model. Note
+that simul, perfect_foresight_setup, and perfect_foresight_solver do not
+automatically call the steady state file.] 
+
+MODEL SUMMARY
+
+  Number of variables:         24
+  Number of stochastic shocks: 4
+  Number of state variables:   4
+  Number of jumpers:           4
+  Number of static variables:  16
+
+
+MATRIX OF COVARIANCE OF EXOGENOUS SHOCKS
+Variables              eps_a        eps_xi   eps_a_starr  eps_xi_starr
+eps_a               0.000000      0.000000      0.000000      0.000000
+eps_xi              0.000000      0.000000      0.000000      0.000000
+eps_a_starr         0.000000      0.000000      1.000000      0.000000
+eps_xi_starr        0.000000      0.000000      0.000000      0.000000
+
+POLICY AND TRANSITION FUNCTIONS
+                                   a              xi           y_nat           g_nat           c_nat         a_starr        xi_starr     y_nat_starr     g_nat_starr     c_nat_starr           s_nat        y_nat_cu        g_nat_cu
+a(-1)                       0.850000               0        1.110072       -0.003867        0.431472               0               0       -0.273016        0.003867        0.431472        0.316912        0.418528               0
+xi(-1)                             0        0.850000       -0.555036        0.001933       -0.215736               0               0        0.136508       -0.001933       -0.215736       -0.158456       -0.209264               0
+a_starr(-1)                        0               0       -0.273016        0.003867        0.431472        0.850000               0        1.110072       -0.003867        0.431472       -0.316912        0.418528               0
+xi_starr(-1)                       0               0        0.136508       -0.001933       -0.215736               0        0.850000       -0.555036        0.001933       -0.215736        0.158456       -0.209264               0
+eps_a                       1.000000               0        1.305967       -0.004549        0.507614               0               0       -0.321195        0.004549        0.507614        0.372837        0.492386               0
+eps_xi                             0        1.000000       -0.652984        0.002275       -0.253807               0               0        0.160598       -0.002275       -0.253807       -0.186419       -0.246193               0
+eps_a_starr                        0               0       -0.321195        0.004549        0.507614        1.000000               0        1.305967       -0.004549        0.507614       -0.372837        0.492386               0
+eps_xi_starr                       0               0        0.160598       -0.002275       -0.253807               0        1.000000       -0.652984        0.002275       -0.253807        0.186419       -0.246193               0
+
+
+THEORETICAL MOMENTS
+VARIABLE            MEAN  STD. DEV.   VARIANCE
+a                 0.0000     0.0000     0.0000
+xi                0.0000     0.0000     0.0000
+y_nat             0.0000     0.6097     0.3718
+g_nat             0.0000     0.0086     0.0001
+c_nat             0.0000     0.9636     0.9285
+a_starr           0.0000     1.8983     3.6036
+xi_starr          0.0000     0.0000     0.0000
+y_nat_starr       0.0000     2.4791     6.1461
+g_nat_starr       0.0000     0.0086     0.0001
+c_nat_starr       0.0000     0.9636     0.9285
+s_nat             0.0000     0.7078     0.5009
+y_nat_cu          0.0000     0.9347     0.8737
+g_nat_cu          0.0000     0.0000     0.0000
+
+
+
+VARIANCE DECOMPOSITION (in percent)
+                      eps_a        eps_xi   eps_a_starr  eps_xi_starr
+a                    100.00          0.00          0.00          0.00
+xi                     0.00        100.00          0.00          0.00
+y_nat                  0.00          0.00        100.00          0.00
+g_nat                  0.00          0.00        100.00          0.00
+c_nat                  0.00          0.00        100.00          0.00
+a_starr                0.00          0.00        100.00          0.00
+xi_starr               0.00          0.00          0.00        100.00
+y_nat_starr            0.00          0.00        100.00          0.00
+g_nat_starr            0.00          0.00        100.00          0.00
+c_nat_starr            0.00          0.00        100.00          0.00
+s_nat                  0.00          0.00        100.00          0.00
+y_nat_cu               0.00          0.00        100.00          0.00
+g_nat_cu               0.00          0.00        100.00          0.00
+
+
+
+MATRIX OF CORRELATIONS
+Variables            y_nat        g_nat        c_nat      a_starr  y_nat_starr  g_nat_starr  c_nat_starr        s_nat     y_nat_cu
+y_nat               1.0000      -1.0000      -1.0000      -1.0000      -1.0000       1.0000      -1.0000       1.0000      -1.0000
+g_nat              -1.0000       1.0000       1.0000       1.0000       1.0000      -1.0000       1.0000      -1.0000       1.0000
+c_nat              -1.0000       1.0000       1.0000       1.0000       1.0000      -1.0000       1.0000      -1.0000       1.0000
+a_starr            -1.0000       1.0000       1.0000       1.0000       1.0000      -1.0000       1.0000      -1.0000       1.0000
+y_nat_starr        -1.0000       1.0000       1.0000       1.0000       1.0000      -1.0000       1.0000      -1.0000       1.0000
+g_nat_starr         1.0000      -1.0000      -1.0000      -1.0000      -1.0000       1.0000      -1.0000       1.0000      -1.0000
+c_nat_starr        -1.0000       1.0000       1.0000       1.0000       1.0000      -1.0000       1.0000      -1.0000       1.0000
+s_nat               1.0000      -1.0000      -1.0000      -1.0000      -1.0000       1.0000      -1.0000       1.0000      -1.0000
+y_nat_cu           -1.0000       1.0000       1.0000       1.0000       1.0000      -1.0000       1.0000      -1.0000       1.0000
+
+
+
+COEFFICIENTS OF AUTOCORRELATION
+Order               1       2       3       4       5
+y_nat          0.8500  0.7225  0.6141  0.5220  0.4437
+g_nat          0.8500  0.7225  0.6141  0.5220  0.4437
+c_nat          0.8500  0.7225  0.6141  0.5220  0.4437
+a_starr        0.8500  0.7225  0.6141  0.5220  0.4437
+y_nat_starr    0.8500  0.7225  0.6141  0.5220  0.4437
+g_nat_starr    0.8500  0.7225  0.6141  0.5220  0.4437
+c_nat_starr    0.8500  0.7225  0.6141  0.5220  0.4437
+s_nat          0.8500  0.7225  0.6141  0.5220  0.4437
+y_nat_cu       0.8500  0.7225  0.6141  0.5220  0.4437
+Total computing time : 0h00m01s
+Note: 2 warning(s) encountered in the preprocessor
+Note: warning(s) encountered in MATLAB/Octave code

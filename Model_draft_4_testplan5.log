@@ -1,0 +1,93 @@
+Starting Dynare (version 5.0).
+Calling Dynare with arguments: none
+Starting preprocessing of the model file ...
+Found 29 equation(s).
+Evaluating expressions...done
+Computing static model derivatives (order 1).
+Computing dynamic model derivatives (order 1).
+Processing outputs ...
+done
+Preprocessing completed.
+
+
+<a href = "matlab: helpview('optim','eqn_inaccuracy','CSHelpWindow');">Equation solved, inaccuracy possible</a>.
+
+The vector of function values is near zero, as measured by the value
+of the <a href = "matlab: helpview('optim','fcn_tolerance_fsolve','CSHelpWindow');">function tolerance</a>. However, the <a href = "matlab: helpview('optim','last_step_ineffective','CSHelpWindow');">last step was ineffective</a>.
+
+<<a href = "matlab: createExitMsg({'optim:fsolve:Exit3basic'},{'optim:fsolve:Exit3detailed','fsolve','8.871703e-19','2.220446e-16','2.654172e-33','1.000000e-10'},true,true);;">stopping criteria details</a>>
+
+
+
+
+Residuals of the static equations:
+
+Equation number 1 : 0.51105 : 1
+Equation number 2 : 0.51105 : 2
+Equation number 3 : 0.51105 : 3
+Equation number 4 : 0.51105 : 4
+Equation number 5 : 0.51105 : 5
+Equation number 6 : 0.51105 : 6
+Equation number 7 : 0 : 7
+Equation number 8 : 0 : 8
+Equation number 9 : 0 : A
+Equation number 10 : 0 : XI
+Equation number 11 : 0 : A_starr
+Equation number 12 : 0 : XI_starr
+Equation number 13 : 0 : c
+Equation number 14 : 0 : n
+Equation number 15 : 0 : g
+Equation number 16 : 0 : a
+Equation number 17 : 0 : xi
+Equation number 18 : 0 : y
+Equation number 19 : 0 : c_starr
+Equation number 20 : 0 : n_starr
+Equation number 21 : 0 : g_starr
+Equation number 22 : 0 : a_starr
+Equation number 23 : 0 : xi_starr
+Equation number 24 : 0 : y_starr
+Equation number 25 : -0.51105 : Y
+Equation number 26 : -0.51105 : Y_starr
+Equation number 27 : -Inf : U_cu
+Equation number 28 : -Inf : U
+Equation number 29 : -Inf : U_starr
+
+
+Randomize initial guess...
+
+
+
+
+Residuals of the static equations:
+
+Equation number 1 : NaN : 1
+Equation number 2 : NaN : 2
+Equation number 3 : NaN : 3
+Equation number 4 : NaN : 4
+Equation number 5 : NaN : 5
+Equation number 6 : NaN : 6
+Equation number 7 : NaN : 7
+Equation number 8 : NaN : 8
+Equation number 9 : NaN : A
+Equation number 10 : NaN : XI
+Equation number 11 : NaN : A_starr
+Equation number 12 : NaN : XI_starr
+Equation number 13 : NaN : c
+Equation number 14 : NaN : n
+Equation number 15 : NaN : g
+Equation number 16 : NaN : a
+Equation number 17 : NaN : xi
+Equation number 18 : NaN : y
+Equation number 19 : NaN : c_starr
+Equation number 20 : NaN : n_starr
+Equation number 21 : NaN : g_starr
+Equation number 22 : NaN : a_starr
+Equation number 23 : NaN : xi_starr
+Equation number 24 : NaN : y_starr
+Equation number 25 : NaN : Y
+Equation number 26 : NaN : Y_starr
+Equation number 27 : NaN : U_cu
+Equation number 28 : NaN : U
+Equation number 29 : NaN : U_starr
+
+
