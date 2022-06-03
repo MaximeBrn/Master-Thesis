@@ -5,9 +5,9 @@ function [residual, g1, g2] = dynamic_resid_g1_g2(T, y, x, params, steady_state,
 %
 
     if T_flag
-        T = main.dynamic_g2_tt(T, y, x, params, steady_state, it_);
+        T = Main.dynamic_g2_tt(T, y, x, params, steady_state, it_);
     end
-    [residual, g1] = main.dynamic_resid_g1(T, y, x, params, steady_state, it_, false);
-    g2       = main.dynamic_g2(T, y, x, params, steady_state, it_, false);
+    [residual, g1] = Main.dynamic_resid_g1(T, y, x, params, steady_state, it_, false);
+    g2       = Main.dynamic_g2(T, y, x, params, steady_state, it_, false);
 
 end

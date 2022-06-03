@@ -18,20 +18,20 @@ function residual = static_resid(T, y, x, params, T_flag)
 if T_flag
     T = Model_draft_4_testplan5.static_resid_tt(T, y, x, params);
 end
-residual = zeros(29, 1);
-lhs = params(5)*T(1)^(-params(1));
+residual = zeros(26, 1);
+lhs = params(5)*(y(1)/params(5))^(-params(1));
 rhs = (1-params(6))*y(13)+params(7)*y(14);
 residual(1) = lhs - rhs;
-lhs = params(5)*y(6)*T(3);
+lhs = params(5)*y(6)*T(1);
 rhs = y(13)*y(5);
 residual(2) = lhs - rhs;
 lhs = params(5)*params(9)*(y(4)/params(5))^(-params(8));
 rhs = y(13);
 residual(3) = lhs - rhs;
-lhs = (1-params(5))*T(4)^(-params(1));
+lhs = (1-params(5))*(y(7)/(1-params(5)))^(-params(1));
 rhs = params(6)*y(13)+y(14)*(1-params(7));
 residual(4) = lhs - rhs;
-lhs = (1-params(5))*y(12)*T(6);
+lhs = (1-params(5))*y(12)*T(2);
 rhs = y(14)*y(11);
 residual(5) = lhs - rhs;
 lhs = params(9)*(1-params(5))*(y(10)/(1-params(5)))^(-params(8));
@@ -97,15 +97,6 @@ residual(25) = lhs - rhs;
 lhs = y(9);
 rhs = y(8)*y(11);
 residual(26) = lhs - rhs;
-lhs = y(29);
-rhs = params(5)*T(7)+(1-params(5))*T(9);
-residual(27) = lhs - rhs;
-lhs = y(27);
-rhs = T(7);
-residual(28) = lhs - rhs;
-lhs = y(28);
-rhs = T(9);
-residual(29) = lhs - rhs;
 if ~isreal(residual)
   residual = real(residual)+imag(residual).^2;
 end

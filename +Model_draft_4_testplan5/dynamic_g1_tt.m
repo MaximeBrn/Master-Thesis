@@ -18,17 +18,9 @@ function T = dynamic_g1_tt(T, y, x, params, steady_state, it_)
 %   T           [#temp variables by 1]       double  vector of temporary terms
 %
 
-assert(length(T) >= 21);
+assert(length(T) >= 6);
 
 T = Model_draft_4_testplan5.dynamic_resid_tt(T, y, x, params, steady_state, it_);
 
-T(14) = 1/params(5);
-T(15) = T(14)*getPowerDeriv(T(1),1-params(1),1)/(1-params(1));
-T(16) = T(14)*getPowerDeriv(T(2),1+params(4),1)/(1+params(4));
-T(17) = params(9)*getPowerDeriv(y(8),1-params(8),1)/(1-params(8));
-T(18) = 1/(1-params(5));
-T(19) = T(18)*getPowerDeriv(T(4),1-params(1),1)/(1-params(1));
-T(20) = y(16)*T(18)*getPowerDeriv(T(5),1+params(4),1)/(1+params(4));
-T(21) = params(9)*getPowerDeriv(y(14),1-params(8),1)/(1-params(8));
 
 end

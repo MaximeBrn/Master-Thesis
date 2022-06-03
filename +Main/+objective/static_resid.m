@@ -16,10 +16,10 @@ function residual = static_resid(T, y, x, params, T_flag)
 %
 
 if T_flag
-    T = main.objective.static_resid_tt(T, y, x, params);
+    T = Main.objective.static_resid_tt(T, y, x, params);
 end
 residual = zeros(1, 1);
-residual(1) = params(6)*(0.5*(1+params(5))*(y(3)-y(1))^2+0.5*(1-params(1))*(1-params(3))*y(12)^2+T(1)*y(7)^2+params(20)/(params(6)*2*params(12))*y(6)^2)+(1-params(6))*(0.5*(1+params(5))*(y(16)-y(14))^2+0.5*(1-params(1))*(1-params(3))*y(25)^2+T(1)*y(20)^2+T(2)*y(19)^2);
+residual(1) = params(6)*(0.5*(1+params(5))*(y(3)-y(1))^2+0.5*(1-params(1))*(1-params(3))*y(12)^2+params(3)*0.5*(1-params(8))*y(7)^2+params(20)/(params(6)*2*params(12))*y(6)^2)+(1-params(6))*(0.5*(1+params(5))*(y(16)-y(14))^2+0.5*(1-params(1))*(1-params(3))*y(25)^2+params(3)*0.5*(1-params(8))*y(20)^2+T(1)*y(19)^2);
 if ~isreal(residual)
   residual = real(residual)+imag(residual).^2;
 end

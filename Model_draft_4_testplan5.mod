@@ -10,8 +10,7 @@ var
    
    //s
 
-   
-   U U_starr U_cu
+
 ;     
 
 varexo  
@@ -85,10 +84,6 @@ y_starr=a_starr+n_starr;
 Y=A*N;
 Y_starr=A_starr*N_starr;
 
-// Utils
-U_cu=h*((C/h)^(1-SIGMA)/(1-SIGMA)+CHI*G^(1-GAMMA)/(1-GAMMA)-(N/h)^(1+PHI)/(1+PHI))+(1-h)*((C_starr/(1-h))^(1-SIGMA)/(1-SIGMA)+CHI*G_starr^(1-GAMMA)/(1-GAMMA)-XI_starr*(N_starr/(1-h))^(1+PHI)/(1+PHI));
-U=(C/h)^(1-SIGMA)/(1-SIGMA)+CHI*G^(1-GAMMA)/(1-GAMMA)-(N/h)^(1+PHI)/(1+PHI);
-U_starr=(C_starr/(1-h))^(1-SIGMA)/(1-SIGMA)+CHI*G_starr^(1-GAMMA)/(1-GAMMA)-XI_starr*(N_starr/(1-h))^(1+PHI)/(1+PHI);
 
 end;
 shocks;

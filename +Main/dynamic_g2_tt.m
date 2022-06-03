@@ -18,9 +18,9 @@ function T = dynamic_g2_tt(T, y, x, params, steady_state, it_)
 %   T           [#temp variables by 1]       double  vector of temporary terms
 %
 
-assert(length(T) >= 13);
+assert(length(T) >= 12);
 
-T = main.dynamic_g1_tt(T, y, x, params, steady_state, it_);
+T = Main.dynamic_g1_tt(T, y, x, params, steady_state, it_);
 
 
 end

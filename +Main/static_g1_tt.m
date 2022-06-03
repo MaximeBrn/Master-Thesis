@@ -13,9 +13,9 @@ function T = static_g1_tt(T, y, x, params)
 %   T         [#temp variables by 1]  double   vector of temporary terms
 %
 
-assert(length(T) >= 12);
+assert(length(T) >= 11);
 
-T = main.static_resid_tt(T, y, x, params);
+T = Main.static_resid_tt(T, y, x, params);
 
 
 end

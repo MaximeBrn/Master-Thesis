@@ -18,7 +18,7 @@ function T = dynamic_g3_tt(T, y, x, params, steady_state, it_)
 %   T           [#temp variables by 1]       double  vector of temporary terms
 %
 
-assert(length(T) >= 21);
+assert(length(T) >= 6);
 
 T = Model_draft_4_testplan5.dynamic_g2_tt(T, y, x, params, steady_state, it_);
 

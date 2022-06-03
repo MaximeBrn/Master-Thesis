@@ -16,7 +16,7 @@ function g2 = static_g2(T, y, x, params, T_flag)
 %
 
 if T_flag
-    T = main.objective.static_g2_tt(T, y, x, params);
+    T = Main.objective.static_g2_tt(T, y, x, params);
 end
 g2_i = zeros(14,1);
 g2_j = zeros(14,1);
@@ -38,31 +38,31 @@ g2_i(13)=1;
 g2_i(14)=1;
 g2_j(1)=1;
 g2_j(2)=3;
-g2_j(3)=131;
-g2_j(4)=133;
-g2_j(5)=331;
-g2_j(6)=397;
-g2_j(7)=727;
-g2_j(8)=859;
-g2_j(9)=861;
-g2_j(10)=989;
-g2_j(11)=991;
-g2_j(12)=1189;
-g2_j(13)=1255;
-g2_j(14)=1585;
+g2_j(3)=127;
+g2_j(4)=129;
+g2_j(5)=321;
+g2_j(6)=385;
+g2_j(7)=705;
+g2_j(8)=833;
+g2_j(9)=835;
+g2_j(10)=959;
+g2_j(11)=961;
+g2_j(12)=1153;
+g2_j(13)=1217;
+g2_j(14)=1537;
 g2_v(1)=params(6)*2*0.5*(1+params(5));
 g2_v(2)=params(6)*0.5*(1+params(5))*(-2);
 g2_v(3)=g2_v(2);
 g2_v(4)=params(6)*2*0.5*(1+params(5));
 g2_v(5)=params(6)*2*params(20)/(params(6)*2*params(12));
-g2_v(6)=params(6)*2*T(1);
+g2_v(6)=params(6)*2*params(3)*0.5*(1-params(8));
 g2_v(7)=params(6)*2*0.5*(1-params(1))*(1-params(3));
 g2_v(8)=(1-params(6))*2*0.5*(1+params(5));
 g2_v(9)=(1-params(6))*0.5*(1+params(5))*(-2);
 g2_v(10)=g2_v(9);
 g2_v(11)=(1-params(6))*2*0.5*(1+params(5));
-g2_v(12)=(1-params(6))*2*T(2);
-g2_v(13)=(1-params(6))*2*T(1);
+g2_v(12)=(1-params(6))*2*T(1);
+g2_v(13)=(1-params(6))*2*params(3)*0.5*(1-params(8));
 g2_v(14)=(1-params(6))*2*0.5*(1-params(1))*(1-params(3));
-g2 = sparse(g2_i,g2_j,g2_v,1,4225);
+g2 = sparse(g2_i,g2_j,g2_v,1,3969);
 end

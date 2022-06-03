@@ -20,8 +20,8 @@ function g2 = dynamic_g2(T, y, x, params, steady_state, it_, T_flag)
 %
 
 if T_flag
-    T = main.dynamic_g2_tt(T, y, x, params, steady_state, it_);
+    T = Main.dynamic_g2_tt(T, y, x, params, steady_state, it_);
 end
-g2 = sparse([],[],[],65,7744);
+g2 = sparse([],[],[],63,7396);
 
 end

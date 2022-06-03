@@ -1,5 +1,5 @@
 function [residual, g1, g2, g3] = dynamic(y, x, params, steady_state, it_)
-    T = NaN(21, 1);
+    T = NaN(6, 1);
     if nargout <= 1
         residual = Model_draft_4_testplan5.dynamic_resid(T, y, x, params, steady_state, it_, true);
     elseif nargout == 2

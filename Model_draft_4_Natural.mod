@@ -31,14 +31,12 @@ parameters
 end;
     
 SIGMA = 1;
-ALPHA_bar = 1;
+ALPHA_bar = 0.8;
 CHI=0.03;
 DELTA = CHI;
 BETA = 0.98;
 PHI = 1;
 h = 0.5;
-THETA = 0.1;
-THETA_starr = 0.1;
 ETA=4.5;
 GAMMA=1;
 
@@ -65,6 +63,8 @@ SIGMA*c_nat=(1-ALPHA_bar)*s_nat+SIGMA*c_nat_starr; // IRS
 c_nat=1/(1-DELTA)*(y_nat-DELTA*g_nat)-(W_ALPHA_bar+ALPHA_bar-1)/SIGMA*s_nat; // GOOD MARKET CLEARING 
 c_nat_starr=1/(1-DELTA)*(y_nat_starr-DELTA*g_nat_starr)+W_ALPHA_bar_starr/SIGMA*s_nat; // GOOD MARKET CLEARING
 
+h*g_nat+(1-h)*g_nat_starr=0;
+GAMMA*g_nat/h=-xi-PHI*y_nat+(1+PHI)*a;
 
  y_nat_cu=h*y_nat+(1-h)*y_nat_starr;
  g_nat_cu=h*g_nat+(1-h)*g_nat_starr;
@@ -95,17 +95,18 @@ steady_state_model;
 a=0;xi=0;y_nat=0;g_nat=0;c_nat=0;
 a_starr=0;xi_starr=0;y_nat_starr=0;g_nat_starr=0;c_nat_starr=0;
 s_nat=0;
+y_nat_cu=0;g_nat_cu=0;
 end;
 //planner_objective h*(1/2*(1+PHI)*(y_nat-a)^2+1/2*(1-SIGMA)*(1-DELTA)*c_nat^2+1/2*(1-GAMMA)*DELTA/CHI*g_nat^2)+(1-h)*(1/2*(1+PHI)*(y_nat_starr-a_starr)^2+1/2*(1-SIGMA)*(1-DELTA)*c_nat_starr^2+1/2*(1-GAMMA)*DELTA/CHI*g_nat_starr^2);
 //planner_objective -h*(1/2*(1+PHI)*(y_nat-a)^2+1/2*(1-SIGMA)*(1-DELTA)*c_nat^2+1/2*(1-GAMMA)*DELTA/CHI*g_nat^2)-(1-h)*(1/2*(1+PHI)*(y_nat_starr-a_starr)^2+1/2*(1-SIGMA)*(1-DELTA)*c_nat_starr^2+1/2*(1-GAMMA)*DELTA/CHI*g_nat_starr^2);
 
 //planner_objective -1/2*h*(PHI*y_nat^2+GAMMA*DELTA*g_nat^2+SIGMA*(1-DELTA)*c_nat^2)-1/2*(1-h)*(PHI*y_nat_starr^2+GAMMA*DELTA*g_nat_starr^2+SIGMA*(1-DELTA)*c_nat_starr^2);
-planner_objective 1/2*h*(PHI*y_nat^2+GAMMA*DELTA/CHI*g_nat^2+SIGMA*(1-DELTA)*c_nat^2)+1/2*(1-h)*(PHI*y_nat_starr^2+GAMMA*DELTA/CHI*g_nat_starr^2+SIGMA*(1-DELTA)*c_nat_starr^2);
-//ramsey_model(instruments=(y_nat,c_nat,g_nat,y_nat_starr,c_nat_starr,g_nat_starr),planner_discount=BETA);
-ramsey_model(instruments=(g_nat,g_nat_starr),planner_discount=BETA);
+//planner_objective 1/2*h*(PHI*y_nat^2+GAMMA*DELTA*g_nat^2+SIGMA*(1-DELTA)*c_nat^2)+1/2*(1-h)*(PHI*y_nat_starr^2+GAMMA*DELTA*g_nat_starr^2+SIGMA*(1-DELTA)*c_nat_starr^2);
+
+//ramsey_model(instruments=(g_nat,g_nat_starr),planner_discount=BETA);
 
 
 stoch_simul(order=1,irf=30);
 
-
+//evaluate_planner_objective;
 

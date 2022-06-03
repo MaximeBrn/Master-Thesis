@@ -12,5 +12,7 @@ function [ys_, params, info] = steadystate(ys_, exo_, params)
     ys_(9)=0;
     ys_(10)=0;
     ys_(11)=0;
+    ys_(12)=0;
+    ys_(13)=0;
     % Auxiliary equations
 end

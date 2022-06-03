@@ -1,0 +1,22 @@
+Starting Dynare (version 5.0).
+Calling Dynare with arguments: none
+Starting preprocessing of the model file ...
+Ramsey Problem: added 14 Multipliers.
+Substitution of exo leads: added 4 auxiliary variables and equations.
+Found 14 equation(s).
+Found 34 FOC equation(s) for Ramsey Problem.
+Evaluating expressions...done
+Computing static model derivatives (order 1).
+Computing dynamic model derivatives (order 1).
+Computing static model derivatives (order 3).
+Processing outputs ...
+done
+Preprocessing completed.
+
+
+<a href = "matlab: helpview('optim','eqn_inaccuracy','CSHelpWindow');">Equation solved, inaccuracy possible</a>.
+
+The vector of function values is near zero, as measured by the value
+of the <a href = "matlab: helpview('optim','fcn_tolerance_fsolve','CSHelpWindow');">function tolerance</a>. However, the <a href = "matlab: helpview('optim','last_step_ineffective','CSHelpWindow');">last step was ineffective</a>.
+
+<<a href = "matlab: createExitMsg({'optim:fsolve:Exit3basic'},{'optim:fsolve:Exit3detailed','fsolve','5.041312e-26','2.220446e-16','2.773339e-32','1.000000e-10'},true,true);;">stopping criteria details</a>>

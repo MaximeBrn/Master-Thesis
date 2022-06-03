@@ -1,5 +1,6 @@
-@#define MONPOL = 2
-@#include "Model_draft_4.inc"
+@#define MONPOL = 1
+//@#include "Model_draft_4.inc"
+@#include "Model_draft_4_test.mod"
 
 shocks;
 var eps_a = 0; 
@@ -15,8 +16,8 @@ DELTA = CHI;
 BETA = 0.99;
 PHI = 1;
 h = 0.5;
-THETA = 0.85;
-THETA_starr = 0.85;
+THETA = 0.0000001;
+THETA_starr = 0.000001;
 ETA=4.5;
 GAMMA=1;
 EPSILON=1;
@@ -93,7 +94,7 @@ oo_.osr.optim_params
 //planner_objective h*(1/LAMBDA*pie^2+(1+PHI)*(y_gap)^2)+(1-h)*(1/LAMBDA_starr*pie_starr^2+(1+PHI)*(y_gap_starr)^2);
 
 //planner_objective h*(y-a+1/2*(1+PHI)*(y-a)^2+(1-DELTA)*c+1/2*(1-SIGMA)*(1-DELTA)*c^2+DELTA/CHI*g+1/2*(1-GAMMA)*DELTA/CHI*g^2+EPSILON/(2*LAMBDA*h)*pie^2)+(1-h)*(y_starr-a_starr+1/2*(1+PHI)*(y_starr-a_starr)^2+(1-DELTA)*c_starr+1/2*(1-SIGMA)*(1-DELTA)*c_starr^2+DELTA/CHI*g_starr+1/2*(1-GAMMA)*DELTA/CHI*g_starr^2+EPSILON/(2*LAMBDA*(1-h))*pie_starr^2);
-planner_objective h*(1/2*(1+PHI)*(y-a)^2+1/2*(1-SIGMA)*(1-DELTA)*c^2+1/2*(1-GAMMA)*DELTA/CHI*g^2+EPSILON/(2*LAMBDA*h)*pie^2)+(1-h)*(1/2*(1+PHI)*(y_starr-a_starr)^2+1/2*(1-SIGMA)*(1-DELTA)*c_starr^2+1/2*(1-GAMMA)*DELTA/CHI*g_starr^2+EPSILON/(2*LAMBDA*(1-h))*pie_starr^2);
+planner_objective h*(1/2*(1+PHI)*(y-a)^2+1/2*(1-SIGMA)*(1-DELTA)*c^2+1/2*(1-GAMMA)*DELTA*g^2+EPSILON/(2*LAMBDA*h)*pie^2)+(1-h)*(1/2*(1+PHI)*(y_starr-a_starr)^2+1/2*(1-SIGMA)*(1-DELTA)*c_starr^2+1/2*(1-GAMMA)*DELTA*g_starr^2+EPSILON/(2*LAMBDA*(1-h))*pie_starr^2);
 
 //planner_objective -1/2*h*(EPSILON/LAMBDA*pie^2+PHI*y_gap^2+GAMMA*DELTA*g_gap^2+SIGMA*(1-DELTA)*c_gap^2)-1/2*(1-h)*(EPSILON/LAMBDA_starr*pie_starr^2+PHI*y_gap_starr^2+GAMMA*DELTA*g_gap_starr^2+SIGMA*(1-DELTA)*c_gap_starr^2);
 //planner_objective -1/2*h*(EPSILON/LAMBDA*pie^2+PHI*y^2+GAMMA*DELTA*g^2+SIGMA*(1-DELTA)*c^2)-1/2*(1-h)*(EPSILON/LAMBDA_starr*pie_starr^2+PHI*y_starr^2+GAMMA*DELTA*g_starr^2+SIGMA*(1-DELTA)*c_starr^2);
@@ -101,7 +102,8 @@ planner_objective h*(1/2*(1+PHI)*(y-a)^2+1/2*(1-SIGMA)*(1-DELTA)*c^2+1/2*(1-GAMM
 ramsey_model(instruments=(ii,g,g_starr),planner_discount=BETA);
 
 steady;
-stoch_simul(order=1,irf=30) pie y c g pie_starr y_starr c_starr g_starr s pie_cu y_cu g_cu ;
+//stoch_simul(order=1,irf=30) pie y c g g_nat pie_starr y_starr y_nat_starr c_starr g_starr g_nat_starr s pie_cu y_cu g_cu ;
+stoch_simul(order=1,irf=30);
 //evaluate_planner_objective;
 
 //figure
