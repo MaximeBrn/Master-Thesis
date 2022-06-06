@@ -20,7 +20,7 @@ function T = dynamic_g1_tt(T, y, x, params, steady_state, it_)
 
 assert(length(T) >= 1);
 
-T = model_draft_4_Natural.dynamic_resid_tt(T, y, x, params, steady_state, it_);
+T = Model_draft_4_Natural.dynamic_resid_tt(T, y, x, params, steady_state, it_);
 
 
 end

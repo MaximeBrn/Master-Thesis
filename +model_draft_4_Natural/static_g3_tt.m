@@ -15,7 +15,7 @@ function T = static_g3_tt(T, y, x, params)
 
 assert(length(T) >= 1);
 
-T = model_draft_4_Natural.static_g2_tt(T, y, x, params);
+T = Model_draft_4_Natural.static_g2_tt(T, y, x, params);
 
 
 end

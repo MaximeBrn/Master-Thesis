@@ -5,9 +5,9 @@ function [residual, g1, g2] = static_resid_g1_g2(T, y, x, params, T_flag)
 %
 
     if T_flag
-        T = model_draft_4_Natural.static_g2_tt(T, y, x, params);
+        T = Model_draft_4_Natural.static_g2_tt(T, y, x, params);
     end
-    [residual, g1] = model_draft_4_Natural.static_resid_g1(T, y, x, params, false);
-    g2       = model_draft_4_Natural.static_g2(T, y, x, params, false);
+    [residual, g1] = Model_draft_4_Natural.static_resid_g1(T, y, x, params, false);
+    g2       = Model_draft_4_Natural.static_g2(T, y, x, params, false);
 
 end

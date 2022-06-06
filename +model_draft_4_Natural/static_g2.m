@@ -16,8 +16,8 @@ function g2 = static_g2(T, y, x, params, T_flag)
 %
 
 if T_flag
-    T = model_draft_4_Natural.static_g2_tt(T, y, x, params);
+    T = Model_draft_4_Natural.static_g2_tt(T, y, x, params);
 end
-g2 = sparse([],[],[],13,169);
+g2 = sparse([],[],[],14,196);
 
 end

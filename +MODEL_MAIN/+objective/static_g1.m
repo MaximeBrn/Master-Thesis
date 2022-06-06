@@ -18,11 +18,15 @@ function g1 = static_g1(T, y, x, params, T_flag)
 if T_flag
     T = MODEL_MAIN.objective.static_g1_tt(T, y, x, params);
 end
-g1 = zeros(1, 73);
-g1(1,20)=2*y(20);
-g1(1,21)=2*y(21);
-g1(1,27)=2*y(27);
-g1(1,28)=2*y(28);
+g1 = zeros(1, 75);
+g1(1,1)=0.5*params(6)*params(5)*2*y(1);
+g1(1,2)=0.5*params(6)*params(8)*params(3)*2*y(2);
+g1(1,3)=0.5*params(6)*params(1)*(1-params(3))*2*y(3);
+g1(1,4)=0.5*(1-params(6))*params(5)*2*y(4);
+g1(1,5)=0.5*(1-params(6))*params(8)*params(3)*2*y(5);
+g1(1,6)=0.5*(1-params(6))*params(1)*(1-params(3))*2*y(6);
+g1(1,22)=0.5*params(6)*params(20)/params(12)*2*y(22);
+g1(1,29)=0.5*(1-params(6))*params(20)/params(14)*2*y(29);
 if ~isreal(g1)
     g1 = real(g1)+2*imag(g1);
 end

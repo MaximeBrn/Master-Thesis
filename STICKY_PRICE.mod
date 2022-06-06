@@ -1,38 +1,31 @@
 var
-    //a           ${a}$        (long_name='Home technology shock process (log dev ss)')
-    //xi          ${xi}$       (long_name='Home labor disutility shock process (log dev ss)')
-    y           ${y}$        (long_name='Home output (log dev ss)')
-    pie
-    g           ${g}$        (long_name='Home government consumption (log dev ss)')
-    n
-    c
-    c_F
-    c_H
+    y           ${\hat y_t}$        (long_name='Home output (log dev ss)')
+    pie         ${\pi_t}$           (long_name='Home inflation (log dev ss)')
+    g           ${\hat g_t}$        (long_name='Home government consumption (log dev ss)')
+    n           ${\hat n_t}$        (long_name='Home labor supply (log dev ss)')
+    c           ${\hat c_t}$        (long_name='Home consumption (log dev ss)')
+    c_F         ${\hat c_{H,t}}$    (long_name='Home consumption of Home-made goods (log dev ss)')
+    c_H         ${\hat c_{F,t}}$    (long_name='Home consumption of Foreign-made goods (log dev ss)')
 
-    //a_starr     ${a^*}$     (long_name='Foreign technology shock process (log dev ss)')
-    //xi_starr    ${xi^*}$    (long_name='Foreign labor disutility shock process (log dev ss)')
-    y_starr     ${y^*}$     (long_name='Foreign output (log dev ss)')
-    pie_starr
-    g_starr     ${g^*}$     (long_name='Foreign government consumption (log dev ss)')
-    n_starr 
-    
-    c_starr
-    c_F_starr
-    c_H_starr
-
-    pie_cu
-    y_cu
-    g_cu
+    y_starr     ${\hat y_t^*}$        (long_name='Foreign output (log dev ss)')
+    pie_starr   ${\pi_t^*}$           (long_name='Foreign inflation (log dev ss)')
+    g_starr     ${\hat g_t^*}$        (long_name='Foreign government consumption (log dev ss)')
+    n_starr     ${\hat n_t^*}$        (long_name='Foreign labor supply (log dev ss)')
+    c_starr     ${\hat c_t^*}$        (long_name='Foreign consumption (log dev ss)')
+    c_F_starr   ${\hat c_{H,t}^*}$    (long_name='Foreign consumption of Home-made goods (log dev ss)')
+    c_H_starr   ${\hat c_{F,t}^*}$    (long_name='Foreign consumption of Foreign-made goods (log dev ss)')
 
     
-    
-    ii           ${i}$                   (long_name='nominal interest rate (log dev ss)')
-    s           ${s}$                   (long_name='terms of trade (log dev ss)')
+    ii           ${i_t}$                  (long_name='Currency union nominal interest rate (log dev ss)')
+    s           ${s_t}$                   (long_name='Home terms of trade (log dev ss)')
+
+    pie_cu      ${\pi_{cu,t}}$        (long_name='Currency union inflation (log dev ss)')
+    y_cu        ${\hat y_{cu,t}}$        (long_name='Currency union output (log dev ss)')
+    g_cu        ${\hat g_{cu,t}}$        (long_name='Currency union government spending (log dev ss)')
 ;       
 
 model(linear); 
 
-//Sticky price conditions
 [name='Home Dynamic IS Curve']
 y = y(+1) - 1/SIGMA*(ii-pie(+1))+(1-ALPHA_bar*h-W_ALPHA_bar)/SIGMA*(s(+1)-s)-DELTA*(g(+1)-g);
 

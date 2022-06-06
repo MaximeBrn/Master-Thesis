@@ -18,21 +18,33 @@ function g2 = static_g2(T, y, x, params, T_flag)
 if T_flag
     T = MODEL_MAIN.objective.static_g2_tt(T, y, x, params);
 end
-g2_i = zeros(4,1);
-g2_j = zeros(4,1);
-g2_v = zeros(4,1);
+g2_i = zeros(8,1);
+g2_j = zeros(8,1);
+g2_v = zeros(8,1);
 
 g2_i(1)=1;
 g2_i(2)=1;
 g2_i(3)=1;
 g2_i(4)=1;
-g2_j(1)=1407;
-g2_j(2)=1481;
-g2_j(3)=1925;
-g2_j(4)=1999;
-g2_v(1)=2;
-g2_v(2)=2;
-g2_v(3)=2;
-g2_v(4)=2;
-g2 = sparse(g2_i,g2_j,g2_v,1,5329);
+g2_i(5)=1;
+g2_i(6)=1;
+g2_i(7)=1;
+g2_i(8)=1;
+g2_j(1)=1;
+g2_j(2)=77;
+g2_j(3)=153;
+g2_j(4)=229;
+g2_j(5)=305;
+g2_j(6)=381;
+g2_j(7)=1597;
+g2_j(8)=2129;
+g2_v(1)=0.5*params(6)*2*params(5);
+g2_v(2)=0.5*params(6)*2*params(8)*params(3);
+g2_v(3)=0.5*params(6)*2*params(1)*(1-params(3));
+g2_v(4)=0.5*(1-params(6))*2*params(5);
+g2_v(5)=0.5*(1-params(6))*2*params(8)*params(3);
+g2_v(6)=0.5*(1-params(6))*2*params(1)*(1-params(3));
+g2_v(7)=0.5*params(6)*2*params(20)/params(12);
+g2_v(8)=0.5*(1-params(6))*2*params(20)/params(14);
+g2 = sparse(g2_i,g2_j,g2_v,1,5625);
 end

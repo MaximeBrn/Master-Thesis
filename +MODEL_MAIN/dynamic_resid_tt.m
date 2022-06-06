@@ -30,7 +30,7 @@ T(7) = params(1)/((1-params(3))*(params(11)+params(13)));
 T(8) = (-T(1));
 T(9) = (-(T(1)*(-params(3))));
 T(10) = (-(params(13)/params(1)));
-T(11) = params(21)^(-1);
+T(11) = params(39)^(-1);
 T(12) = (-(params(12)*(-(params(1)*params(3)/(1-params(3))))));
 T(13) = (-(params(14)*(-(params(1)*params(3)/(1-params(3))))));
 
