@@ -1,0 +1,180 @@
+Starting Dynare (version 5.0).
+Calling Dynare with arguments: none
+Starting preprocessing of the model file ...
+Ramsey Problem: added 17 Multipliers.
+Substitution of exo leads: added 4 auxiliary variables and equations.
+Found 17 equation(s).
+Found 42 FOC equation(s) for Ramsey Problem.
+Evaluating expressions...done
+Computing static model derivatives (order 1).
+Computing dynamic model derivatives (order 1).
+Computing static model derivatives (order 3).
+Processing outputs ...
+done
+Preprocessing completed.
+
+
+
+
+
+Residuals of the static equations:
+
+Equation number 1 : 0
+Equation number 2 : 0
+Equation number 3 : 0
+Equation number 4 : 0
+Equation number 5 : 0
+Equation number 6 : 0
+Equation number 7 : 0
+Equation number 8 : 0
+Equation number 9 : 0
+Equation number 10 : 0
+Equation number 11 : 0
+Equation number 12 : 0
+Equation number 13 : 0
+Equation number 14 : 0
+Equation number 15 : 0
+Equation number 16 : 0
+Equation number 17 : 0
+
+
+
+STEADY-STATE RESULTS:
+
+C                		 0.375
+N                		 0.5
+Y                		 0.5
+G                		 0.125
+A                		 1
+XI               		 1
+C_starr          		 0.375
+N_starr          		 0.5
+Y_starr          		 0.5
+G_starr          		 0.125
+A_starr          		 1
+XI_starr         		 1
+G_cap            		 0.25
+G_cap_starr      		 0.25
+C_cap            		 0.75
+C_cap_starr      		 0.75
+N_cap            		 1
+N_cap_starr      		 1
+S                		 1
+TAU              		 0.166667
+TAU_starr        		 0.166667
+
+MODEL SUMMARY
+
+  Number of variables:         42
+  Number of stochastic shocks: 4
+  Number of state variables:   4
+  Number of jumpers:           4
+  Number of static variables:  34
+
+
+MATRIX OF COVARIANCE OF EXOGENOUS SHOCKS
+Variables              eps_a   eps_a_starr        eps_xi  eps_xi_starr
+eps_a               0.000000      0.000000      0.000000      0.000000
+eps_a_starr         0.000000      1.000000      0.000000      0.000000
+eps_xi              0.000000      0.000000      0.000000      0.000000
+eps_xi_starr        0.000000      0.000000      0.000000      0.000000
+
+POLICY AND TRANSITION FUNCTIONS
+                                   C               N               Y               G               A              XI         C_starr         N_starr         Y_starr         G_starr         A_starr        XI_starr           G_cap     G_cap_starr           C_cap     C_cap_starr           N_cap     N_cap_starr               S             TAU       TAU_starr
+Constant                    0.375000        0.500000        0.500000        0.125000        1.000000        1.000000        0.375000        0.500000        0.500000        0.125000        1.000000        1.000000        0.250000        0.250000        0.750000        0.750000        1.000000        1.000000        1.000000        0.166667        0.166667
+A(-1)                       0.298031               0        0.425000        0.106250        0.850000               0        0.020719               0               0               0               0               0        0.212500               0        0.596063        0.041438               0               0        0.850000               0               0
+XI(-1)                     -0.149016       -0.212500       -0.212500       -0.053125               0        0.850000       -0.010359               0               0               0               0               0       -0.106250               0       -0.298031       -0.020719       -0.425000               0       -0.425000               0               0
+A_starr(-1)                 0.020719               0               0               0               0               0        0.298031               0        0.425000        0.106250        0.850000               0               0        0.212500        0.041437        0.596062               0               0       -0.850000               0               0
+XI_starr(-1)               -0.010359               0               0               0               0               0       -0.149016       -0.212500       -0.212500       -0.053125               0        0.850000               0       -0.106250       -0.020719       -0.298031               0       -0.425000        0.425000               0               0
+eps_a                       0.350625               0        0.500000        0.125000        1.000000               0        0.024375               0               0               0               0               0        0.250000               0        0.701250        0.048750               0               0        1.000000               0               0
+eps_a_starr                 0.024375               0               0               0               0               0        0.350625               0        0.500000        0.125000        1.000000               0               0        0.250000        0.048750        0.701250               0               0       -1.000000               0               0
+eps_xi                     -0.175313       -0.250000       -0.250000       -0.062500               0        1.000000       -0.012188               0               0               0               0               0       -0.125000               0       -0.350625       -0.024375       -0.500000               0       -0.500000               0               0
+eps_xi_starr               -0.012188               0               0               0               0               0       -0.175312       -0.250000       -0.250000       -0.062500               0        1.000000               0       -0.125000       -0.024375       -0.350625               0       -0.500000        0.500000               0               0
+[Warning: Aggregate variance and sum of variances by shocks differ by more
+than 0.01 %] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('th_autocovariances', 'C:\dynare\5.0\matlab\th_autocovariances.m', 206)" style="font-weight:bold">th_autocovariances</a> (<a href="matlab: opentoline('C:\dynare\5.0\matlab\th_autocovariances.m',206,0)">line 206</a>)
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('disp_th_moments', 'C:\dynare\5.0\matlab\disp_th_moments.m', 40)" style="font-weight:bold">disp_th_moments</a> (<a href="matlab: opentoline('C:\dynare\5.0\matlab\disp_th_moments.m',40,0)">line 40</a>)
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('stoch_simul', 'C:\dynare\5.0\matlab\stoch_simul.m', 210)" style="font-weight:bold">stoch_simul</a> (<a href="matlab: opentoline('C:\dynare\5.0\matlab\stoch_simul.m',210,0)">line 210</a>)
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('PLANNER_FLEXIBLE_GM.driver', 'C:\Users\33689\Documents\GitHub\Master-Thesis\COINCIDE PLANNER-FLEXIBLE\+PLANNER_FLEXIBLE_GM\driver.m', 493)" style="font-weight:bold">PLANNER_FLEXIBLE_GM.driver</a> (<a href="matlab: opentoline('C:\Users\33689\Documents\GitHub\Master-Thesis\COINCIDE PLANNER-FLEXIBLE\+PLANNER_FLEXIBLE_GM\driver.m',493,0)">line 493</a>)
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('dynare', 'C:\dynare\5.0\matlab\dynare.m', 281)" style="font-weight:bold">dynare</a> (<a href="matlab: opentoline('C:\dynare\5.0\matlab\dynare.m',281,0)">line 281</a>)] 
+
+
+THEORETICAL MOMENTS
+VARIABLE            MEAN  STD. DEV.   VARIANCE
+C                 0.3750     0.0463     0.0021
+N                 0.5000     0.0000     0.0000
+Y                 0.5000     0.0000     0.0000
+G                 0.1250     0.0000     0.0000
+A                 1.0000     0.0000     0.0000
+XI                1.0000     0.0000     0.0000
+C_starr           0.3750     0.6656     0.4430
+N_starr           0.5000     0.0000     0.0000
+Y_starr           0.5000     0.9492     0.9009
+G_starr           0.1250     0.2373     0.0563
+A_starr           1.0000     1.8983     3.6036
+XI_starr          1.0000     0.0000     0.0000
+G_cap             0.2500     0.0000     0.0000
+G_cap_starr       0.2500     0.4746     0.2252
+C_cap             0.7500     0.0925     0.0086
+C_cap_starr       0.7500     1.3312     1.7721
+N_cap             1.0000     0.0000     0.0000
+N_cap_starr       1.0000     0.0000     0.0000
+S                 1.0000     1.8983     3.6036
+TAU               0.1667     0.0000     0.0000
+TAU_starr         0.1667     0.0000     0.0000
+
+
+
+VARIANCE DECOMPOSITION (in percent)
+                      eps_a   eps_a_starr        eps_xi  eps_xi_starr
+C                      0.00        100.00          0.00          0.00
+N                      0.00          0.01         99.99          0.00
+Y                     80.00          0.00         20.00          0.00
+G                     80.00          0.00         20.00          0.00
+A                    100.00          0.00          0.00          0.00
+XI                     0.00          0.01         99.99          0.00
+C_starr                0.00        100.00          0.00          0.00
+N_starr                0.00          0.44          0.00         99.56
+Y_starr                0.00        100.00          0.00          0.00
+G_starr                0.00        100.00          0.00          0.00
+A_starr                0.00        100.00          0.00          0.00
+XI_starr               0.00          0.44          0.00         99.56
+G_cap                 80.00          0.00         20.00          0.00
+G_cap_starr            0.00        100.00          0.00          0.00
+C_cap                  0.00        100.00          0.00          0.00
+C_cap_starr            0.00        100.00          0.00          0.00
+N_cap                  0.00          0.01         99.99          0.00
+N_cap_starr            0.00          0.44          0.00         99.56
+S                      0.00        100.00          0.00          0.00
+TAU                    0.00        100.00          0.00          0.00
+TAU_starr              0.00        100.00          0.00          0.00
+
+
+
+MATRIX OF CORRELATIONS
+Variables                C      C_starr      Y_starr      G_starr      A_starr  G_cap_starr        C_cap  C_cap_starr            S
+C                   1.0000       1.0000       1.0000       1.0000       1.0000       1.0000       1.0000       1.0000      -1.0000
+C_starr             1.0000       1.0000       1.0000       1.0000       1.0000       1.0000       1.0000       1.0000      -1.0000
+Y_starr             1.0000       1.0000       1.0000       1.0000       1.0000       1.0000       1.0000       1.0000      -1.0000
+G_starr             1.0000       1.0000       1.0000       1.0000       1.0000       1.0000       1.0000       1.0000      -1.0000
+A_starr             1.0000       1.0000       1.0000       1.0000       1.0000       1.0000       1.0000       1.0000      -1.0000
+G_cap_starr         1.0000       1.0000       1.0000       1.0000       1.0000       1.0000       1.0000       1.0000      -1.0000
+C_cap               1.0000       1.0000       1.0000       1.0000       1.0000       1.0000       1.0000       1.0000      -1.0000
+C_cap_starr         1.0000       1.0000       1.0000       1.0000       1.0000       1.0000       1.0000       1.0000      -1.0000
+S                  -1.0000      -1.0000      -1.0000      -1.0000      -1.0000      -1.0000      -1.0000      -1.0000       1.0000
+
+
+
+COEFFICIENTS OF AUTOCORRELATION
+Order               1       2       3       4       5
+C              0.8500  0.7225  0.6141  0.5220  0.4437
+C_starr        0.8500  0.7225  0.6141  0.5220  0.4437
+Y_starr        0.8500  0.7225  0.6141  0.5220  0.4437
+G_starr        0.8500  0.7225  0.6141  0.5220  0.4437
+A_starr        0.8500  0.7225  0.6141  0.5220  0.4437
+G_cap_starr    0.8500  0.7225  0.6141  0.5220  0.4437
+C_cap          0.8500  0.7225  0.6141  0.5220  0.4437
+C_cap_starr    0.8500  0.7225  0.6141  0.5220  0.4437
+S              0.8500  0.7225  0.6141  0.5220  0.4437
+Total computing time : 0h00m01s
+Note: warning(s) encountered in MATLAB/Octave code

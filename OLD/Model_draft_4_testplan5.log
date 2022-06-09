@@ -1,0 +1,82 @@
+Starting Dynare (version 5.0).
+Calling Dynare with arguments: none
+Starting preprocessing of the model file ...
+Found 26 equation(s).
+Evaluating expressions...done
+Computing static model derivatives (order 1).
+Computing dynamic model derivatives (order 2).
+Processing outputs ...
+done
+Preprocessing completed.
+
+
+<a href = "matlab: helpview('optim','eqn_no_soln','CSHelpWindow');">No solution found</a>.
+
+fsolve stopped because the <a href = "matlab: helpview('optim','last_step_ineffective','CSHelpWindow');">last step was ineffective</a>. However, the vector of function
+values is not near zero, as measured by the value of the <a href = "matlab: helpview('optim','fcn_tolerance_fsolve','CSHelpWindow');">function tolerance</a>. 
+
+<<a href = "matlab: createExitMsg({'optim:fsolve:ExitNeg23basic'},{'optim:fsolve:ExitNeg23detailed','fsolve','1.015030e-21','2.220446e-16','1.232595e-32','1.000000e-100'},true,true);;">stopping criteria details</a>>
+
+
+
+
+Residuals of the static equations:
+
+Equation number 1 : 0 : 1
+Equation number 2 : 0 : 2
+Equation number 3 : 0 : 3
+Equation number 4 : 0 : 4
+Equation number 5 : 0 : 5
+Equation number 6 : 0 : 6
+Equation number 7 : 0 : 7
+Equation number 8 : 0 : 8
+Equation number 9 : 0 : A
+Equation number 10 : 0 : XI
+Equation number 11 : 0 : A_starr
+Equation number 12 : 0 : XI_starr
+Equation number 13 : 0 : c
+Equation number 14 : 0 : n
+Equation number 15 : 0 : g
+Equation number 16 : 0 : a
+Equation number 17 : 0 : xi
+Equation number 18 : 0 : y
+Equation number 19 : 0 : c_starr
+Equation number 20 : 0 : n_starr
+Equation number 21 : 0 : g_starr
+Equation number 22 : 0 : a_starr
+Equation number 23 : 0 : xi_starr
+Equation number 24 : 0 : y_starr
+Equation number 25 : 0 : Y
+Equation number 26 : 0 : Y_starr
+
+
+
+STEADY-STATE RESULTS:
+
+C        		 0.878803
+N        		 0.921708
+Y        		 0.921708
+G        		 0.0429053
+A        		 1
+XI       		 1
+C_starr  		 0.0976448
+N_starr  		 0.102412
+Y_starr  		 0.102412
+G_starr  		 0.00476725
+A_starr  		 1
+XI_starr 		 1
+LAMBDA_1 		 0.94394
+LAMBDA_2 		 0.104882
+c        		 0
+n        		 0
+g        		 0
+a        		 0
+xi       		 0
+y        		 0
+c_starr  		 0
+n_starr  		 0
+g_starr  		 0
+a_starr  		 0
+xi_starr 		 0
+y_starr  		 0
+Total computing time : 0h00m00s
