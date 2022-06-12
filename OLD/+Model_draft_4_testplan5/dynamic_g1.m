@@ -23,16 +23,16 @@ if T_flag
     T = Model_draft_4_testplan5.dynamic_g1_tt(T, y, x, params, steady_state, it_);
 end
 g1 = zeros(26, 34);
-g1(1,5)=params(5)*T(7)*getPowerDeriv(y(5)/params(5),(-params(1)),1);
+g1(1,5)=(1-params(9))*params(5)*T(7)*getPowerDeriv(y(5)/params(5),(-params(1)),1);
 g1(1,17)=(-(1-params(6)));
 g1(1,18)=(-params(7));
 g1(2,6)=params(5)*y(10)*T(8);
 g1(2,9)=(-y(17));
 g1(2,10)=params(5)*T(1);
 g1(2,17)=(-y(9));
-g1(3,8)=params(5)*params(9)*T(7)*getPowerDeriv(y(8)/params(5),(-params(8)),1);
+g1(3,8)=params(9)*params(5)*T(7)*getPowerDeriv(y(8)/params(5),(-params(8)),1);
 g1(3,17)=(-1);
-g1(4,11)=(1-params(5))*T(11)*getPowerDeriv(y(11)/(1-params(5)),(-params(1)),1);
+g1(4,11)=(1-params(9))*(1-params(5))*T(11)*getPowerDeriv(y(11)/(1-params(5)),(-params(1)),1);
 g1(4,17)=(-params(6));
 g1(4,18)=(-(1-params(7)));
 g1(5,12)=(1-params(5))*y(16)*T(12);

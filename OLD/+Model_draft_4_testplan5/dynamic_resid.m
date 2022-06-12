@@ -23,16 +23,16 @@ if T_flag
     T = Model_draft_4_testplan5.dynamic_resid_tt(T, y, x, params, steady_state, it_);
 end
 residual = zeros(26, 1);
-lhs = params(5)*(y(5)/params(5))^(-params(1));
+lhs = (1-params(9))*params(5)*(y(5)/params(5))^(-params(1));
 rhs = (1-params(6))*y(17)+params(7)*y(18);
 residual(1) = lhs - rhs;
 lhs = params(5)*y(10)*T(1);
 rhs = y(17)*y(9);
 residual(2) = lhs - rhs;
-lhs = params(5)*params(9)*(y(8)/params(5))^(-params(8));
+lhs = params(9)*params(5)*(y(8)/params(5))^(-params(8));
 rhs = y(17);
 residual(3) = lhs - rhs;
-lhs = (1-params(5))*(y(11)/(1-params(5)))^(-params(1));
+lhs = (1-params(9))*(1-params(5))*(y(11)/(1-params(5)))^(-params(1));
 rhs = params(6)*y(17)+y(18)*(1-params(7));
 residual(4) = lhs - rhs;
 lhs = (1-params(5))*y(16)*T(2);

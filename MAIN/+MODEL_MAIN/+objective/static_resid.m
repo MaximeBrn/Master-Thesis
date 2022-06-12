@@ -19,7 +19,7 @@ if T_flag
     T = MODEL_MAIN.objective.static_resid_tt(T, y, x, params);
 end
 residual = zeros(1, 1);
-residual(1) = 0.5*params(6)*(params(20)/params(12)*y(22)^2+params(5)*y(1)^2+params(1)*(1-params(3))*y(3)^2)+0.5*(1-params(6))*(params(20)/params(14)*y(29)^2+params(5)*y(4)^2+params(1)*(1-params(3))*y(6)^2);
+residual(1) = 0.5*params(7)*(params(6)/params(16)*y(26)^2+params(3)*y(1)^2+params(4)*params(11)*y(2)^2+params(2)*(1-params(11))*y(3)^2)+0.5*(1-params(7))*(params(6)/params(17)*y(33)^2+params(3)*y(4)^2+params(4)*params(11)*y(5)^2+params(2)*(1-params(11))*y(6)^2);
 if ~isreal(residual)
   residual = real(residual)+imag(residual).^2;
 end

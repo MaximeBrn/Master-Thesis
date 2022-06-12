@@ -25,9 +25,10 @@ parameters
     
     SIGMA ALPHA_bar BETA PHI h ALPHA ALPHA_starr GAMMA CHI RHOA 
     RHOXI 
+    
     ;
     
-    SIGMA = 2;
+    SIGMA = 1;
     ALPHA_bar = 0.13;
     BETA = 0.98;
     PHI = 2;
@@ -35,7 +36,7 @@ parameters
     ALPHA=ALPHA_bar*(1-h);
     ALPHA_starr = ALPHA_bar*h;
     GAMMA=1;
-    CHI=0.05;
+    CHI=0.5;
 
     RHOA=0.85;
     RHOXI=0.85;
@@ -44,11 +45,11 @@ parameters
 model; 
 // FOC OF THE PLANNER
 
-h*(C/h)^(-SIGMA)=(1-ALPHA)*LAMBDA_1+ALPHA_starr*LAMBDA_2;
+(1-CHI)*h*(C/h)^(-SIGMA)=(1-ALPHA)*LAMBDA_1+ALPHA_starr*LAMBDA_2;
 h*XI*(N/h)^PHI=A*LAMBDA_1;
 h*CHI*(G/h)^(-GAMMA)=LAMBDA_1;
 
-(1-h)*(C_starr/(1-h))^(-SIGMA)=ALPHA*LAMBDA_1+(1-ALPHA_starr)*LAMBDA_2;
+(1-CHI)*(1-h)*(C_starr/(1-h))^(-SIGMA)=ALPHA*LAMBDA_1+(1-ALPHA_starr)*LAMBDA_2;
 (1-h)*XI_starr*(N_starr/(1-h))^PHI=A_starr*LAMBDA_2;
 (1-h)*CHI*(G_starr/(1-h))^(-GAMMA)=LAMBDA_2;
 
@@ -75,6 +76,7 @@ g_starr=log(G_starr)-log(steady_state(G_starr));
 a_starr=log(A_starr)-log(steady_state(A_starr));
 xi_starr=log(XI_starr)-log(steady_state(XI_starr));
 y_starr=a_starr+n_starr;
+
 
 
 
@@ -109,12 +111,12 @@ N_starr=(1-h)*N/h;
 //N_starr=res(2);
 Y=N;
 Y_starr=N_starr;
-C=h*((1-ALPHA)*(N/h)^PHI+ALPHA*(N_starr/(1-h))^PHI)^(-1/SIGMA);
-C_starr=(1-h)*(ALPHA_starr*(N/h)^PHI+(1-ALPHA_starr)*(N_starr/(1-h))^PHI)^(-1/SIGMA);
+C=h*(1/(1-CHI)*(1-ALPHA)*(N/h)^PHI+1/(1-CHI)*ALPHA*(N_starr/(1-h))^PHI)^(-1/SIGMA);
+C_starr=(1-h)*(1/(1-CHI)*ALPHA_starr*(N/h)^PHI+1/(1-CHI)*(1-ALPHA_starr)*(N_starr/(1-h))^PHI)^(-1/SIGMA);
 G=h*(1/CHI*(N/h)^PHI)^(-1/GAMMA);
 G_starr=(1-h)*(1/CHI*(N_starr/(1-h))^PHI)^(-1/GAMMA);
-LAMBDA_1=h*(N/h)^(PHI);
-LAMBDA_2=(1-h)*(N_starr/(1-h))^(PHI);
+LAMBDA_1=XI/A*h*(N/h)^(PHI);
+LAMBDA_2=XI_starr/A_starr*(1-h)*(N_starr/(1-h))^(PHI);
 c=0;
 n=0;
 g=0;

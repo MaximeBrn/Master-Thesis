@@ -18,6 +18,6 @@ function g3 = static_g3(T, y, x, params, T_flag)
 if T_flag
     T = MODEL_MAIN.objective.static_g3_tt(T, y, x, params);
 end
-g3 = sparse([],[],[],1,456533);
+g3 = sparse([],[],[],1,571787);
 
 end

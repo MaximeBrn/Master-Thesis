@@ -1,7 +1,7 @@
 // RUN MODEL 
 
-@#define MONPOL = 2
-@#define RULE = 2
+@#define MONPOL = 1
+@#define RULE = 1
 
 var
     y_gap           ${\tilde y_t}$        (long_name='Home output gap (log dev ss)')   
@@ -42,61 +42,58 @@ end;
 
 parameters 
     
-    SIGMA ALPHA_bar DELTA BETA PHI h CHI GAMMA THETA THETA_starr W_ALPHA_bar LAMBDA
-    W_ALPHA_bar_starr LAMBDA_starr ETA RHOA RHOXI ALPHA ALPHA_starr EPSILON SIGMA_tilde
+    // Structural parameters
+    BETA SIGMA PHI GAMMA ETA EPSILON 
 
+    // Economies characteristics
+    h ALPHA_bar THETA THETA_starr 
+
+    // Steady state parameter
+    DELTA CHI_C CHI_G
+
+    // Composite parameters
+    ALPHA ALPHA_starr
+    LAMBDA LAMBDA_starr
+    W_ALPHA_bar
+    SIGMA_tilde GAMMA_tilde
+
+    // Fiscal rule parameters
     @#if MONPOL != 1
     COEF_y_gapH COEF_y_gapF COEF_pieH COEF_pieF 
     COEF_y_gapH_starr COEF_y_gapF_starr COEF_pieH_starr COEF_pieF_starr
     @#endif
-
-    COEF_y_natH COEF_y_natF COEF_c_natH COEF_c_natF COEF_aH COEF_aF COEF_xiH COEF_xiF COEF_s_nat
-    COEF_y_natH_starr COEF_y_natF_starr COEF_c_natH_starr COEF_c_natF_starr COEF_aH_starr COEF_aF_starr COEF_xiH_starr COEF_xiF_starr COEF_s_nat_starr
-
-
+    
+    // Exogeneous process parameters
+    RHOA RHOXI
 ;
 
-SIGMA = 1;
-ALPHA_bar = 0.5;
-CHI=0.03;
-DELTA = CHI;
-BETA = 0.99;
-PHI = 1;
-h = 0.5;
-THETA = 0.75;
-THETA_starr = 0.75;
-ETA=4.5;
-GAMMA=1;
-EPSILON=1;
-ALPHA=ALPHA_bar*(1-h);
-ALPHA_starr = ALPHA_bar*h;
-W_ALPHA_bar = 1-ALPHA_bar*h+(1-h)*ALPHA_bar*(2-ALPHA_bar)*(SIGMA*ETA-1);
-LAMBDA = (1-THETA)*(1-THETA*BETA)/THETA;
-W_ALPHA_bar_starr = ALPHA_bar*h*(1+(2-ALPHA_bar)*(SIGMA*ETA-1));
-LAMBDA_starr = (1-THETA_starr)*(1-THETA_starr*BETA)/THETA_starr;
 
-SIGMA_tilde=SIGMA/(1-DELTA);
-RHOA=0.9;
-RHOXI=0.9;
+BETA            =   0.98;
+SIGMA           =   3;
+PHI             =   1;
+GAMMA           =   1;
+ETA             =   4.5;
+EPSILON         =   6;
 
-COEF_y_natH=0.2274; 
-COEF_y_natF=-0.0287; 
-COEF_c_natH=2.6806; 
-COEF_c_natF=0.1319; 
-COEF_aH=-3.0120;
-COEF_aF=-0.0391;
-COEF_xiH=1.5061; 
-COEF_xiF=0.0195; 
-COEF_s_nat=1.8958;
-COEF_y_natH_starr=-3.5187; 
-COEF_y_natF_starr=0.2097; 
-COEF_c_natH_starr=0.7751; 
-COEF_c_natF_starr=-0.4006; 
-COEF_aH_starr=3.0047; 
-COEF_aF_starr=-0.1264; 
-COEF_xiH_starr=-1.5024; 
-COEF_xiF_starr=0.0631; 
-COEF_s_nat_starr=3.0627;
+h               =   0.5;
+ALPHA_bar       =   0.2;
+THETA           =   0.75;
+THETA_starr     =   0.75;
+
+DELTA           =   0.2;
+CHI_C           =   (1-DELTA)^SIGMA;
+CHI_G           =   DELTA^GAMMA;
+
+ALPHA           =   ALPHA_bar*(1-h);
+ALPHA_starr     =   ALPHA_bar*h;
+LAMBDA          =   (1-THETA)*(1-THETA*BETA)/THETA;
+LAMBDA_starr    =   (1-THETA_starr)*(1-THETA_starr*BETA)/THETA_starr;
+W_ALPHA_bar     =   (2-ALPHA_bar)*(SIGMA*ETA-1);
+SIGMA_tilde     =   SIGMA/(1-DELTA);
+GAMMA_tilde     =   GAMMA/DELTA;
+
+RHOA            =   0.85;
+RHOXI           =   0.85;
 
 @#include "FLEXIBLE_PRICE.mod"
 
@@ -111,27 +108,25 @@ model(linear);
 
     g=COEF_y_gapH*y_gap(-1)+COEF_y_gapF*y_gap_starr(-1)+COEF_pieH*pie(-1)+COEF_pieF*pie_starr(-1);
     g_starr=COEF_y_gapH_starr*y_gap(-1)+COEF_y_gapF_starr*y_gap_starr(-1)+COEF_pieH_starr*pie(-1)+COEF_pieF_starr*pie_starr(-1);
-    @#else
-    //g=0;
-    //g_starr=0;
+
     @#endif
 
-    y_gap=y-y_nat;
-    g_gap=g-g_nat;
-    c_gap=c-c_nat;
+    y_gap = y-y_nat;
+    g_gap = g-g_nat;
+    c_gap = c-c_nat;
 
-    y_gap_starr=y_starr-y_nat_starr;
-    g_gap_starr=g_starr-g_nat_starr;
-    c_gap_starr=c_starr-c_nat_starr;
+    y_gap_starr = y_starr-y_nat_starr;
+    g_gap_starr = g_starr-g_nat_starr;
+    c_gap_starr = c_starr-c_nat_starr;
 
-    s_gap=s-s_nat;
+    s_gap = s-s_nat;
 
-    y_gap_cu=h*y_gap+(1-h)*y_gap_starr;
-    g_gap_cu=h*g_gap+(1-h)*g_gap_starr;
+    y_gap_cu = h*y_gap + (1-h)*y_gap_starr;
+    g_gap_cu = h*g_gap + (1-h)*g_gap_starr;
     
-    a=RHOA*a(-1)+eps_a;
-    xi =RHOXI*xi(-1) + eps_xi;
-    a_starr=RHOA*a_starr(-1)+eps_a_starr;
+    a = RHOA*a(-1) + eps_a;
+    xi = RHOXI*xi(-1) + eps_xi;
+    a_starr = RHOA*a_starr(-1) + eps_a_starr;
     xi_starr = RHOXI*xi_starr(-1) + eps_xi_starr;
 
     

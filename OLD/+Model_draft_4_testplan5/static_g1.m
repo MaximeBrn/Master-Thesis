@@ -19,16 +19,16 @@ if T_flag
     T = Model_draft_4_testplan5.static_g1_tt(T, y, x, params);
 end
 g1 = zeros(26, 26);
-g1(1,1)=params(5)*1/params(5)*getPowerDeriv(y(1)/params(5),(-params(1)),1);
+g1(1,1)=(1-params(9))*params(5)*1/params(5)*getPowerDeriv(y(1)/params(5),(-params(1)),1);
 g1(1,13)=(-(1-params(6)));
 g1(1,14)=(-params(7));
 g1(2,2)=params(5)*y(6)*1/params(5)*getPowerDeriv(y(2)/params(5),params(4),1);
 g1(2,5)=(-y(13));
 g1(2,6)=params(5)*T(1);
 g1(2,13)=(-y(5));
-g1(3,4)=params(5)*params(9)*1/params(5)*getPowerDeriv(y(4)/params(5),(-params(8)),1);
+g1(3,4)=params(9)*params(5)*1/params(5)*getPowerDeriv(y(4)/params(5),(-params(8)),1);
 g1(3,13)=(-1);
-g1(4,7)=(1-params(5))*1/(1-params(5))*getPowerDeriv(y(7)/(1-params(5)),(-params(1)),1);
+g1(4,7)=(1-params(9))*(1-params(5))*1/(1-params(5))*getPowerDeriv(y(7)/(1-params(5)),(-params(1)),1);
 g1(4,13)=(-params(6));
 g1(4,14)=(-(1-params(7)));
 g1(5,8)=(1-params(5))*y(12)*1/(1-params(5))*getPowerDeriv(y(8)/(1-params(5)),params(4),1);

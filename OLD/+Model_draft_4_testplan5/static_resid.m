@@ -19,16 +19,16 @@ if T_flag
     T = Model_draft_4_testplan5.static_resid_tt(T, y, x, params);
 end
 residual = zeros(26, 1);
-lhs = params(5)*(y(1)/params(5))^(-params(1));
+lhs = (1-params(9))*params(5)*(y(1)/params(5))^(-params(1));
 rhs = (1-params(6))*y(13)+params(7)*y(14);
 residual(1) = lhs - rhs;
 lhs = params(5)*y(6)*T(1);
 rhs = y(13)*y(5);
 residual(2) = lhs - rhs;
-lhs = params(5)*params(9)*(y(4)/params(5))^(-params(8));
+lhs = params(9)*params(5)*(y(4)/params(5))^(-params(8));
 rhs = y(13);
 residual(3) = lhs - rhs;
-lhs = (1-params(5))*(y(7)/(1-params(5)))^(-params(1));
+lhs = (1-params(9))*(1-params(5))*(y(7)/(1-params(5)))^(-params(1));
 rhs = params(6)*y(13)+y(14)*(1-params(7));
 residual(4) = lhs - rhs;
 lhs = (1-params(5))*y(12)*T(2);
