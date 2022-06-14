@@ -16,9 +16,9 @@ function residual = static_resid(T, y, x, params, T_flag)
 %
 
 if T_flag
-    T = PLANNER.static_resid_tt(T, y, x, params);
+    T = Planner.static_resid_tt(T, y, x, params);
 end
-residual = zeros(14, 1);
+residual = zeros(25, 1);
 lhs = T(5)*T(6);
 rhs = T(8);
 residual(1) = lhs - rhs;
@@ -61,6 +61,39 @@ residual(13) = lhs - rhs;
 lhs = y(14);
 rhs = y(14)^params(11)*exp(x(2));
 residual(14) = lhs - rhs;
+lhs = y(15);
+rhs = log(y(5))-log((y(5)));
+residual(15) = lhs - rhs;
+lhs = y(17);
+rhs = log(y(6))-log((y(6)));
+residual(16) = lhs - rhs;
+lhs = y(18);
+rhs = log(y(1))-log((y(1)));
+residual(17) = lhs - rhs;
+lhs = y(19);
+rhs = log(y(2))-log((y(2)));
+residual(18) = lhs - rhs;
+lhs = y(20);
+rhs = log(y(3))-log((y(3)));
+residual(19) = lhs - rhs;
+lhs = y(21);
+rhs = log(y(12))-log((y(12)));
+residual(20) = lhs - rhs;
+lhs = y(22);
+rhs = log(y(13))-log((y(13)));
+residual(21) = lhs - rhs;
+lhs = y(23);
+rhs = log(y(8))-log((y(8)));
+residual(22) = lhs - rhs;
+lhs = y(24);
+rhs = log(y(9))-log((y(9)));
+residual(23) = lhs - rhs;
+lhs = y(25);
+rhs = log(y(10))-log((y(10)));
+residual(24) = lhs - rhs;
+lhs = y(16);
+rhs = (y(5)-(y(5)))/y(5);
+residual(25) = lhs - rhs;
 if ~isreal(residual)
   residual = real(residual)+imag(residual).^2;
 end

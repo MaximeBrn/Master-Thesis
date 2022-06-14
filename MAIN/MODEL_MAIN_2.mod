@@ -1,6 +1,6 @@
 // RUN MODEL 
 
-@#define MONPOL = 1
+@#define MONPOL = 2
 @#define RULE = 1
 
 var
@@ -42,28 +42,33 @@ end;
 
 parameters 
     
-    \\ Structural parameters
+    // Structural parameters
     BETA SIGMA PHI GAMMA ETA EPSILON 
 
-    \\ Economies characteristics
+    // Economies characteristics
     h ALPHA_bar THETA THETA_starr 
 
-    \\ Steady state parameter
+    // Steady state parameter
     DELTA CHI_C CHI_G
 
-    \\ Composite parameters
+    // Composite parameters
     ALPHA ALPHA_starr
     LAMBDA LAMBDA_starr
     W_ALPHA_bar
-    SIGMA_tilde GAMMA_tilde
+    SIGMA_tilde 
+    GAMMA_tilde
+    THETA_ALPHA_bar
+    SIGMA_tilde_ALPHA_bar
+    OMEGA
+    OMEGA_starr
 
-    \\ Fiscal rule parameters
+    // Fiscal rule parameters
     @#if MONPOL != 1
     COEF_y_gapH COEF_y_gapF COEF_pieH COEF_pieF 
     COEF_y_gapH_starr COEF_y_gapF_starr COEF_pieH_starr COEF_pieF_starr
     @#endif
     
-    \\ Exogeneous process parameters
+    // Exogeneous process parameters
     RHOA RHOXI
 ;
 
@@ -75,12 +80,12 @@ GAMMA           =   1;
 ETA             =   4.5;
 EPSILON         =   6;
 
-h               =   0.5;
+h               =   0.7;
 ALPHA_bar       =   0.2;
 THETA           =   0.75;
 THETA_starr     =   0.75;
 
-DELTA           =   0.2;
+DELTA           =   0.15;
 CHI_C           =   (1-DELTA)^SIGMA;
 CHI_G           =   DELTA^GAMMA;
 
@@ -88,12 +93,17 @@ ALPHA           =   ALPHA_bar*(1-h);
 ALPHA_starr     =   ALPHA_bar*h;
 LAMBDA          =   (1-THETA)*(1-THETA*BETA)/THETA;
 LAMBDA_starr    =   (1-THETA_starr)*(1-THETA_starr*BETA)/THETA_starr;
-W_ALPHA_bar     =   (2-ALPHA_bar)*(SIGMA*ETA-1);
+W_ALPHA_bar     =   1+(2-ALPHA_bar)*(SIGMA*ETA-1);
 SIGMA_tilde     =   SIGMA/(1-DELTA);
 GAMMA_tilde     =   GAMMA/DELTA;
+THETA_ALPHA_bar   = W_ALPHA_bar-1;
+SIGMA_tilde_ALPHA_bar   = SIGMA_tilde/(1+ALPHA_bar*THETA_ALPHA_bar);
+OMEGA             = 1+ALPHA_bar*h*THETA_ALPHA_bar ;
+OMEGA_starr       = 1+ALPHA_bar*(1-h)*THETA_ALPHA_bar ;
 
-RHOA            =   0.85
-RHOXI           =   0.85
+
+RHOA            =   0.85;
+RHOXI           =   0.85;
 
 @#include "FLEXIBLE_PRICE.mod"
 
@@ -103,32 +113,30 @@ model(linear);
 
 
     @#if MONPOL != 1
-    //g=COEF_y_gapH*y_gap+COEF_y_gapF*y_gap_starr+COEF_pieH*pie+COEF_pieF*pie_starr;
-    //g_starr=COEF_y_gapH_starr*y_gap+COEF_y_gapF_starr*y_gap_starr+COEF_pieH_starr*pie+COEF_pieF_starr*pie_starr;
+    g=COEF_y_gapH*y_gap+COEF_y_gapF*y_gap_starr+COEF_pieH*pie+COEF_pieF*pie_starr;
+    g_starr=COEF_y_gapH_starr*y_gap+COEF_y_gapF_starr*y_gap_starr+COEF_pieH_starr*pie+COEF_pieF_starr*pie_starr;
 
-    g=COEF_y_gapH*y_gap(-1)+COEF_y_gapF*y_gap_starr(-1)+COEF_pieH*pie(-1)+COEF_pieF*pie_starr(-1);
-    g_starr=COEF_y_gapH_starr*y_gap(-1)+COEF_y_gapF_starr*y_gap_starr(-1)+COEF_pieH_starr*pie(-1)+COEF_pieF_starr*pie_starr(-1);
-    @#else
-    //g=0;
-    //g_starr=0;
+    //g=COEF_y_gapH*y_gap(-1)+COEF_y_gapF*y_gap_starr(-1)+COEF_pieH*pie(-1)+COEF_pieF*pie_starr(-1);
+    //g_starr=COEF_y_gapH_starr*y_gap(-1)+COEF_y_gapF_starr*y_gap_starr(-1)+COEF_pieH_starr*pie(-1)+COEF_pieF_starr*pie_starr(-1);
+
     @#endif
 
-    y_gap=y-y_nat;
-    g_gap=g-g_nat;
-    c_gap=c-c_nat;
+    y_gap = y-y_nat;
+    g_gap = g-g_nat;
+    c_gap = c-c_nat;
 
-    y_gap_starr=y_starr-y_nat_starr;
-    g_gap_starr=g_starr-g_nat_starr;
-    c_gap_starr=c_starr-c_nat_starr;
+    y_gap_starr = y_starr-y_nat_starr;
+    g_gap_starr = g_starr-g_nat_starr;
+    c_gap_starr = c_starr-c_nat_starr;
 
-    s_gap=s-s_nat;
+    s_gap = s-s_nat;
 
-    y_gap_cu=h*y_gap+(1-h)*y_gap_starr;
-    g_gap_cu=h*g_gap+(1-h)*g_gap_starr;
+    y_gap_cu = h*y_gap + (1-h)*y_gap_starr;
+    g_gap_cu = h*g_gap + (1-h)*g_gap_starr;
     
-    a=RHOA*a(-1)+eps_a;
-    xi =RHOXI*xi(-1) + eps_xi;
-    a_starr=RHOA*a_starr(-1)+eps_a_starr;
+    a = RHOA*a(-1) + eps_a;
+    xi = RHOXI*xi(-1) + eps_xi;
+    a_starr = RHOA*a_starr(-1) + eps_a_starr;
     xi_starr = RHOXI*xi_starr(-1) + eps_xi_starr;
 
     
@@ -234,7 +242,7 @@ end;
 
 
     planner_objective 1/2*h*(EPSILON/LAMBDA*pie^2+PHI*y_gap^2+GAMMA*DELTA*g_gap^2+SIGMA*(1-DELTA)*c_gap^2)+1/2*(1-h)*(EPSILON/LAMBDA_starr*pie_starr^2+PHI*y_gap_starr^2+GAMMA*DELTA*g_gap_starr^2+SIGMA*(1-DELTA)*c_gap_starr^2);
-    ramsey_model(instruments=(ii,g_gap,g_gap_starr),planner_discount=BETA); 
+    ramsey_model(instruments=(ii,g,g_starr),planner_discount=BETA); 
     steady;
     stoch_simul(order=1,irf=30,tex,irf_shocks=(eps_a_starr),irf_plot_threshold = 1e-100) y_gap y_nat g_gap g_nat c_gap c_nat pie c_F c_H y_gap_starr y_nat_starr g_gap_starr g_nat_starr c_gap_starr c_nat_starr pie_starr c_F_starr c_H_starr y_gap_cu g_gap_cu pie_cu s_gap s_nat ii ; 
 

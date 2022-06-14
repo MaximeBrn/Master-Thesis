@@ -28,32 +28,44 @@ var
 model(linear); 
 
 [name='Home Dynamic IS Curve']
-y = y(+1) - 1/SIGMA_tilde*(ii - pie(+1)) - ALPHA_bar*(1-h)*W_ALPHA_bar/SIGMA_tilde*(s(+1)-s) - DELTA*(g(+1)-g);
+//y = y(+1) - 1/SIGMA_tilde*(ii - pie(+1)) - ALPHA_bar*(1-h)*W_ALPHA_bar/SIGMA_tilde*(s(+1)-s) - DELTA*(g(+1)-g);
+
+y = y(+1) - DELTA*(g(+1)-g) - 1/(SIGMA_tilde_ALPHA_bar*OMEGA)*(ii - pie(+1)) + ((1+ALPHA_bar*THETA_ALPHA_bar)/OMEGA-1)*(y_starr(+1)-y_starr-DELTA*(g_starr(+1)-g_starr));
 
 [name='Home New Keynesian Phillips Curve']
-pie = BETA*pie(+1) + LAMBDA*((SIGMA_tilde+PHI)*y - SIGMA_tilde*DELTA*g - ALPHA_bar*(1-h)*W_ALPHA_bar*s - (1+PHI)*a);
+//pie = BETA*pie(+1) + LAMBDA*((SIGMA_tilde+PHI)*y - SIGMA_tilde*DELTA*g - ALPHA_bar*(1-h)*W_ALPHA_bar*s - (1+PHI)*a);
+
+pie = BETA*pie(+1) + LAMBDA*((SIGMA_tilde_ALPHA_bar*OMEGA+PHI)*y-SIGMA_tilde_ALPHA_bar*OMEGA*DELTA*g+(SIGMA_tilde-SIGMA_tilde_ALPHA_bar*OMEGA)*(y_starr-DELTA*g_starr)-(1+PHI)*a);
 
 [name='Foreign Dynamic IS Curve']
-y_starr = y_starr(+1) - 1/SIGMA_tilde*(ii - pie_starr(+1)) + ALPHA_bar*h*W_ALPHA_bar/SIGMA_tilde*(s(+1)-s) - DELTA*(g_starr(+1)-g_starr);
+//y_starr = y_starr(+1) - 1/SIGMA_tilde*(ii - pie_starr(+1)) + ALPHA_bar*h*W_ALPHA_bar/SIGMA_tilde*(s(+1)-s) - DELTA*(g_starr(+1)-g_starr);
+
+y_starr = y_starr(+1) - DELTA*(g_starr(+1)-g_starr) - 1/(SIGMA_tilde_ALPHA_bar*OMEGA_starr)*(ii - pie_starr(+1)) + ((1+ALPHA_bar*THETA_ALPHA_bar)/OMEGA_starr-1)*(y(+1)-y-DELTA*(g(+1)-g));
+
 
 [name='Foreign New Keynesian Phillips Curve']
-pie_starr = BETA*pie_starr(+1) + LAMBDA_starr*((SIGMA_tilde+PHI)*y_starr - SIGMA_tilde*DELTA*g_starr + ALPHA_bar*h*W_ALPHA_bar*s - (1+PHI)*a_starr);
+//pie_starr = BETA*pie_starr(+1) + LAMBDA_starr*((SIGMA_tilde+PHI)*y_starr - SIGMA_tilde*DELTA*g_starr + ALPHA_bar*h*W_ALPHA_bar*s - (1+PHI)*a_starr);
+
+pie_starr = BETA*pie_starr(+1) + LAMBDA_starr*((SIGMA_tilde_ALPHA_bar*OMEGA_starr+PHI)*y_starr-SIGMA_tilde_ALPHA_bar*OMEGA_starr*DELTA*g_starr+(SIGMA_tilde-SIGMA_tilde_ALPHA_bar*OMEGA_starr)*(y-DELTA*g)-(1+PHI)*a_starr);
 
 [name='IRS']
-s = SIGMA_tilde/(1+ALPHA_bar*W_ALPHA_bar)*(y-y_starr-DELTA*(g-g_starr));
+//s = SIGMA_tilde/(1+ALPHA_bar*W_ALPHA_bar)*(y-y_starr-DELTA*(g-g_starr));
+
+s=SIGMA_tilde_ALPHA_bar*(y-y_starr-DELTA*(g-g_starr));
 
 [name='Home production function']
 n = y - a;
 
 [name='Home good market clearing condition']
-SIGMA_tilde*(y-DELTA*g)=SIGMA_tilde*c+ALPHA_bar*(1-h)*(1+W_ALPHA_bar)*s;
 
+SIGMA_tilde*(y-DELTA*g)=SIGMA*c+ALPHA_bar*(1-h)*W_ALPHA_bar*s;
 
 c_H=ALPHA*s+c;
 c_F=-(1-ALPHA)*s+c;
 
 n_starr=y_starr-a_starr;
-SIGMA_tilde*(y_starr-DELTA*g_starr)=SIGMA_tilde*c_starr-ALPHA_bar*h*(1+W_ALPHA_bar)*s;
+
+SIGMA_tilde*(y_starr-DELTA*g_starr)=SIGMA*c_starr-ALPHA_bar*h*W_ALPHA_bar*s;
 
 c_H_starr=(1-ALPHA_starr)*s+c_starr;
 c_F_starr=-ALPHA_starr*s+c_starr;

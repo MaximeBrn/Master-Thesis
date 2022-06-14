@@ -15,5 +15,15 @@ function [ys_, params, info] = steadystate(ys_, exo_, params)
     ys_(3)=ys_(1)*params(6);
     ys_(9)=ys_(8)*params(7);
     ys_(10)=ys_(8)*(1-params(7));
+    ys_(15)=0;
+    ys_(17)=0;
+    ys_(18)=0;
+    ys_(19)=0;
+    ys_(20)=0;
+    ys_(21)=0;
+    ys_(22)=0;
+    ys_(23)=0;
+    ys_(24)=0;
+    ys_(25)=0;
     % Auxiliary equations
 end

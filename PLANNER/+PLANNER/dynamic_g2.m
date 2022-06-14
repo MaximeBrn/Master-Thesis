@@ -20,8 +20,8 @@ function g2 = dynamic_g2(T, y, x, params, steady_state, it_, T_flag)
 %
 
 if T_flag
-    T = PLANNER.dynamic_g2_tt(T, y, x, params, steady_state, it_);
+    T = Planner.dynamic_g2_tt(T, y, x, params, steady_state, it_);
 end
-g2 = sparse([],[],[],14,324);
+g2 = sparse([],[],[],25,841);
 
 end

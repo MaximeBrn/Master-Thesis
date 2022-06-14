@@ -20,7 +20,7 @@ function T = dynamic_g1_tt(T, y, x, params, steady_state, it_)
 
 assert(length(T) >= 36);
 
-T = PLANNER.dynamic_resid_tt(T, y, x, params, steady_state, it_);
+T = Planner.dynamic_resid_tt(T, y, x, params, steady_state, it_);
 
 T(27) = 1/params(5);
 T(28) = T(27)*getPowerDeriv(y(3)/params(5),T(1)-params(1),1);

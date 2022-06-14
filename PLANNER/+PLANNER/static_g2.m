@@ -16,8 +16,8 @@ function g2 = static_g2(T, y, x, params, T_flag)
 %
 
 if T_flag
-    T = PLANNER.static_g2_tt(T, y, x, params);
+    T = Planner.static_g2_tt(T, y, x, params);
 end
-g2 = sparse([],[],[],14,196);
+g2 = sparse([],[],[],25,625);
 
 end

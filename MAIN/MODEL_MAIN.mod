@@ -71,16 +71,16 @@ parameters
 BETA            =   0.98;
 SIGMA           =   3;
 PHI             =   1;
-GAMMA           =   2;
+GAMMA           =   1;
 ETA             =   4.5;
 EPSILON         =   6;
 
-h               =   0.5;
+h               =   0.7;
 ALPHA_bar       =   0.2;
 THETA           =   0.75;
 THETA_starr     =   0.75;
 
-DELTA           =   0.3;
+DELTA           =   0.15;
 CHI_C           =   (1-DELTA)^SIGMA;
 CHI_G           =   DELTA^GAMMA;
 

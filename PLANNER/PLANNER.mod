@@ -2,7 +2,8 @@ var
    C C_H C_F N Y G A 
    C_starr C_H_starr C_F_starr N_starr Y_starr G_starr A_starr
 
-
+   y y_2 g c c_H c_F
+   y_starr g_starr c_starr c_H_starr c_F_starr
 ;     
 
 varexo  
@@ -18,17 +19,17 @@ parameters
    
     ;
     
-    SIGMA = 1;
-    ALPHA_bar = 0.5;
+    SIGMA = 3;
+    ALPHA_bar = 0.2;
     BETA = 0.98;
     PHI = 1;
-    h = 0.8;
+    h = 0.7;
     ALPHA=ALPHA_bar*(1-h);
     ALPHA_starr = ALPHA_bar*h;
     GAMMA=1;
-    ETA=1.0001;
+    ETA=4.5;
     
-    DELTA=0.03;
+    DELTA=0.15;
     CHI_G=DELTA^GAMMA;
     CHI_C=(1-DELTA)^SIGMA;
     
@@ -55,6 +56,19 @@ Y_starr=A_starr*N_starr;
 A=A(-1)^RHOA*exp(eps_a);
 A_starr=A_starr(-1)^RHOA*exp(eps_a_starr);
 
+y=log(Y)-log(steady_state(Y));
+g=log(G)-log(steady_state(G));
+c=log(C)-log(steady_state(C));
+c_H=log(C_H)-log(steady_state(C_H));
+c_F=log(C_F)-log(steady_state(C_F));
+y_starr=log(Y_starr)-log(steady_state(Y_starr));
+g_starr=log(G_starr)-log(steady_state(G_starr));
+c_starr=log(C_starr)-log(steady_state(C_starr));
+c_H_starr=log(C_H_starr)-log(steady_state(C_H_starr));
+c_F_starr=log(C_F_starr)-log(steady_state(C_F_starr));
+
+y_2=(Y-steady_state(Y))/Y;
+
 end;
 
 
@@ -80,6 +94,16 @@ C_H=(1-ALPHA)*C;
 C_F=ALPHA*C;
 C_H_starr=ALPHA_starr*C_starr;
 C_F_starr=(1-ALPHA_starr)*C_starr;
+y=0;
+g=0;
+c=0;
+c_H=0;
+c_F=0;
+y_starr=0;
+g_starr=0;
+c_starr=0;
+c_H_starr=0;
+c_F_starr=0;
 end;
 
 resid(1);
