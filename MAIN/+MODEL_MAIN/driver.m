@@ -610,7 +610,7 @@ M_.nboth   = 0;
 M_.nsfwrd   = 11;
 M_.nspred   = 8;
 M_.ndynamic   = 19;
-M_.dynamic_tmp_nbr = [4; 0; 0; 0; ];
+M_.dynamic_tmp_nbr = [5; 0; 0; 0; ];
 M_.model_local_variables_dynamic_tt_idxs = {
 };
 M_.equations_tags = {
@@ -630,8 +630,8 @@ M_.equations_tags = {
   57 , 'name' , 'Foreign Dynamic IS Curve' ;
   58 , 'name' , 'Foreign New Keynesian Phillips Curve' ;
   59 , 'name' , 'IRS' ;
-  60 , 'name' , 'n' ;
-  61 , 'name' , '18' ;
+  60 , 'name' , 'Home production function' ;
+  61 , 'name' , 'Home good market clearing condition' ;
   62 , 'name' , 'c_H' ;
   63 , 'name' , 'c_F' ;
   64 , 'name' , 'n_starr' ;
@@ -734,7 +734,7 @@ M_.params(2) = 3;
 SIGMA = M_.params(2);
 M_.params(3) = 1;
 PHI = M_.params(3);
-M_.params(4) = 1;
+M_.params(4) = 2;
 GAMMA = M_.params(4);
 M_.params(5) = 4.5;
 ETA = M_.params(5);
@@ -748,7 +748,7 @@ M_.params(9) = 0.75;
 THETA = M_.params(9);
 M_.params(10) = 0.75;
 THETA_starr = M_.params(10);
-M_.params(11) = 0.2;
+M_.params(11) = 0.3;
 DELTA = M_.params(11);
 M_.params(12) = (1-M_.params(11))^M_.params(2);
 CHI_C = M_.params(12);

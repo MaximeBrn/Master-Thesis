@@ -22,11 +22,11 @@ parameters
     ALPHA_bar = 0.5;
     BETA = 0.98;
     PHI = 1;
-    h = 0.55;
+    h = 0.8;
     ALPHA=ALPHA_bar*(1-h);
     ALPHA_starr = ALPHA_bar*h;
     GAMMA=1;
-    ETA=4.5;
+    ETA=1.0001;
     
     DELTA=0.03;
     CHI_G=DELTA^GAMMA;

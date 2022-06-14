@@ -18,6 +18,6 @@ assert(length(T) >= 4);
 T(1) = params(19)/(1+params(18)*params(8));
 T(2) = params(23)^(-1);
 T(3) = 1/params(19);
-T(4) = params(18)/params(19);
+T(4) = params(18)*(1-params(7))*params(8)/params(19);
 
 end
