@@ -1,7 +1,17 @@
 // RUN MODEL 
 
-@#define MONPOL = 1
-@#define RULE = 1
+@#define OBJECTIVE = "UNBIASED" // Is the planner objective biased ? "UNBIASED" or "BIASED"
+@#define GOVPOL = "SUBOPTIMAL" // Is the government spending policy optimal? "OPTIMAL_COMMITMENT" or "SUBOPTIMAL"
+@#define OSR_OBJECTIVE = "COUNTERPART" // Is the OSR a simple version? "COUNTERPART" or "NOCOUNTERPART"
+//@#define GOVPOL_FOREIGN = "UNCONSTRAINED" // Is the Foreign government constrained? "UNCONSTRAINED" or "CONSTRAINED"
+//@#define OBSERVATION = "FULL" // Is the observation set constrained? "FULL" or "LIMITED"
+//@#define LAG = "NOLAG" // Is there lag in the policy reaction? "NOLAG" or "LAG"
+
+
+//file_name=OBJECTIVE+"_"+GOVPOL+"_"+GOVPOL_FOREIGN
+//@#if GOVPOL == "SUBOPTIMAL" 
+//file_name=file_name_core+"_"+OBSERVATION+"_"+LAG
+//@#endif
 
 var
     y_gap           ${\tilde y_t}$        (long_name='Home output gap (log dev ss)')   
@@ -12,7 +22,7 @@ var
     y_gap_starr     ${\tilde y_t^*}$      (long_name='Foreign output gap (log dev ss)') 
     g_gap_starr     ${\tilde g_t^*}$      (long_name='Foreign government spending gap (log dev ss)')
     c_gap_starr     ${\tilde c_t^*}$      (long_name='Foreign consumption gap (log dev ss)')
-    f_gap_starr           ${\tilde f_t^*}$  
+    f_gap_starr     ${\tilde f_t^*}$  
 
     s_gap           ${\tilde s_t}$        (long_name='Home terms of trade gap (log dev ss)')   
     
@@ -60,9 +70,12 @@ parameters
     OMEGA_starr
 
     // Fiscal rule parameters
-    @#if MONPOL != 1
-    COEF_y_gapH COEF_y_gapF COEF_pieH COEF_pieF 
-    COEF_y_gapH_starr COEF_y_gapF_starr COEF_pieH_starr COEF_pieF_starr
+    @#if GOVPOL == "SUBOPTIMAL"
+        //@#if GOVPOL_FOREIGN == "UNCONSTRAINED"
+            //@#if OBSERVATION == "FULL"
+               // @#if LAG == "NOLAG"
+                    COEF_y_gapH COEF_y_gapF COEF_pieH COEF_pieF 
+                    COEF_y_gapH_starr COEF_y_gapF_starr COEF_pieH_starr COEF_pieF_starr
     @#endif
     
     // Exogeneous process parameters
@@ -81,7 +94,7 @@ ALPHA_bar       =   0.2;
 THETA           =   0.75;
 THETA_starr     =   0.75;
 
-DELTA           =   0.15;
+DELTA           =   0.2;
 CHI_C           =   (1-DELTA)^SIGMA;
 CHI_G           =   DELTA^GAMMA;
 
@@ -105,7 +118,7 @@ RHOA        =   0.85;
 model(linear);
 
 // OSR GOVERNMENT SPENDING (2 eq. if OSR) 
-@#if MONPOL != 1
+@#if GOVPOL == "SUBOPTIMAL"
     
     [name='Home government spending rule']
     
@@ -197,9 +210,19 @@ a_starr=0;
 xi_starr =0;
 end;
 
-// OSR
-@#if MONPOL != 1
+@#if OBJECTIVE == "UNBIASED"
+    planner_objective 1/2*h*(EPSILON/LAMBDA*pie^2+PHI*y_gap^2+GAMMA*DELTA*g_gap^2+SIGMA*(1-DELTA)*c_gap^2+(1-DELTA)*(ALPHA*ETA*SIGMA*(SIGMA-ALPHA*THETA_ALPHA_bar))/((1-ALPHA)^2)*(c_gap-c_gap_cu)^2)+1/2*(1-h)*(EPSILON/LAMBDA_starr*pie_starr^2+PHI*y_gap_starr^2+GAMMA*DELTA*g_gap_starr^2+SIGMA*(1-DELTA)*c_gap_starr^2+(1-DELTA)*(ALPHA_starr*ETA*SIGMA*(SIGMA-ALPHA_starr*THETA_ALPHA_bar))/((1-ALPHA_starr)^2)*(c_gap_starr-c_gap_cu)^2);
+@#else 
+    planner_objective 1/2*(EPSILON/LAMBDA*pie^2+PHI*y_gap^2+GAMMA*DELTA*g_gap^2+SIGMA*(1-DELTA)*c_gap^2+(1-DELTA)*(ALPHA*ETA*SIGMA*(SIGMA-ALPHA*THETA_ALPHA_bar))/((1-ALPHA)^2)*(c_gap-c_gap_cu)^2)+1/2*(EPSILON/LAMBDA_starr*pie_starr^2+PHI*y_gap_starr^2+GAMMA*DELTA*g_gap_starr^2+SIGMA*(1-DELTA)*c_gap_starr^2+(1-DELTA)*(ALPHA_starr*ETA*SIGMA*(SIGMA-ALPHA_starr*THETA_ALPHA_bar))/((1-ALPHA_starr)^2)*(c_gap_starr-c_gap_cu)^2);
+@#endif
 
+// OSR
+@#if GOVPOL == "SUBOPTIMAL"
+    
+    // Optimal Monetary Policy
+    ramsey_model(instruments=(ii),planner_discount=BETA);
+    
+    // OSR coefficient initial values
     COEF_y_gapH=1; 
     COEF_y_gapF=1;
     COEF_pieH=1;
@@ -209,48 +232,30 @@ end;
     COEF_pieH_starr=1;
     COEF_pieF_starr=1; 
 
-    
-    
-    //planner_objective 1/2*h*(EPSILON/LAMBDA*pie^2+PHI*y_gap^2+GAMMA*DELTA*g_gap^2+SIGMA*(1-DELTA)*c_gap^2)+1/2*(1-h)*(EPSILON/LAMBDA_starr*pie_starr^2+PHI*y_gap_starr^2+GAMMA*DELTA*g_gap_starr^2+SIGMA*(1-DELTA)*c_gap_starr^2);
-    // FORLATI COMPLEX WITH GOV GAP
-    //planner_objective 1/2*h*(EPSILON/LAMBDA*pie^2+PHI*y_gap^2+GAMMA*DELTA*g_gap^2+SIGMA*(1-DELTA)*c_gap^2+(1-DELTA)*(ALPHA*ETA*SIGMA*(SIGMA-ALPHA*THETA_ALPHA_bar))/((1-ALPHA)^2)*(c_gap-c_gap_cu)^2)+1/2*(1-h)*(EPSILON/LAMBDA_starr*pie_starr^2+PHI*y_gap_starr^2+GAMMA*DELTA*g_gap_starr^2+SIGMA*(1-DELTA)*c_gap_starr^2+(1-DELTA)*(ALPHA_starr*ETA*SIGMA*(SIGMA-ALPHA_starr*THETA_ALPHA_bar))/((1-ALPHA_starr)^2)*(c_gap_starr-c_gap_cu)^2);
-    
-    // FORLATI COMPLEX WITHOUT GOV GAP
-    planner_objective 1/2*h*(EPSILON/LAMBDA*pie^2+PHI*y_gap^2+SIGMA*(1-DELTA)*c_gap^2+(1-DELTA)*(ALPHA*ETA*SIGMA*(SIGMA-ALPHA*THETA_ALPHA_bar))/((1-ALPHA)^2)*(c_gap-c_gap_cu)^2)+1/2*(1-h)*(EPSILON/LAMBDA_starr*pie_starr^2+PHI*y_gap_starr^2+SIGMA*(1-DELTA)*c_gap_starr^2+(1-DELTA)*(ALPHA_starr*ETA*SIGMA*(SIGMA-ALPHA_starr*THETA_ALPHA_bar))/((1-ALPHA_starr)^2)*(c_gap_starr-c_gap_cu)^2);
-    
-    //planner_objective 1/2*h*(EPSILON/LAMBDA*pie^2+PHI*y_gap^2+SIGMA*(1-DELTA)*c_gap^2)+1/2*(1-h)*(EPSILON/LAMBDA_starr*pie_starr^2+PHI*y_gap_starr^2+SIGMA*(1-DELTA)*c_gap_starr^2);
-    ramsey_model(instruments=(ii),planner_discount=BETA);
-    
-    
-
-    
-    @#if RULE != 1
-    optim_weights;
-    //pie_cu 1;
-    pie h;
-    pie_starr (1-h);
-    //y_gap h;
-    //y_gap_starr (1-h);
-    //c_gap h;
-    //c_gap_starr (1-h);
-    //g_gap h;
-    //g_gap_starr (1-h);
-    end;
+    // OSR OBJECTIVE
+    @#if OSR_OBJECTIVE == "COUNTERPART"
+        optim_weights;
+        pie h*EPSILON/LAMBDA;
+        pie_starr (1-h)*EPSILON/LAMBDA;
+        y_gap h*PHI;
+        y_gap_starr (1-h)*PHI;
+        c_gap h*(1-DELTA)*SIGMA;
+        c_gap_starr (1-h)*(1-DELTA)*SIGMA;
+        g_gap h*DELTA*GAMMA;
+        g_gap_starr (1-h)*DELTA*GAMMA;
+        s_gap 1;
+        end;
     
     @#else
-    optim_weights;
-    pie h*EPSILON/LAMBDA;
-    pie_starr (1-h)*EPSILON/LAMBDA;
-    y_gap h*PHI;
-    y_gap_starr (1-h)*PHI;
-    c_gap h*(1-DELTA)*SIGMA;
-    c_gap_starr (1-h)*(1-DELTA)*SIGMA;
-    g_gap h*DELTA*GAMMA;
-    g_gap_starr (1-h)*DELTA*GAMMA;
-    end;
-    
+        optim_weights;
+        pie 1;
+        pie_starr 1;
+        s_gap 1;
+        end;
+
     @#endif
 
+    // OSR COEFFICIENT TO OPTIMIZE
     osr_params 
     COEF_y_gapH 
     COEF_y_gapF 
@@ -261,6 +266,7 @@ end;
     COEF_pieH_starr 
     COEF_pieF_starr;
 
+    // OSR COEFFICIENT CONSTRAINTS
     osr_params_bounds;
     COEF_y_gapH, -10, 10;
     COEF_y_gapF, -10, 10;
@@ -272,51 +278,30 @@ end;
     COEF_pieF_starr, -10, 10;
     end;
 
-    steady;
+
     osr(opt_algo=9,irf=30,tex) y_gap y_nat g_gap g_nat c_gap c_nat pie c_F c_H y_gap_starr y_nat_starr g_gap_starr g_nat_starr c_gap_starr c_nat_starr pie_starr c_F_starr c_H_starr y_gap_cu g_gap_cu pie_cu s_gap s_nat ii ; 
     
-
-//oo_.osr.optim_params;
-
 // RAMSEY
-@#else 
+@#elseif GOVPOL == "OPTIMAL_COMMITMENT"
+ 
+    // OPTIMAL MP AND GOVERNMENT POLICIES
+    ramsey_model(instruments=(ii,g_gap,g_gap_starr),planner_discount=BETA); 
     
-    
-
-   // FORLATI SIMPLE 
-   //planner_objective 1/2*h*(EPSILON/LAMBDA*pie^2+PHI*y_gap^2+GAMMA*DELTA*g_gap^2+SIGMA*(1-DELTA)*c_gap^2)+1/2*(1-h)*(EPSILON/LAMBDA_starr*pie_starr^2+PHI*y_gap_starr^2+GAMMA*DELTA*g_gap_starr^2+SIGMA*(1-DELTA)*c_gap_starr^2);
-   
-    // FORLATI COMPLEX
-    planner_objective 1/2*h*(EPSILON/LAMBDA*pie^2+PHI*y_gap^2+GAMMA*DELTA*g_gap^2+SIGMA*(1-DELTA)*c_gap^2+(1-DELTA)*(ALPHA*ETA*SIGMA*(SIGMA-ALPHA*THETA_ALPHA_bar))/((1-ALPHA)^2)*(c_gap-c_gap_cu)^2)+1/2*(1-h)*(EPSILON/LAMBDA_starr*pie_starr^2+PHI*y_gap_starr^2+GAMMA*DELTA*g_gap_starr^2+SIGMA*(1-DELTA)*c_gap_starr^2+(1-DELTA)*(ALPHA_starr*ETA*SIGMA*(SIGMA-ALPHA_starr*THETA_ALPHA_bar))/((1-ALPHA_starr)^2)*(c_gap_starr-c_gap_cu)^2);
-    
-    // FORLATI COMPLEX SAME WEIGHTS
-    //planner_objective 1/2*(EPSILON/LAMBDA*pie^2+PHI*y_gap^2+GAMMA*DELTA*g_gap^2+SIGMA*(1-DELTA)*c_gap^2+(1-DELTA)*(ALPHA*ETA*SIGMA*(SIGMA-ALPHA*THETA_ALPHA_bar))/((1-ALPHA)^2)*(c_gap-c_gap_cu)^2)+1/2*(EPSILON/LAMBDA_starr*pie_starr^2+PHI*y_gap_starr^2+GAMMA*DELTA*g_gap_starr^2+SIGMA*(1-DELTA)*c_gap_starr^2+(1-DELTA)*(ALPHA_starr*ETA*SIGMA*(SIGMA-ALPHA_starr*THETA_ALPHA_bar))/((1-ALPHA_starr)^2)*(c_gap_starr-c_gap_cu)^2);
-    
-    
-    // FORLATI COMPLEX WITHOUT GOV GAP
-    //planner_objective 1/2*h*(EPSILON/LAMBDA*pie^2+PHI*y_gap^2+SIGMA*(1-DELTA)*c_gap^2+(1-DELTA)*(ALPHA*ETA*SIGMA*(SIGMA-ALPHA*THETA_ALPHA_bar))/((1-ALPHA)^2)*(c_gap-c_gap_cu)^2)+1/2*(1-h)*(EPSILON/LAMBDA_starr*pie_starr^2+PHI*y_gap_starr^2+SIGMA*(1-DELTA)*c_gap_starr^2+(1-DELTA)*(ALPHA_starr*ETA*SIGMA*(SIGMA-ALPHA_starr*THETA_ALPHA_bar))/((1-ALPHA_starr)^2)*(c_gap_starr-c_gap_cu)^2);
-    
-
-    // MINE
-   //planner_objective h/2*( (1-DELTA)*SIGMA*THETA_ALPHA_bar/W_ALPHA_bar*c_gap^2 + DELTA*(GAMMA-SIGMA_tilde/W_ALPHA_bar)*g_gap^2 + (PHI-SIGMA_tilde/W_ALPHA_bar)*y_gap^2 ) + (1-h)/2*( (1-DELTA)*SIGMA*THETA_ALPHA_bar/W_ALPHA_bar*c_gap_starr^2 + DELTA*(GAMMA-SIGMA_tilde/W_ALPHA_bar)*g_gap_starr^2 + (PHI-SIGMA_tilde/W_ALPHA_bar)*y_gap_starr^2 );
-   
-    ramsey_model(instruments=(ii,g,g_starr),planner_discount=BETA); 
-
-    
-   steady;
-   //stoch_simul(order=1,irf=40,tex,irf_shocks=(eps_a_starr),irf_plot_threshold = 1e-100)   ;
-   
-    //ramsey_policy;
-
-   stoch_simul(order=1,irf=30,tex,irf_shocks=(eps_a_starr),irf_plot_threshold = 1e-100) y_gap y_nat g_gap g_nat c_gap c_nat pie c_F c_H y_gap_starr y_nat_starr g_gap_starr g_nat_starr c_gap_starr c_nat_starr pie_starr c_F_starr c_H_starr y_gap_cu g_gap_cu pie_cu s_gap s_nat ii f_gap f_gap_starr ; 
- evaluate_planner_objective;
-    
-
-    //loss=sum(cumprod(ones(1,30)*BETA).*(1/2*h*(EPSILON/LAMBDA*oo_.irfs.pie_eps_a_starr.^2+PHI*oo_.irfs.y_gap_eps_a_starr.^2+GAMMA*DELTA*oo_.irfs.g_gap_eps_a_starr.^2+SIGMA*(1-DELTA)*oo_.irfs.c_gap_eps_a_starr.^2)+1/2*(1-h)*(EPSILON/LAMBDA_starr*oo_.irfs.pie_starr_eps_a_starr.^2+PHI*oo_.irfs.y_gap_starr_eps_a_starr.^2+GAMMA*DELTA*oo_.irfs.g_gap_eps_a_starr.^2+SIGMA*(1-DELTA)*oo_.irfs.c_gap_starr_eps_a_starr.^2)))
-    //c=oo_.irfs.c_eps_a_starr
-    //Cequiv=exp(sum((1-BETA)*cumprod(ones(1,30)*BETA).*(c_0-c_1)))-1
+    // COMMITMENT
+    ramsey_policy(order=1,irf=30,tex,irf_shocks=(eps_a_starr),irf_plot_threshold = 1e-100);
 
 @#endif
+
+// stoch_simul(M_,options_,oo_,{'y_nat','g_nat','c_nat','c_H_nat','c_F_nat','s_nat'})
+// stoch_simul(M_,options_,oo_,{'y_nat_starr','g_nat_starr','c_nat_starr','c_H_nat_starr','c_F_nat_starr'})
+// stoch_simul(M_,options_,oo_,{'s_nat'})
+// stoch_simul(M_,options_,oo_,{'y_gap','g_gap','f_gap','c_gap','s_gap','pie'})
+// stoch_simul(M_,options_,oo_,{'y_gap_starr','g_gap_starr','f_gap_starr','c_gap_starr','s_gap','pie_starr'})
+// stoch_simul(M_,options_,oo_,{'ii','y_gap_cu','g_gap_cu','c_gap_cu','pie_cu'})
+
+//loss=sum(cumprod(ones(1,30)*BETA)'.*(1/2*h*(EPSILON/LAMBDA*pie_eps_a_starr.^2+PHI*y_gap_eps_a_starr.^2+GAMMA*DELTA*g_gap_eps_a_starr.^2+SIGMA*(1-DELTA)*c_gap_eps_a_starr.^2+(1-DELTA)*(ALPHA*ETA*SIGMA*(SIGMA-ALPHA*THETA_ALPHA_bar))/((1-ALPHA)^2)*(c_gap_eps_a_starr-c_gap_cu_eps_a_starr).^2)+1/2*(1-h)*(EPSILON/LAMBDA_starr*pie_starr_eps_a_starr.^2+PHI*y_gap_starr_eps_a_starr.^2+GAMMA*DELTA*g_gap_eps_a_starr.^2+SIGMA*(1-DELTA)*c_gap_starr_eps_a_starr.^2+(1-DELTA)*(ALPHA_starr*ETA*SIGMA*(SIGMA-ALPHA_starr*THETA_ALPHA_bar))/((1-ALPHA_starr)^2)*(c_gap_starr_eps_a_starr-c_gap_cu_eps_a_starr).^2)))
+//c=c_eps_a_starr
+//Cequiv=exp(sum((1-BETA)*cumprod(ones(1,30)*BETA).*(c_0-c_1)))-1
 
 
 

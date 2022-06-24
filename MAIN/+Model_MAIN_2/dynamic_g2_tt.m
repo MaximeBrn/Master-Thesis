@@ -20,7 +20,7 @@ function T = dynamic_g2_tt(T, y, x, params, steady_state, it_)
 
 assert(length(T) >= 7);
 
-T = Model_MAIN_2.dynamic_g1_tt(T, y, x, params, steady_state, it_);
+T = MODEL_MAIN_2.dynamic_g1_tt(T, y, x, params, steady_state, it_);
 
 
 end

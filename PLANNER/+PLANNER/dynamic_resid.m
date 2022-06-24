@@ -20,7 +20,7 @@ function residual = dynamic_resid(T, y, x, params, steady_state, it_, T_flag)
 %
 
 if T_flag
-    T = Planner.dynamic_resid_tt(T, y, x, params, steady_state, it_);
+    T = PLANNER.dynamic_resid_tt(T, y, x, params, steady_state, it_);
 end
 residual = zeros(25, 1);
 lhs = T(5)*T(6);
@@ -63,7 +63,7 @@ lhs = y(9);
 rhs = T(25);
 residual(13) = lhs - rhs;
 lhs = y(16);
-rhs = T(26);
+rhs = T(26)*exp((-x(it_, 2)));
 residual(14) = lhs - rhs;
 lhs = y(17);
 rhs = log(y(7))-log((steady_state(5)));

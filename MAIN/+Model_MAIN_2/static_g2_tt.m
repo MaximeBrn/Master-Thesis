@@ -15,7 +15,7 @@ function T = static_g2_tt(T, y, x, params)
 
 assert(length(T) >= 7);
 
-T = Model_MAIN_2.static_g1_tt(T, y, x, params);
+T = MODEL_MAIN_2.static_g1_tt(T, y, x, params);
 
 
 end

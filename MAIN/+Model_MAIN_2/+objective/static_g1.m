@@ -16,9 +16,9 @@ function g1 = static_g1(T, y, x, params, T_flag)
 %
 
 if T_flag
-    T = Model_MAIN_2.objective.static_g1_tt(T, y, x, params);
+    T = MODEL_MAIN_2.objective.static_g1_tt(T, y, x, params);
 end
-g1 = zeros(1, 87);
+g1 = zeros(1, 89);
 g1(1,1)=0.5*params(7)*params(3)*2*y(1);
 g1(1,2)=0.5*params(7)*params(4)*params(11)*2*y(2);
 g1(1,3)=0.5*params(7)*(params(2)*(1-params(11))*2*y(3)+T(1)*2*(y(3)-y(12)));

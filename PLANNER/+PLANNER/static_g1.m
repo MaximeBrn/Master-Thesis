@@ -16,7 +16,7 @@ function g1 = static_g1(T, y, x, params, T_flag)
 %
 
 if T_flag
-    T = Planner.static_g1_tt(T, y, x, params);
+    T = PLANNER.static_g1_tt(T, y, x, params);
 end
 g1 = zeros(25, 25);
 g1(1,1)=T(5)*T(26);
@@ -58,7 +58,7 @@ g1(12,11)=(-y(14));
 g1(12,12)=1;
 g1(12,14)=(-y(11));
 g1(13,7)=1-exp(x(1))*getPowerDeriv(y(7),params(11),1);
-g1(14,14)=1-exp(x(2))*getPowerDeriv(y(14),params(11),1);
+g1(14,14)=1-exp((-x(2)))*getPowerDeriv(y(14),params(11),1);
 g1(15,5)=(-(1/y(5)-1/(y(5))));
 g1(15,15)=1;
 g1(16,6)=(-(1/y(6)-1/(y(6))));

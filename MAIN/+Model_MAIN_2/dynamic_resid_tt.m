@@ -26,6 +26,6 @@ T(3) = 1/(params(21)*params(23));
 T(4) = (1+params(8)*params(20))/params(23)-1;
 T(5) = (1-params(11))*params(2)*params(14)*params(5)*(params(2)-params(14)*params(20))/(1-params(14))^2;
 T(6) = (1-params(11))*params(2)*params(15)*params(5)*(params(2)-params(15)*params(20))/(1-params(15))^2;
-T(7) = params(25)^(-1);
+T(7) = params(33)^(-1);
 
 end

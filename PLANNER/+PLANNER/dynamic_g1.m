@@ -20,7 +20,7 @@ function g1 = dynamic_g1(T, y, x, params, steady_state, it_, T_flag)
 %
 
 if T_flag
-    T = Planner.dynamic_g1_tt(T, y, x, params, steady_state, it_);
+    T = PLANNER.dynamic_g1_tt(T, y, x, params, steady_state, it_);
 end
 g1 = zeros(25, 29);
 g1(1,3)=T(5)*T(28);
@@ -64,9 +64,9 @@ g1(12,16)=(-y(13));
 g1(13,1)=(-(exp(x(it_, 1))*getPowerDeriv(y(1),params(11),1)));
 g1(13,9)=1;
 g1(13,28)=(-T(25));
-g1(14,2)=(-(exp(x(it_, 2))*getPowerDeriv(y(2),params(11),1)));
+g1(14,2)=(-(exp((-x(it_, 2)))*getPowerDeriv(y(2),params(11),1)));
 g1(14,16)=1;
-g1(14,29)=(-T(26));
+g1(14,29)=(-(T(26)*(-exp((-x(it_, 2))))));
 g1(15,7)=(-(1/y(7)));
 g1(15,17)=1;
 g1(16,8)=(-(1/y(8)));

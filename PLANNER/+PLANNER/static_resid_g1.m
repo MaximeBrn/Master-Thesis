@@ -5,9 +5,9 @@ function [residual, g1] = static_resid_g1(T, y, x, params, T_flag)
 %
 
     if T_flag
-        T = Planner.static_g1_tt(T, y, x, params);
+        T = PLANNER.static_g1_tt(T, y, x, params);
     end
-    residual = Planner.static_resid(T, y, x, params, false);
-    g1       = Planner.static_g1(T, y, x, params, false);
+    residual = PLANNER.static_resid(T, y, x, params, false);
+    g1       = PLANNER.static_g1(T, y, x, params, false);
 
 end

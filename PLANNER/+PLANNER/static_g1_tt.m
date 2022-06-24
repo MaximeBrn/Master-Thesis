@@ -15,7 +15,7 @@ function T = static_g1_tt(T, y, x, params)
 
 assert(length(T) >= 34);
 
-T = Planner.static_resid_tt(T, y, x, params);
+T = PLANNER.static_resid_tt(T, y, x, params);
 
 T(25) = 1/params(5);
 T(26) = T(25)*getPowerDeriv(y(1)/params(5),T(1)-params(1),1);

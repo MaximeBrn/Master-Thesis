@@ -15,7 +15,7 @@ function T = static_g2_tt(T, y, x, params)
 
 assert(length(T) >= 34);
 
-T = Planner.static_g1_tt(T, y, x, params);
+T = PLANNER.static_g1_tt(T, y, x, params);
 
 
 end

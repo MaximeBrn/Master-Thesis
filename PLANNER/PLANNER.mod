@@ -23,13 +23,13 @@ parameters
     ALPHA_bar = 0.2;
     BETA = 0.98;
     PHI = 1;
-    h = 0.7;
+    h = 0.5;
     ALPHA=ALPHA_bar*(1-h);
     ALPHA_starr = ALPHA_bar*h;
     GAMMA=1;
     ETA=4.5;
     
-    DELTA=0.15;
+    DELTA=0.20;
     CHI_G=DELTA^GAMMA;
     CHI_C=(1-DELTA)^SIGMA;
     
@@ -54,7 +54,7 @@ Y=A*N;
 Y_starr=A_starr*N_starr;
 
 A=A(-1)^RHOA*exp(eps_a);
-A_starr=A_starr(-1)^RHOA*exp(eps_a_starr);
+A_starr=A_starr(-1)^RHOA*exp(-eps_a_starr);
 
 y=log(Y)-log(steady_state(Y));
 g=log(G)-log(steady_state(G));

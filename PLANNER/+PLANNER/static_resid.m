@@ -16,7 +16,7 @@ function residual = static_resid(T, y, x, params, T_flag)
 %
 
 if T_flag
-    T = Planner.static_resid_tt(T, y, x, params);
+    T = PLANNER.static_resid_tt(T, y, x, params);
 end
 residual = zeros(25, 1);
 lhs = T(5)*T(6);
@@ -59,7 +59,7 @@ lhs = y(7);
 rhs = y(7)^params(11)*exp(x(1));
 residual(13) = lhs - rhs;
 lhs = y(14);
-rhs = y(14)^params(11)*exp(x(2));
+rhs = y(14)^params(11)*exp((-x(2)));
 residual(14) = lhs - rhs;
 lhs = y(15);
 rhs = log(y(5))-log((y(5)));

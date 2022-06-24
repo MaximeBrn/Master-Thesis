@@ -14,7 +14,7 @@ tic0 = tic;
 % Define global variables.
 global M_ options_ oo_ estim_params_ bayestopt_ dataset_ dataset_info estimation_info ys0_ ex0_
 options_ = [];
-M_.fname = 'Planner';
+M_.fname = 'PLANNER';
 M_.dynare_version = '5.0';
 oo_.dynare_version = '5.0';
 options_.dynare_version = '5.0';
@@ -304,7 +304,7 @@ M_.params(3) = 0.98;
 BETA = M_.params(3);
 M_.params(4) = 1;
 PHI = M_.params(4);
-M_.params(5) = 0.7;
+M_.params(5) = 0.5;
 h = M_.params(5);
 M_.params(6) = M_.params(2)*(1-M_.params(5));
 ALPHA = M_.params(6);
@@ -314,7 +314,7 @@ M_.params(8) = 1;
 GAMMA = M_.params(8);
 M_.params(12) = 4.5;
 ETA = M_.params(12);
-M_.params(13) = 0.15;
+M_.params(13) = 0.20;
 DELTA = M_.params(13);
 M_.params(9) = M_.params(13)^M_.params(8);
 CHI_G = M_.params(9);
@@ -341,24 +341,24 @@ disp(['Total computing time : ' dynsec2hms(oo_.time) ]);
 if ~exist([M_.dname filesep 'Output'],'dir')
     mkdir(M_.dname,'Output');
 end
-save([M_.dname filesep 'Output' filesep 'Planner_results.mat'], 'oo_', 'M_', 'options_');
+save([M_.dname filesep 'Output' filesep 'PLANNER_results.mat'], 'oo_', 'M_', 'options_');
 if exist('estim_params_', 'var') == 1
-  save([M_.dname filesep 'Output' filesep 'Planner_results.mat'], 'estim_params_', '-append');
+  save([M_.dname filesep 'Output' filesep 'PLANNER_results.mat'], 'estim_params_', '-append');
 end
 if exist('bayestopt_', 'var') == 1
-  save([M_.dname filesep 'Output' filesep 'Planner_results.mat'], 'bayestopt_', '-append');
+  save([M_.dname filesep 'Output' filesep 'PLANNER_results.mat'], 'bayestopt_', '-append');
 end
 if exist('dataset_', 'var') == 1
-  save([M_.dname filesep 'Output' filesep 'Planner_results.mat'], 'dataset_', '-append');
+  save([M_.dname filesep 'Output' filesep 'PLANNER_results.mat'], 'dataset_', '-append');
 end
 if exist('estimation_info', 'var') == 1
-  save([M_.dname filesep 'Output' filesep 'Planner_results.mat'], 'estimation_info', '-append');
+  save([M_.dname filesep 'Output' filesep 'PLANNER_results.mat'], 'estimation_info', '-append');
 end
 if exist('dataset_info', 'var') == 1
-  save([M_.dname filesep 'Output' filesep 'Planner_results.mat'], 'dataset_info', '-append');
+  save([M_.dname filesep 'Output' filesep 'PLANNER_results.mat'], 'dataset_info', '-append');
 end
 if exist('oo_recursive_', 'var') == 1
-  save([M_.dname filesep 'Output' filesep 'Planner_results.mat'], 'oo_recursive_', '-append');
+  save([M_.dname filesep 'Output' filesep 'PLANNER_results.mat'], 'oo_recursive_', '-append');
 end
 disp('Note: 1 warning(s) encountered in the preprocessor')
 if ~isempty(lastwarn)

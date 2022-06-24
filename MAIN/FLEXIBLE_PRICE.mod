@@ -2,17 +2,24 @@ var
     y_nat           ${\hat {\bar y}_t}$        (long_name='Home natural output (log dev ss)')   
     g_nat           ${\hat {\bar g}_t}$        (long_name='Home natural government spending (log dev ss)') 
     c_nat           ${\hat {\bar c}_t}$        (long_name='Home natural consumption (log dev ss)')
+    n_nat           ${\hat {\bar n}_t}$        (long_name='Home natural labor (log dev ss)')
     c_H_nat         ${\hat {\bar c}_{H,t}}$     (long_name='Home natural consumption of Home-made goods (log dev ss)')
     c_F_nat         ${\hat {\bar c}_{F,t}}$     (long_name='Home natural consumption of Foreign-made goods (log dev ss)')
+    r_nat
 
     y_nat_starr     ${\hat {\bar y}_t^*}$        (long_name='Foreign natural output (log dev ss)')
     g_nat_starr     ${\hat {\bar g}_t^*}$        (long_name='Foreign natural government spending (log dev ss)') 
     c_nat_starr     ${\hat {\bar c}_t^*}$        (long_name='Foreign natural consumption (log dev ss)')
     c_H_nat_starr   ${\hat {\bar c}_{H,t}^*}$   (long_name='Foreign natural consumption of Home-made goods (log dev ss)')
     c_F_nat_starr   ${\hat {\bar c}_{F,t}^*}$   (long_name='Foreign natural consumption of Foreign-made goods (log dev ss)')
-   
+    n_nat_starr     ${\hat {\bar n}_t^*}$        (long_name='Foreign natural labor (log dev ss)')
+    r_nat_starr
     s_nat           ${\bar s_t}$        (long_name='Home natural terms of trade (log dev ss)')
 
+    y_nat_cu
+    g_nat_cu
+    r_nat_cu
+    %r_nat_cu2
 
 ;       
 
@@ -66,6 +73,27 @@ c_H_nat_starr=ETA*(1-ALPHA_starr)*s_nat+c_nat_starr;
 
 c_F_nat_starr=-ETA*ALPHA_starr*s_nat+c_nat_starr;
 
+// LABOR
+
+n_nat=y_nat-a;
+n_nat_starr=y_nat_starr-a_starr;
+
+// NATURAL RATE (2 eq.)
+
+[name='Home natural rate']
+
+r_nat=(1+PHI)*(a(+1)-a)-PHI*(y_nat(+1)-y_nat);
+
+[name='Foreign natural rate']
+
+r_nat_starr=(1+PHI)*(a_starr(+1)-a_starr)-PHI*(y_nat_starr(+1)-y_nat_starr);
+
+y_nat_cu=h*y_nat+(1-h)*y_nat_starr;
+g_nat_cu=h*g_nat+(1-h)*g_nat_starr;
+
+r_nat_cu=h*r_nat+(1-h)*r_nat_starr;
+%r_nat_cu2=SIGMA_tilde*(y_nat_cu(+1)-y_nat_cu-DELTA*(g_nat_cu(+1)-g_nat_cu));
+
 end;
 
 steady_state_model;
@@ -74,12 +102,19 @@ g_nat=0;
 c_nat=0;
 c_H_nat=0;
 c_F_nat=0;
+n_nat=0;
+r_nat=0;
 y_nat_starr=0;
 g_nat_starr=0;
 c_nat_starr=0;
 c_H_nat_starr=0;
 c_F_nat_starr=0;
+r_nat_starr=0;
+n_nat_starr=0;
 s_nat=0;
+y_nat_cu=0;
+g_nat_cu=0;
+r_nat_cu=0;
 end;
 
 

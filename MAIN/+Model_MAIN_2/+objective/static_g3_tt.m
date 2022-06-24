@@ -15,7 +15,7 @@ function T = static_g3_tt(T, y, x, params)
 
 assert(length(T) >= 2);
 
-T = Model_MAIN_2.objective.static_g2_tt(T, y, x, params);
+T = MODEL_MAIN_2.objective.static_g2_tt(T, y, x, params);
 
 
 end

@@ -1,0 +1,73 @@
+# Rapport intermédiaire n°3 - 17/06/2022
+
+# 1 Résumé modèle
+
+## 1.1 Spécifications finales
+
+Dans sa version finale modèle présente les caractéristiques suivante:
+
+- **Caractéristiques générales.** Modèle de Galí et Monacelli (2008) en version 2 pays (*Home* and *Foreign*) où les hypothèses paramétriques sont relaxées.
+- **Taille des économies**. Un paramètre $h$ qui définit la taille de l’économie *Home.*
+- **Utilité**. J’ajoute les paramètre $\chi_C$ et $\chi_G$ que j’utilise pour calibrer le *steady state*.
+- **Choc**. Un choc de productivité.
+
+## 1.2 Équilibre *sticky price*
+
+Mon travail sur l’équilibre de l’économie avec rigidités nominales:
+
+- **Définition de l’équilibre**. 5 équations (2 IS, 2 NKPC, 1 *International risk sharing*) en *log-deviation form.*
+- **Cas d’une petite économie ouverte**. En prenant $h=1$ et en supprimant les dépenses gouvernmentales, je retrouve les equations d’une petite économie ouverte (Galí  et Monacalli, 2005).
+- **Identités comptables nationales**. Je vérifie que la définition du GDP est valide dans le modèle.
+
+## 1.3 Allocation du *planner*
+
+Mon travail sur l’allocation du *planner*:
+
+- **Le problème du *planner***. Poser le problème et le résoudre (calcul des *FOCs*).
+- ***Steady state***. J’évalue les *FOCs* du planner au steady state. En utilisant $\chi_C$ et $\chi_G$ je normalise la production par personne à $N/h=N^*/(1-h)=1$ et les ratios $G/Y=G^*/Y^*=\delta$ . (vérifié sur Dynare)
+- **Log-linearization des *FOCs***. Je log-linearize les *FOCs* du *planner* et j’obtiens un système de 10 équations en *log-deviation form* qui caractérise l’équilibre choisi par le planner.
+
+## 1.4 L’allocati**on naturelle (prix flexibles)**
+
+Mon travail sur l’allocation naturelle:
+
+- **Steady state de l’économie**. Je regarde sous quelles conditions le *steady state* de l’économie coincide avec le *steady state* du planner. Je montre que les deux *steady states* coincident si l’on choisit bien $\tau$ et si l’on fait l’hypothèse que les gouvernements se comportent comme le planner au steady state. Ainsi, les *log-deviations* de l’économie et celles du *planner* sont comparables.
+- **Condition standards pour l’allocation naturelles**. J’obtiens 5 conditions / 7 qui caractérisent partiellement l’équilibre naturel.
+- **Dépenses publiques**. J’ajoute deux équations pour la dépenses publiques que je déduis des *FOCs* du *planner*.*
+- **Equivalence *natural* / *planner* allocations**. Je montre que le système d’équilibre de l’allocation naturelle en *log-deviation form* est équivalent au système d’équations du *planner*. Ainsi les deux allocations coincident. (Vérifié sur Dynare)
+- ***Natural output***. Je donne un définition plus fine du *natural output*.
+- **Cas d’une petite économie ouverte**. En prenant $h=1$ et en supprimant les dépenses gouvernmentales, je retrouve la formule d’une petite économie ouverte (Galí  et Monacalli, 2005).
+
+## 1.5 *Welfare loss function*
+
+Mon travaille sur la *welfare loss function*:
+
+- **Je bloque sur les calculs**. Je n’arrive pas à faire l’approximation de second ordre de la fonction d’utilité. J’ai essayé de m’inspirer de plusieurs papiers et de plusieurs modèles proches, en vain.
+- **J’adapte une fonction d’un autre papier**. Je décide donc d’adapter la *welfare loss function* de Forlati (2006) car le modèle est très proche.
+- **Agrégation au niveau de l’union**. Je laisse la possibilité d’accorder plus ou moins de poids à *Home* ou à *Foreign*.
+
+# 2 Les simulations
+
+## 2.1 Ce qui est fait
+
+- **Code**. J’ai codé les équations du modèle. Possibilité d’utiliser une allocation optimale (`ramsey_policy`) ou une *optimal simple rule* (`osr`).
+- ***IRFs baseline***. J’ai généré les *IRFs* suivant un choc de productivité négative chez *Foreign* dans le cas où $h=0.5$. J’ai analysé et rationnalisé (succintement) les résultats.
+
+## 2.1 Ce qui reste à faire
+
+Compléter les analyses et répondre à différentes questions:
+
+- Évaluer l’impact de la taille de l’économie *Home* ($h$) et du degré d’ouverture ($\bar \alpha$).
+- Que se passe-t-il si la *welfare loss function* pondère davantage *Foreign*?
+- Que se passe t-il si les gouvernements suivent des règles simples et s’il ne peuvent réagir aux variables contemporaines?
+- Que se passe-t-il si le gouvernement *Foreign* est contraint fiscalement?
+- Que se passe-t-il si certaines variables (e.g. gaps) ne sont pas observées par les gouvernements ou pas la banque centrale?
+- …
+
+# 3 Le rapport
+
+- Revue de littérature. Quelle place accorder à la revue de littérature?
+
+# 4 La soutenance
+
+- Date de la soutenance. Est-ce qu’il serait possible de programmer le soutenance la semaine après

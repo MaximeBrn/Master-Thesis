@@ -1,0 +1,52 @@
+Starting Dynare (version 5.0).
+Calling Dynare with arguments: none
+Starting preprocessing of the model file ...
+Found 51 equation(s).
+Evaluating expressions...done
+Computing static model derivatives (order 1).
+Computing dynamic model derivatives (order 2).
+Processing outputs ...
+done
+Preprocessing completed.
+
+ 0.0% of the prior support gives unique saddle-path solution.
+ 0.0% of the prior support gives explosive dynamics.
+100.0% of the prior support gives indeterminacy.
+
+All parameter values in the specified ranges are not acceptable!
+
+Sensitivity computations stopped: no parameter set provided a unique solution
+
+OPTIMAL SIMPLE RULE
+
+
+OSR: Initial value of the objective function: 1e+08 
+
+  n=4: (4,8)-CMA-ES(w=[53 29 14 4]%, mu_eff=2.6) on function osr_obj
+Iterat, #Fevals:   Function Value    (median,worst) |Axis Ratio|idx:Min SD idx:Max SD
+    1 ,      9 : 1.0000000000000e+08 +(0e+00,0e+00) | 1.37e+00 |  3:1.1e-02  2:1.4e-02
+#Fevals:   f(returned x)   |    bestever.f     | stopflag (saved to variablescmaes.mat)
+     10: 1.00000000000e+08 | 1.00000000000e+08 | equalfunvals
+mean solution: -1.0e+01 -3.7e+00 +2.0e+00 -1.9e+00
+std deviation:  1.1e-02  1.4e-02  1.1e-02  1.1e-02
+use plotcmaesdat.m for plotting the output at any time (option LogModulo must not be zero)
+
+OPTIMAL VALUE OF THE PARAMETERS:
+
+         MP_pieH         -9.98535
+
+         MP_pieF         -3.72559
+
+       MP_y_gapH          1.97754
+
+       MP_y_gapF         -1.92871
+
+Objective function :            1e+08
+
+
+[Warning: Some of the parameters have no value (MP_s_gap) when using
+stoch_simul. If these parameters are not initialized in a steadystate
+file or a steady_state_model-block, Dynare may not be able to solve the
+model. Note that simul, perfect_foresight_setup, and
+perfect_foresight_solver do not automatically call the steady state
+file.] 

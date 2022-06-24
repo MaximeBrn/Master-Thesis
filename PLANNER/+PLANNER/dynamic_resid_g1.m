@@ -5,9 +5,9 @@ function [residual, g1] = dynamic_resid_g1(T, y, x, params, steady_state, it_, T
 %
 
     if T_flag
-        T = Planner.dynamic_g1_tt(T, y, x, params, steady_state, it_);
+        T = PLANNER.dynamic_g1_tt(T, y, x, params, steady_state, it_);
     end
-    residual = Planner.dynamic_resid(T, y, x, params, steady_state, it_, false);
-    g1       = Planner.dynamic_g1(T, y, x, params, steady_state, it_, false);
+    residual = PLANNER.dynamic_resid(T, y, x, params, steady_state, it_, false);
+    g1       = PLANNER.dynamic_g1(T, y, x, params, steady_state, it_, false);
 
 end
