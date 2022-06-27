@@ -3,10 +3,13 @@
 %--------------------------------  CASE  ---------------------------------%
 %-------------------------------------------------------------------------%
 
-@#define POLICY = "SUBOPTIMAL" // Are FP and MP "OPTIMAL" or "SUBOPTIMAL"
-@#define OSR_OBJECTIVE = "COUNTERPART" // IS the OSR objective the "COUNTERPART" of the planner objective or a "SIMPLE" objective?
-@#define OSR_RULE = "CLASSIC" // "CLASSIC" or "MRS"
-
+@#define POLICY = "RAMSEY" // Are FP and MP "RAMSEY" or "OSR"
+% @#define RAMSEY_OBJECTIVE = "EQUAL_WEIGHT" // "EQUAL_WEIGHT" or "POP_WEIGHT"
+% @#define OSR_OBJECTIVE = "COUNTERPART_POP_WEIGHT" // "COUNTERPART_POP_WEIGHT" or "COUNTERPART_EQUAL_WEIGHT" or "SIMPLE"
+@#define OBJECTIVE = "EQUAL_WEIGHT" // "EQUAL_WEIGHT" or "POP_WEIGHT" or "SIMPLE"
+@#define OSR_RULE_SCOPE = "NATIONAL" // "GLOBAL"
+% @#define OSR_RULE_OBS = "FULL" // "LIMITED"
+% @#define OSR_RULE_LAG = "YES " // "YES" or "No"
 
 %-------------------------------------------------------------------------%
 %--------------------------- DECLARE VARIABLES ---------------------------%
@@ -15,19 +18,22 @@
 %------------------------  Endogeneous Variables -------------------------%
 
 var
-    y_gap           ${\tilde y_t}$        (long_name='Home output gap (log dev ss)')   
-    g_gap           ${\tilde g_t}$        (long_name='Home government spending gap (log dev ss)')
-    c_gap           ${\tilde c_t}$        (long_name='Home consumption gap (log dev ss)')
-    f_gap           ${\tilde f_t}$  
+    y_gap           ${\tilde y_t}$      (long_name='Home output gap (log dev ss)')   
+    g_gap           ${\tilde g_t}$      (long_name='Home government spending gap (log dev ss)')
+    c_gap           ${\tilde c_t}$      (long_name='Home consumption gap (log dev ss)')
+    f_gap           ${\tilde f_t}$      (long_name='Home fiscal stance gap (log dev ss)')
+    n_gap           ${\tilde n_t}$      (long_name='Home labor gap (log dev ss)')
     ii_gap
 
-    y_gap_starr     ${\tilde y_t^*}$      (long_name='Foreign output gap (log dev ss)') 
-    g_gap_starr     ${\tilde g_t^*}$      (long_name='Foreign government spending gap (log dev ss)')
-    c_gap_starr     ${\tilde c_t^*}$      (long_name='Foreign consumption gap (log dev ss)')
-    f_gap_starr     ${\tilde f_t^*}$  
+
+    y_gap_starr     ${\tilde y_t^*}$    (long_name='Foreign output gap (log dev ss)') 
+    g_gap_starr     ${\tilde g_t^*}$    (long_name='Foreign government spending gap (log dev ss)')
+    c_gap_starr     ${\tilde c_t^*}$    (long_name='Foreign consumption gap (log dev ss)')
+    f_gap_starr     ${\tilde f_t^*}$    (long_name='Foreign fiscal stance gap (log dev ss)')
+    n_gap_starr     ${\tilde n_t^*}$    (long_name='Foreign labor gap (log dev ss)')
     ii_gap_starr
 
-    s_gap           ${\tilde s_t}$        (long_name='Home terms of trade gap (log dev ss)')   
+    s_gap           ${\tilde s_t}$      (long_name='Home terms of trade gap (log dev ss)')   
     
     y_gap_cu        ${\tilde y_t^{cu}}$     (long_name='Union output gap (log dev ss)')
     g_gap_cu        ${\tilde g_t^{cu}}$     (long_name='Union government spending gap (log dev ss)')  
@@ -47,8 +53,8 @@ varexo
 ;
 
 shocks;
-var eps_a = 10; 
-var eps_a_starr = 10;
+var eps_a = 1; 
+var eps_a_starr = 1;
 end;
 
 %-------------------------------------------------------------------------%
@@ -101,26 +107,31 @@ parameters
 
 %----------------------  Fiscal Policy Parameters  -----------------------%
 
-@#if POLICY == "SUBOPTIMAL"
+@#if POLICY == "OSR"
         
-    @#if OSR_RULE == "CLASSIC"
-            FP_y_gapH
+    @#if OSR_RULE_SCOPE == "NATIONAL"
+            
             FP_pieH
+            FP_y_gapH
+
+            FP_pieF_starr
+            FP_y_gapF_starr
+
+    @#elseif OSR_RULE_SCOPE == "GLOBAL"
+
+            FP_pieH
+            FP_y_gapH
+            FP_s_gap
             FP_y_gapF
             FP_pieF
-            FP_s_gap
-            FP_g_gapF
-        
+
+            FP_pieF_starr
+            FP_y_gapF_starr
+            FP_s_gap_starr
             FP_y_gapH_starr
             FP_pieH_starr
-            FP_y_gapF_starr
-            FP_pieF_starr
-            FP_s_gap_starr
-            FP_g_gapH_starr
-        @#elseif OSR_RULE == "MRS"
-            FP_MRS
-            FP_MRS_starr
-        @#endif
+            
+    @#endif
 
 @#endif
 
@@ -141,11 +152,11 @@ ETA             =   4.5;
 EPSILON         =   6;
 
 h               =   0.5;
-ALPHA_bar       =   0.2;
-THETA           =   0.75;
+ALPHA_bar       =   0.01;
+THETA           =   0.55;
 THETA_starr     =   0.75;
 
-DELTA           =   0.1;
+DELTA           =   0.3;
 CHI_C           =   (1-DELTA)^SIGMA;
 CHI_G           =   DELTA^GAMMA;
 
@@ -169,20 +180,30 @@ G0_starr    =   DELTA*N0_starr;
 
 RHOA        =   0.85;
 
-@#if POLICY == "SUBOPTIMAL"
-    
-    @#if OSR_RULE == "CLASSIC"
-        FP_y_gapH           =   1.91973;   
-        FP_y_gapF           =   0;
-        FP_pieH             =   -0.640355;
-        FP_pieF             =   0;
-        FP_y_gapH_starr     =   0;
-        FP_y_gapF_starr     =     1.91905;
-        FP_pieH_starr       =   0;
-        FP_pieF_starr       =   -0.640413;
-    @#elseif OSR_RULE == "MRS"
-        FP_MRS              =   1;
-        FP_MRS_starr        =   1;
+@#if POLICY == "OSR"    
+
+    @#if OSR_RULE_SCOPE == "NATIONAL"
+            
+            FP_pieH         =   0;
+            FP_y_gapH       =   2;
+
+            FP_pieF_starr   =   0;
+            FP_y_gapF_starr =   2;
+
+    @#elseif OSR_RULE_SCOPE == "GLOBAL"
+
+            FP_pieH         =   0;
+            FP_y_gapH       =   -2;
+            FP_s_gap        =   1;
+            FP_y_gapF       =   2;
+            FP_pieF         =   0;
+
+            FP_pieF_starr   =   0;
+            FP_y_gapF_starr =   -2;
+            FP_s_gap_starr  =   -1;
+            FP_y_gapH_starr =   2;
+            FP_pieH_starr   =   0;
+            
     @#endif
 
 @#endif
@@ -206,41 +227,27 @@ model(linear);
 
 %---------------------------  Monetary Policy  ---------------------------%
 
-@#if POLICY == "SUBOPTIMAL"
-%     ii=r_nat+MP_pieH*pie+MP_y_gapH*y_gap+0.7*ii(-1);
-%     ii_starr=r_nat_starr+MP_pieF*pie_starr+MP_y_gapF*y_gap_starr+0.7*ii_starr(-1);
-%     ii_cu=h*ii+(1-h)*ii_starr;
-%     ii_cu=h*(r_nat+MP_pieH*pie+MP_y_gapH*y_gap)+(1-h)*(r_nat_starr+MP_pieF*pie_starr+MP_y_gapF*y_gap_starr)+0.7*ii_cu(-1);
-%     ii_cu=h*(r_nat+2.5*pie+0.125*y_gap)+(1-h)*(r_nat_starr+2.5*pie_starr+0.125*y_gap_starr)+0.7*ii_cu(-1) ;
+@#if POLICY == "OSR"
     ii_cu=r_nat_cu + 2.5*pie_cu + 0.125*y_gap_cu + 0.7*ii_cu(-1);
 @#endif
 
 %----------------------------  Fiscal Policy  ----------------------------%
 
-% g_gap(+1)=0.85*g_gap;
-% g_gap_starr(+1)=0.85*g_gap_starr;
-@#if POLICY == "SUBOPTIMAL"
+@#if POLICY == "OSR"
 
-    @#if OSR_RULE == "CLASSIC"
+    @#if OSR_RULE_SCOPE == "NATIONAL"
 
         g_gap=  0.85*g_gap(-1) + FP_y_gapH*y_gap + FP_pieH*pie ; % React to home only
         g_gap_starr=    0.85*g_gap_starr(-1) + FP_y_gapF_starr*y_gap_starr + FP_pieF_starr*pie_starr; % React to Foreign only
-  
+        
+ 
+    @#elseif OSR_RULE_SCOPE == "GLOBAL"
 
-    @#elseif OSR_RULE == "MRS"
-
-        g_gap=0.85*g_gap(-1)+FP_MRS*(SIGMA/GAMMA*c_gap+ALPHA/GAMMA*s_gap);
-        g_gap_starr=0.85*g_gap_starr(-1)+FP_MRS_starr*(SIGMA/GAMMA*c_gap_starr-ALPHA_starr/GAMMA*s_gap);
+        g_gap=  0.85*g_gap(-1) + FP_y_gapH*y_gap + FP_y_gapF*y_gap_starr + FP_pieH*pie + FP_pieF*pie_starr + FP_s_gap*s_gap;
+        g_gap_starr= 0.85*g_gap_starr(-1) + FP_y_gapH_starr*y_gap + FP_y_gapF_starr*y_gap_starr + FP_pieH_starr*pie + FP_pieF_starr*pie_starr + FP_s_gap_starr*s_gap;    
 
     @#endif
-%     g=0;
-%     g_starr=0;
-%     g_gap=FP_y_gapH*y_gap + FP_y_gapF*y_gap_starr + FP_pieH*pie + FP_pieF*pie_starr;
-%     g_gap_starr=FP_y_gapH_starr*y_gap + FP_y_gapF_starr*y_gap_starr + FP_pieH_starr*pie + FP_pieF_starr*pie_starr;
-    
 
-%     g_gap= 0.85*g_gap(-1)+ FP_y_gapH*y_gap(-1) + FP_pieH*pie(-1) ; % React to home only
-%     g_gap_starr=  0.85*g_gap_starr(-1)+  FP_y_gapF_starr*y_gap_starr(-1) + FP_pieF_starr*pie_starr(-1); % React to Foreign only
 @#endif
 
 
@@ -258,9 +265,13 @@ g_gap = g-g_nat;
 
 c_gap = c-c_nat;
 
-[name='Home fiscal gap definition']
+[name='Foreign labor gap definition']
 
-f_gap=g_gap-y_gap;
+n_gap=n-n_nat;
+
+[name='Home fiscal stance gap definition']
+
+f_gap=f-f_nat;
 
 [name='Home interest rate gap definition']
 
@@ -282,9 +293,13 @@ g_gap_starr = g_starr-g_nat_starr;
 
 c_gap_starr = c_starr-c_nat_starr;
 
-[name='Foreign fiscal gap definition']
+[name='Foreign labor gap definition']
 
-f_gap_starr=g_gap_starr-y_gap_starr;
+n_gap_starr=n_starr-n_nat_starr;
+
+[name='Foreign fiscal stance gap definition']
+
+f_gap_starr=f_starr-f_nat_starr;
 
 [name='Foreign interest rate gap definition']
 
@@ -341,117 +356,143 @@ end;
 %-----------------------------  SIMULATIONS  -----------------------------%
 %-------------------------------------------------------------------------%
 
-@#if POLICY == "OPTIMAL"
+%-------------------------------  RAMSEY  --------------------------------%
 
-%     planner_objective h/2*(EPSILON/LAMBDA*pie^2+PHI*y_gap^2+GAMMA*DELTA*g_gap^2+SIGMA*(1-DELTA)*c_gap^2+(1-DELTA)*(ALPHA*ETA*SIGMA*(SIGMA-ALPHA*THETA_ALPHA_bar))/((1-ALPHA)^2)*(c_gap-c_gap_cu)^2)+(1-h)/2*(EPSILON/LAMBDA_starr*pie_starr^2+PHI*y_gap_starr^2+GAMMA*DELTA*g_gap_starr^2+SIGMA*(1-DELTA)*c_gap_starr^2+(1-DELTA)*(ALPHA_starr*ETA*SIGMA*(SIGMA-ALPHA_starr*THETA_ALPHA_bar))/((1-ALPHA_starr)^2)*(c_gap_starr-c_gap_cu)^2);
-%     planner_objective 1/2*(EPSILON/LAMBDA*pie^2+PHI*y_gap^2+GAMMA*DELTA*g_gap^2+SIGMA*(1-DELTA)*c_gap^2)+1/2*(EPSILON/LAMBDA_starr*pie_starr^2+PHI*y_gap_starr^2+GAMMA*DELTA*g_gap_starr^2+SIGMA*(1-DELTA)*c_gap_starr^2)+SIGMA*ALPHA_bar*(1-DELTA)*s_gap*c_gap*h+SIGMA*ALPHA_bar*(1-DELTA)*s_gap*c_gap*(1-h);
-    planner_objective h/2*(EPSILON/LAMBDA*pie^2+PHI*y_gap^2+GAMMA*DELTA*g_gap^2+SIGMA*(1-DELTA)*c_gap^2)+(1-h)/2*(EPSILON/LAMBDA_starr*pie_starr^2+PHI*y_gap_starr^2+GAMMA*DELTA*g_gap_starr^2+SIGMA*(1-DELTA)*c_gap_starr^2);
+@#if POLICY == "RAMSEY"
+    @#if OBJECTIVE == "POP_WEIGHT"
+        
+        planner_objective (1/SIGMA*(1-DELTA)*ALPHA_bar*W_ALPHA_bar)^2*s_gap^2+h/2*(EPSILON/LAMBDA*pie^2+PHI*y_gap^2+GAMMA*DELTA*g_gap^2+SIGMA*(1-DELTA)*c_gap^2)+(1-h)/2*(EPSILON/LAMBDA_starr*pie_starr^2+PHI*y_gap_starr^2+GAMMA*DELTA*g_gap_starr^2+SIGMA*(1-DELTA)*c_gap_starr^2);
+        
+    @#elseif OBJECTIVE == "EQUAL_WEIGHT"
     
-    %external_function(name = WELFARE,nargs=12,first_deriv_provided, second_deriv_provided);
-    %planner_objective WELFARE(h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,C0*(c+1)/h,N0*(n+1)/h,G0*(g+1)/h,C0_starr*(c_starr+1)/(1-h), N0_starr*(n_starr+1)/(1-h),G0_starr*(g_starr+1)/(1-h));
-    %planner_objective WELFARE(h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c+log(C0))/h,exp(n+log(N0))/h,exp(g+log(G0))/h,exp(c_starr+log(C0_starr))/(1-h), exp(n_starr+log(N0_starr))/(1-h),exp(g_starr+log(G0_starr))/(1-h));
+        planner_objective (1/SIGMA*(1-DELTA)*ALPHA_bar*W_ALPHA_bar)^2*s_gap^2+1/2*(EPSILON/LAMBDA*pie^2+PHI*y_gap^2+GAMMA*DELTA*g_gap^2+SIGMA*(1-DELTA)*c_gap^2)+1/2*(EPSILON/LAMBDA_starr*pie_starr^2+PHI*y_gap_starr^2+GAMMA*DELTA*g_gap_starr^2+SIGMA*(1-DELTA)*c_gap_starr^2);
+
+    @#endif
     
-%     planner_objective h*(CHI_C*((C0*(c+1)/h)^(1-SIGMA)/(1-SIGMA))-((N0*(n+1)/h)^(1+PHI)/(1+PHI))+CHI_G*((G0*(g+1)/h)^(1-GAMMA)/(1-GAMMA)))+(1-h)*(CHI_C*((C0_starr*(c_starr+1)/(1-h))^(1-SIGMA)/(1-SIGMA))-((N0_starr*(n_starr+1)/(1-h))^(1+PHI)/(1+PHI))+CHI_G*((G0_starr*(g_starr+1)/(1-h))^(1-GAMMA)/(1-GAMMA)));
-
-    %planner_objective h*(CHI_C*((exp(c+log(C0))/h)^(1-SIGMA)/(1-SIGMA))-((exp(n+log(N0))/h)^(1+PHI)/(1+PHI))+CHI_G*((exp(g+log(G0))/h)^(1-GAMMA)/(1-GAMMA)))+(1-h)*(CHI_C*((exp(c_starr+log(C0_starr))/(1-h))^(1-SIGMA)/(1-SIGMA))-((exp(n_starr+log(N0_starr))/(1-h))^(1+PHI)/(1+PHI))+CHI_G*((exp(g_starr+log(G0_starr))/(1-h))^(1-GAMMA)/(1-GAMMA)));
-
     ramsey_model(instruments=(ii_cu,g_gap,g_gap_starr),planner_discount=BETA);
-%    ramsey_model(instruments=(ii_cu,g,g_starr),planner_discount=BETA);
-
 
     steady;
     check;
-    stoch_simul(irf_shocks=(eps_a_starr),nograph);
+    stoch_simul(irf_shocks=(eps_a_starr),nograph,irf=200);
 
-@#elseif POLICY == "SUBOPTIMAL"
+@#elseif POLICY == "OSR"
      
-    @#if OSR_RULE =="CLASSIC"
-        estimated_params;
+    estimated_params;
+    @#if OSR_RULE_SCOPE =="NATIONAL"
+
             FP_y_gapH, 0, -10, 10;
-    %         FP_y_gapF, 0, -10, 10;
             FP_pieH, 0, -10, 10;
-    %         FP_pieF, 0, -10, 10;
-    %         FP_s_gap, 0, -10, 10;
-    %         FP_g_gapF, 0, -10, 10;
-    %         FP_y_gapH_starr, 0, -10, 10;
+
             FP_y_gapF_starr, 0, -10, 10;
-    %         FP_pieH_starr, 0, -10, 10;
             FP_pieF_starr, 0, -10, 10;
-         end;
-    @#elseif OSR_RULE == "MRS"
-        estimated_params;
-                FP_MRS, 0, -10, 10;
-                FP_MRS_starr, 0, -10, 10;
-        end;
+    
+    @#elseif OSR_RULE_SCOPE == "GLOBAL"
+
+            FP_y_gapH, 0, -10, 10;
+            FP_y_gapF, 0, -10, 10;
+            FP_pieH, 0, -10, 10;
+            FP_pieF, 0, -10, 10;
+            FP_s_gap, 0, -10, 10;
+
+            FP_y_gapH_starr, 0, -10, 10;
+            FP_y_gapF_starr, 0, -10, 10;
+            FP_pieH_starr, 0, -10, 10;
+            FP_pieF_starr, 0, -10, 10;
+            FP_s_gap_starr, 0, -10, 10;
    @#endif
+   end;
 
     options_.varobs = M_.endo_names; 
     dynare_sensitivity;
 
-    @#if OSR_OBJECTIVE == "COUNTERPART"
+    optim_weights;
+    @#if OBJECTIVE == "POP_WEIGHT"
 
-        optim_weights;
-                pie h*EPSILON/LAMBDA;
-                pie_starr (1-h)*EPSILON/LAMBDA;
-                y_gap h*PHI;
-                y_gap_starr (1-h)*PHI;
-                c_gap h*(1-DELTA)*SIGMA;
-                c_gap_starr (1-h)*(1-DELTA)*SIGMA;
-                g_gap h*DELTA*GAMMA;
-                g_gap_starr (1-h)*DELTA*GAMMA;
-        %         s_gap 1;
-        %         y_gap_cu 1;
-        %         g_gap_cu 1;
-        %         c_gap_cu 1;
-        %         pie_cu 1;
-        end;
-    @#elseif OSR_OBJECTIVE == "SIMPLE"
-        optim_weights;
-                y_gap_cu 1;
-                g_gap_cu 1;
-                c_gap_cu 1;
-                pie_cu 1;
-        end;
+        pie h*EPSILON/LAMBDA;
+        pie_starr (1-h)*EPSILON/LAMBDA;
+        y_gap h*PHI;
+        y_gap_starr (1-h)*PHI;
+        c_gap h*(1-DELTA)*SIGMA;
+        c_gap_starr (1-h)*(1-DELTA)*SIGMA;
+        g_gap h*DELTA*GAMMA;
+        g_gap_starr (1-h)*DELTA*GAMMA;
+        s_gap (1/SIGMA*(1-DELTA)*ALPHA_bar*W_ALPHA_bar)^2;
+
+    @#elseif OBJECTIVE == "EQUAL_WEIGHT"
+
+        pie 1*EPSILON/LAMBDA;
+        pie_starr 1*EPSILON/LAMBDA;
+        y_gap 1*PHI;
+        y_gap_starr 1*PHI;
+        c_gap 1*(1-DELTA)*SIGMA;
+        c_gap_starr 1*(1-DELTA)*SIGMA;
+        g_gap h*DELTA*GAMMA;
+        g_gap_starr 1*DELTA*GAMMA;
+        s_gap (1/SIGMA*(1-DELTA)*ALPHA_bar*W_ALPHA_bar)^2;
+
+    @#elseif OBJECTIVE == "SIMPLE"
+
+        y_gap_cu 1;
+        g_gap_cu 1;
+        c_gap_cu 1;
+        pie_cu 1;
+
    @#endif
+   end;
 
-   @#if OSR_RULE =="CLASSIC"
+   @#if OSR_RULE_SCOPE =="NATIONAL"
+
         osr_params 
             FP_y_gapH
-        %     FP_y_gapF
             FP_pieH
-        %     FP_pieF
-        
-        %     FP_y_gapH_starr
+
             FP_y_gapF_starr
-        %     FP_pieH_starr
             FP_pieF_starr
         ;
 
         osr_params_bounds;
             FP_y_gapH, -10, 10;
-            %     FP_y_gapF, -10, 10;
-            FP_pieH, -0.001,0.001;
-            %     FP_pieF, -10, 10;
-            %     FP_y_gapH_starr, -10, 10;
-            FP_y_gapF_starr, -0.001,0.001;
-            %     FP_pieH_starr, -10, 10;
+            FP_pieH, -10,10;
+
+            FP_y_gapF_starr, -10,10;
             FP_pieF_starr, -10, 10;
         end;
 
-   @#elseif OSR_RULE == "MRS"
+   @#elseif OSR_RULE_SCOPE =="GLOBAL"
+
         osr_params 
-            FP_MRS
-            FP_MRS_starr
+            FP_y_gapH
+            FP_y_gapF
+            FP_pieH
+            FP_pieF
+            FP_s_gap
+
+            FP_y_gapH_starr
+            FP_y_gapF_starr
+            FP_pieH_starr
+            FP_pieF_starr
+            FP_s_gap_starr
         ;
 
         osr_params_bounds;
-            FP_MRS, -10, 10;
-            FP_MRS_starr, -10, 10;
+            FP_y_gapH, -10, 10;
+            FP_y_gapF, -10, 10;
+            FP_pieH, -10,10;
+            FP_pieF, -10, 10;
+            FP_s_gap, -10, 10;
+
+            FP_y_gapH_starr, -10, 10;
+            FP_y_gapF_starr, -10,10;
+            FP_pieH_starr, -10, 10;
+            FP_pieF_starr, -10, 10;
+            FP_s_gap_starr, -10, 10;
         end;
 
    @#endif    
     
-    osr(opt_algo=9,tex,nograph,irf_shocks=(eps_a_starr));
+    steady;
+    check;
+    osr(opt_algo=9,tex,nograph,irf_shocks=(eps_a_starr),irf=200);
     oo_.osr.optim_params;
 
 @#endif
@@ -460,66 +501,123 @@ end;
 %-------------------------------  PLOTS  ---------------------------------%
 %-------------------------------------------------------------------------%
 
-t = 1:1:length(y_eps_a_starr);
-zeroline = ones(length(t),1)*0;
+%------------------------ Folder and file names  -------------------------%
 
-figure('NumberTitle', 'off','Name',['IRFs OSR COUNTERPART']) % Output
+@#if POLICY == "RAMSEY"
+    
+    pol_name="@{POLICY} - @{OBJECTIVE}"
+
+@#elseif POLICY == "OSR"
+
+    pol_name="@{POLICY} - @{OBJECTIVE} - @{OSR_RULE_SCOPE}"
+
+@#endif
+
+calibration_name="h_"+h*100+" - ALPHA_bar_"+ALPHA_bar*100+" - THETA_"+THETA*100+" - THETA_starr_"+THETA_starr*100+" - DELTA_"+DELTA*100
+
+folder_name = "OUTPUT/"+pol_name+"/"+calibration_name
+file_name = pol_name + " - " + calibration_name
+
+% Create folder
+% mkdir("OUTPUT/"+pol_name+"/"+calibration_name)
+mkdir(folder_name)
+
+%---------------------------- Plot options  ------------------------------%
+
+T_irf=options_.irf
+T_plot=40
+t = 1:1:T_plot;
+zeroline = ones(T_plot,1)*0;
+
+%-----------------------------  Plot c,y,g  ------------------------------%
+
+figure('NumberTitle', 'off','visible','off') % Output
 subplot(3,3,1); %
-Home=plot(t,c_eps_a_starr,'LineWidth',1.5,'DisplayName','Home'); hold on
-Foreign=plot(t,c_starr_eps_a_starr,'LineWidth',1.5,'DisplayName','Foreign'); hold on
+Home=plot(t,c_eps_a_starr(1:T_plot),'LineWidth',1.5,'DisplayName','Home'); hold on
+Foreign=plot(t,c_starr_eps_a_starr(1:T_plot),'LineWidth',1.5,'DisplayName','Foreign'); hold on
 plot(t,zeroline,'LineWidth',0.5,'Color','Black')
 title('Consumption : $$\hat c_t$$ and $$\hat c_t^*$$','interpreter','latex','FontSize',10);
 legend([Home,Foreign],{'Home','Foreign'},'location','southeast');
 
 subplot(3,3,4); %
-plot(t,c_nat_eps_a_starr,'LineWidth',1.5); hold on
-plot(t,c_nat_starr_eps_a_starr,'LineWidth',1.5); hold on
+plot(t,c_nat_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+plot(t,c_nat_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
 plot(t,zeroline,'LineWidth',0.5,'Color','Black')
 title('Natural Consumption : $$\hat{\bar c}_t$$ and $$\hat{\bar c}_t^*$$','interpreter','latex','FontSize',10);
 
 subplot(3,3,7); %
-plot(t,c_gap_eps_a_starr,'LineWidth',1.5); hold on
-plot(t,c_gap_starr_eps_a_starr,'LineWidth',1.5); hold on
+plot(t,c_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+plot(t,c_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
 plot(t,zeroline,'LineWidth',0.5,'Color','Black')
 title('Consumption Gap : $$\tilde c_t$$ and $$\tilde c_t^*$$','interpreter','latex','FontSize',10);
 
-
 subplot(3,3,2); %
-plot(t,y_eps_a_starr,'LineWidth',1.5); hold on
-plot(t,y_starr_eps_a_starr,'LineWidth',1.5); hold on
+plot(t,y_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+plot(t,y_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
 plot(t,zeroline,'LineWidth',0.5,'Color','Black')
 title('Output : $$\hat y_t$$ and $$\hat y_t^*$$','interpreter','latex','FontSize',10);
 
 subplot(3,3,5); %
-plot(t,y_nat_eps_a_starr,'LineWidth',1.5); hold on
-plot(t,y_nat_starr_eps_a_starr,'LineWidth',1.5); hold on
+plot(t,y_nat_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+plot(t,y_nat_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
 plot(t,zeroline,'LineWidth',0.5,'Color','Black')
 title('Natural Output : $$\hat{\bar y}_t$$ and $$\hat{\bar y}_t^*$$','interpreter','latex','FontSize',10);
 
 subplot(3,3,8); %
-plot(t,y_gap_eps_a_starr,'LineWidth',1.5); hold on
-plot(t,y_gap_starr_eps_a_starr,'LineWidth',1.5); hold on
+plot(t,y_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+plot(t,y_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
 plot(t,zeroline,'LineWidth',0.5,'Color','Black')
 title('Output Gap : $$\tilde y_t$$ and $$\tilde y_t^*$$','interpreter','latex','FontSize',10);
+% 
+% subplot(3,3,2); %
+% plot(t,n_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,n_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black')
+% title('Labor : $$\hat n_t$$ and $$\hat n_t^*$$','interpreter','latex','FontSize',10);
+% 
+% subplot(3,3,5); %
+% plot(t,n_nat_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,n_nat_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black')
+% title('Natural Labor : $$\hat{\bar n}_t$$ and $$\hat{\bar n}_t^*$$','interpreter','latex','FontSize',10);
+% 
+% subplot(3,3,8); %
+% plot(t,n_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,n_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black')
+% title('Labor Gap : $$\tilde n_t$$ and $$\tilde n_t^*$$','interpreter','latex','FontSize',10);
 
 
 subplot(3,3,3); %
-plot(t,g_eps_a_starr,'LineWidth',1.5); hold on
-plot(t,g_starr_eps_a_starr,'LineWidth',1.5); hold on
+plot(t,g_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+plot(t,g_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
 plot(t,zeroline,'LineWidth',0.5,'Color','Black')
 title('Government Consumption : $$\hat g_t$$ and $$\hat g_t^*$$','interpreter','latex','FontSize',10);
 
 subplot(3,3,6); %
-plot(t,g_nat_eps_a_starr,'LineWidth',1.5); hold on
-plot(t,g_nat_starr_eps_a_starr,'LineWidth',1.5); hold on
+plot(t,g_nat_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+plot(t,g_nat_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
 plot(t,zeroline,'LineWidth',0.5,'Color','Black')
 title('Natural Government Consumption : $$\hat{\bar g}_t$$ and $$\hat{\bar g}_t^*$$','interpreter','latex','FontSize',10);
 
 subplot(3,3,9); %
-plot(t,g_gap_eps_a_starr,'LineWidth',1.5); hold on
-plot(t,g_gap_starr_eps_a_starr,'LineWidth',1.5); hold on
+plot(t,g_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+plot(t,g_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
 plot(t,zeroline,'LineWidth',0.5,'Color','Black');
 title('Government Consumption Gap : $$\tilde g_t$$ and $$\tilde g_t^*$$','interpreter','latex','FontSize',10);
+
+test="RAMSEY,EQUAL WEIGHT"
+annotation('textbox', [0, 0.05, 1, 0],'interpreter','latex','string',[char(strrep(strrep(pol_name," - ",", "),"_"," ")) ', $$h$$ = ' num2str(h) ', $$\bar{\alpha}$$ =' num2str(ALPHA_bar) ', $$\theta$$ = ' num2str(THETA) ', $$\theta^*$$ = ' num2str(THETA_starr) ', $$\delta$$ = ' num2str(DELTA)],'FontSize',10)
+
+
+% Save figure
+figure_name = "y_c_g"
+set(gcf,'Position',[1 1 1366 691])
+saveas(gcf,folder_name+"/"+figure_name+".png")
+
+%----------------------------  Plot n,f,pie  -----------------------------%
+
+%-------------------------  Plot s,pie_cu,y_cu  --------------------------%
 
 
 %-------------------------------------------------------------------------%
@@ -528,21 +626,70 @@ title('Government Consumption Gap : $$\tilde g_t$$ and $$\tilde g_t^*$$','interp
 
 %-------------------------------  Utility  -------------------------------%
 
-sum(cumprod(ones(1,40)*BETA)'.*WELFARE(h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)))
+sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE(h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)))
 
-sum(cumprod(ones(1,40)*BETA)'.*WELFARE(h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,C0*(c_eps_a_starr+1)/h,N0*(n_eps_a_starr+1)/h,G0*(g_eps_a_starr+1)/h,C0_starr*(c_starr_eps_a_starr+1)/(1-h), N0_starr*(n_starr_eps_a_starr+1)/(1-h),G0_starr*(g_starr_eps_a_starr+1)/(1-h)))
+sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE(h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,C0*(c_eps_a_starr+1)/h,N0*(n_eps_a_starr+1)/h,G0*(g_eps_a_starr+1)/h,C0_starr*(c_starr_eps_a_starr+1)/(1-h), N0_starr*(n_starr_eps_a_starr+1)/(1-h),G0_starr*(g_starr_eps_a_starr+1)/(1-h)))
 
 
 %---------------------------------  CEV  ---------------------------------%
-@#if POLICY == "OPTIMAL"
-    Column_names={'Utility_1','Utility_2'}
-    table(sum(cumprod(ones(1,40)*BETA)'.*WELFARE_CEV_Cons(1.00,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h))),sum(cumprod(ones(1,40)*BETA)'.*WELFARE_CEV_ConsGov(1.00,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h))))
+@#if POLICY == "RAMSEY"
+    W_000 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_Cons(1.00,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_005 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_Cons(0.995,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_010 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_Cons(0.990,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_015 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_Cons(0.985,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_020 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_Cons(0.980,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_025 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_Cons(0.975,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_030 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_Cons(0.970,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_035 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_Cons(0.965,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_040 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_Cons(0.960,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_045 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_Cons(0.955,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_050 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_Cons(0.950,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_055 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_Cons(0.945,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_060 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_Cons(0.940,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_065 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_Cons(0.935,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_070 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_Cons(0.930,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_075 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_Cons(0.925,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_080 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_Cons(0.920,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_085 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_Cons(0.915,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_090 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_Cons(0.910,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_095 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_Cons(0.905,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_100 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_Cons(0.900,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    
+    W_000_2 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_ConsGov(1.00,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_005_2 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_ConsGov(0.995,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_010_2 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_ConsGov(0.990,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_015_2 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_ConsGov(0.985,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_020_2 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_ConsGov(0.980,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_025_2 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_ConsGov(0.975,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_030_2 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_ConsGov(0.970,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_035_2 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_ConsGov(0.965,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_040_2 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_ConsGov(0.960,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_045_2 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_ConsGov(0.955,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_050_2 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_ConsGov(0.950,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_055_2 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_ConsGov(0.945,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_060_2 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_ConsGov(0.940,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_065_2 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_ConsGov(0.935,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_070_2 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_ConsGov(0.930,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_075_2 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_ConsGov(0.925,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_080_2 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_ConsGov(0.920,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_085_2 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_ConsGov(0.915,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_090_2 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_ConsGov(0.910,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_095_2 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_ConsGov(0.905,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    W_100_2 = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_ConsGov(0.900,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)));
+    CEV_table=table([W_000;W_005;W_010;W_015;W_020;W_025;W_030;W_035;W_040;W_045;W_050;W_055;W_060;W_065;W_070;W_075;W_080;W_085;W_090;W_095;W_100],[W_000_2;W_005_2;W_010_2;W_015_2;W_020_2;W_025_2;W_030_2;W_035_2;W_040_2;W_045_2;W_050_2;W_055_2;W_060_2;W_065_2;W_070_2;W_075_2;W_080_2;W_085_2;W_090_2;W_095_2;W_100_2],'VariableNames',{'CEV_Cons','CEV_ConsGov'},'RowNames',{'0.0%','0.5%','1.0%','1.5%','2.0%','2.5%','3.0%','3.5%','4.0%','4.5%','5.0%','5.5%','6.0%','6.5%','7.0%','7.5%','8.0%','8.5%','9.0%','9.5%','10.0%'})
 @#endif
 
-sum(cumprod(ones(1,40)*BETA)'.*WELFARE(h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,CEV*exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,exp(g_eps_a_starr+log(G0))/h,CEV*exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)))
-sum(cumprod(ones(1,40)*BETA)'.*WELFARE(h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,CEV*exp(c_eps_a_starr+log(C0))/h,exp(n_eps_a_starr+log(N0))/h,CEV*exp(g_eps_a_starr+log(G0))/h,CEV*exp(c_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_starr_eps_a_starr+log(N0_starr))/(1-h),CEV*exp(g_starr_eps_a_starr+log(G0_starr))/(1-h)))
 
+writetable(CEV_table, "my_table"+extension_name+".txt")
+W_000_nat = sum(cumprod(ones(1,T_irf)*BETA)'.*WELFARE_CEV_Cons(1.00,h,CHI_C,CHI_G,SIGMA,PHI,GAMMA,exp(c_nat_eps_a_starr+log(C0))/h,exp(n_nat_eps_a_starr+log(N0))/h,exp(g_nat_eps_a_starr+log(G0))/h,exp(c_nat_starr_eps_a_starr+log(C0_starr))/(1-h), exp(n_nat_starr_eps_a_starr+log(N0_starr))/(1-h),exp(g_nat_starr_eps_a_starr+log(G0_starr))/(1-h)))
 
 %-------------------------------  LOSS  ----------------------------------%
-sum(cumprod(ones(1,40)*BETA)'.*(h/2*(EPSILON/LAMBDA*pie_eps_a_starr.^2+PHI*y_gap_eps_a_starr.^2+GAMMA*DELTA*g_gap_eps_a_starr.^2+SIGMA*(1-DELTA)*c_gap_eps_a_starr.^2+(1-DELTA)*(ALPHA*ETA*SIGMA*(SIGMA-ALPHA*THETA_ALPHA_bar))/((1-ALPHA)^2)*(c_gap_eps_a_starr-c_gap_cu_eps_a_starr).^2)+(1-h)/2*(EPSILON/LAMBDA_starr*pie_starr_eps_a_starr.^2+PHI*y_gap_starr_eps_a_starr.^2+GAMMA*DELTA*g_gap_starr_eps_a_starr.^2+SIGMA*(1-DELTA)*c_gap_starr_eps_a_starr.^2+(1-DELTA)*(ALPHA_starr*ETA*SIGMA*(SIGMA-ALPHA_starr*THETA_ALPHA_bar))/((1-ALPHA_starr)^2)*(c_gap_starr_eps_a_starr-c_gap_cu_eps_a_starr).^2)))
-%sum(cumprod(ones(1,40)*BETA).*h/2*(EPSILON/LAMBDA*pie_eps_a_starr.^2+PHI*y_gap_eps_a_starr.^2+GAMMA*DELTA*g_gap_eps_a_starr.^2+SIGMA*(1-DELTA)*c_gap_eps_a_starr.^2)+(1-h)/2*(EPSILON/LAMBDA_starr*pie_starr_eps_a_starr.^2+PHI*y_gap_starr_eps_a_starr.^2+GAMMA*DELTA*g_gap_starr_eps_a_starr.^2+SIGMA*(1-DELTA)*c_gap_starr_eps_a_starr.^2+(1-DELTA)*(ALPHA_starr*ETA*SIGMA*(SIGMA-ALPHA_starr*THETA_ALPHA_bar))/((1-ALPHA_starr)^2)*(c_gap_starr_eps_a_starr-c_gap_cu_eps_a_starr).^2))
+%sum(cumprod(ones(1,T_irf)*BETA)'.*(h/2*(EPSILON/LAMBDA*pie_eps_a_starr.^2+PHI*y_gap_eps_a_starr.^2+GAMMA*DELTA*g_gap_eps_a_starr.^2+SIGMA*(1-DELTA)*c_gap_eps_a_starr.^2+(1-DELTA)*(ALPHA*ETA*SIGMA*(SIGMA-ALPHA*THETA_ALPHA_bar))/((1-ALPHA)^2)*(c_gap_eps_a_starr-c_gap_cu_eps_a_starr).^2)+(1-h)/2*(EPSILON/LAMBDA_starr*pie_starr_eps_a_starr.^2+PHI*y_gap_starr_eps_a_starr.^2+GAMMA*DELTA*g_gap_starr_eps_a_starr.^2+SIGMA*(1-DELTA)*c_gap_starr_eps_a_starr.^2+(1-DELTA)*(ALPHA_starr*ETA*SIGMA*(SIGMA-ALPHA_starr*THETA_ALPHA_bar))/((1-ALPHA_starr)^2)*(c_gap_starr_eps_a_starr-c_gap_cu_eps_a_starr).^2)))
+%sum(cumprod(ones(1,T_irf)*BETA).*h/2*(EPSILON/LAMBDA*pie_eps_a_starr.^2+PHI*y_gap_eps_a_starr.^2+GAMMA*DELTA*g_gap_eps_a_starr.^2+SIGMA*(1-DELTA)*c_gap_eps_a_starr.^2)+(1-h)/2*(EPSILON/LAMBDA_starr*pie_starr_eps_a_starr.^2+PHI*y_gap_starr_eps_a_starr.^2+GAMMA*DELTA*g_gap_starr_eps_a_starr.^2+SIGMA*(1-DELTA)*c_gap_starr_eps_a_starr.^2+(1-DELTA)*(ALPHA_starr*ETA*SIGMA*(SIGMA-ALPHA_starr*THETA_ALPHA_bar))/((1-ALPHA_starr)^2)*(c_gap_starr_eps_a_starr-c_gap_cu_eps_a_starr).^2))
+
+
+write_latex_original_model;
+%--------------------------  Loss Unbiased  ------------------------------%
+
+
+%---------------------------  Loss Biased  -------------------------------%

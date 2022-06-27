@@ -13,9 +13,9 @@ function T = static_g2_tt(T, y, x, params)
 %   T         [#temp variables by 1]  double   vector of temporary terms
 %
 
-assert(length(T) >= 0);
+assert(length(T) >= 7);
 
-T = Model_Main_4.static_g1_tt(T, y, x, params);
+T = MODEL_MAIN_4.static_g1_tt(T, y, x, params);
 
 
 end

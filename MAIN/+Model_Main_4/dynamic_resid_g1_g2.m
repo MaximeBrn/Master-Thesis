@@ -5,9 +5,9 @@ function [residual, g1, g2] = dynamic_resid_g1_g2(T, y, x, params, steady_state,
 %
 
     if T_flag
-        T = Model_Main_4.dynamic_g2_tt(T, y, x, params, steady_state, it_);
+        T = MODEL_MAIN_4.dynamic_g2_tt(T, y, x, params, steady_state, it_);
     end
-    [residual, g1] = Model_Main_4.dynamic_resid_g1(T, y, x, params, steady_state, it_, false);
-    g2       = Model_Main_4.dynamic_g2(T, y, x, params, steady_state, it_, false);
+    [residual, g1] = MODEL_MAIN_4.dynamic_resid_g1(T, y, x, params, steady_state, it_, false);
+    g2       = MODEL_MAIN_4.dynamic_g2(T, y, x, params, steady_state, it_, false);
 
 end
