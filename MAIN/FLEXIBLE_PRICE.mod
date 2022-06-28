@@ -8,31 +8,31 @@
 %------------------------  Endogeneous Variables -------------------------%
 
 var
-    y_nat           ${\hat {\bar y}_t}$         (long_name='Home natural output (log dev ss)')   
-    g_nat           ${\hat {\bar g}_t}$         (long_name='Home natural government spending (log dev ss)') 
-    c_nat           ${\hat {\bar c}_t}$         (long_name='Home natural consumption (log dev ss)')
-    c_H_nat         ${\hat {\bar c}_{H,t}}$     (long_name='Home natural consumption of Home-made goods (log dev ss)')
-    c_F_nat         ${\hat {\bar c}_{F,t}}$     (long_name='Home natural consumption of Foreign-made goods (log dev ss)')
-    n_nat           ${\hat {\bar n}_t}$         (long_name='Home natural labor (log dev ss)')
-    f_nat           ${\hat {\bar f}_t}$         (long_name='Home natural fiscal stance (log dev ss)')
-    s_nat           ${\bar s_t}$                (long_name='Home natural terms of trade (log dev ss)')
-    r_nat           ${\bar r_t}$                (long_name='Home natural rate (log dev ss)')
+    y_nat           ${\hat {\bar y}}$         (long_name='Home natural output (log dev ss)')   
+    g_nat           ${\hat {\bar g}}$         (long_name='Home natural government spending (log dev ss)') 
+    c_nat           ${\hat {\bar c}}$         (long_name='Home natural consumption (log dev ss)')
+    c_H_nat         ${\hat {\bar c}^H}$     (long_name='Home natural consumption of Home-made goods (log dev ss)')
+    c_F_nat         ${\hat {\bar c}^F}$     (long_name='Home natural consumption of Foreign-made goods (log dev ss)')
+    n_nat           ${\hat {\bar n}}$         (long_name='Home natural labor (log dev ss)')
+    f_nat           ${\hat {\bar f}}$         (long_name='Home natural fiscal stance (log dev ss)')
+    s_nat           ${\bar s}$                (long_name='Home natural terms of trade (log dev ss)')
+    r_nat           ${\bar r}$                (long_name='Home natural rate (log dev ss)')
 
-    y_nat_starr     ${\hat {\bar y}_t^*}$       (long_name='Foreign natural output (log dev ss)')
-    g_nat_starr     ${\hat {\bar g}_t^*}$       (long_name='Foreign natural government spending (log dev ss)') 
-    c_nat_starr     ${\hat {\bar c}_t^*}$       (long_name='Foreign natural consumption (log dev ss)')
-    c_H_nat_starr   ${\hat {\bar c}_{H,t}^*}$   (long_name='Foreign natural consumption of Home-made goods (log dev ss)')
-    c_F_nat_starr   ${\hat {\bar c}_{F,t}^*}$   (long_name='Foreign natural consumption of Foreign-made goods (log dev ss)')
-    n_nat_starr     ${\hat {\bar n}_t^*}$       (long_name='Foreign natural labor (log dev ss)')
-    f_nat_starr     ${\hat {\bar f}_t^*}$       (long_name='Foreign natural fiscal stance (log dev ss)')
-    s_nat_starr     ${\bar s_t^*}$              (long_name='Foreign natural terms of trade (log dev ss)')
-    r_nat_starr     ${\bar r_t^*}$              (long_name='Foreign natural rate (log dev ss)')
+    y_nat_starr     ${\hat {\bar y}^*}$       (long_name='Foreign natural output (log dev ss)')
+    g_nat_starr     ${\hat {\bar g}^*}$       (long_name='Foreign natural government spending (log dev ss)') 
+    c_nat_starr     ${\hat {\bar c}^*}$       (long_name='Foreign natural consumption (log dev ss)')
+    c_H_nat_starr   ${\hat {\bar c}^{H*}}$   (long_name='Foreign natural consumption of Home-made goods (log dev ss)')
+    c_F_nat_starr   ${\hat {\bar c}^{F*}}$   (long_name='Foreign natural consumption of Foreign-made goods (log dev ss)')
+    n_nat_starr     ${\hat {\bar n}^*}$       (long_name='Foreign natural labor (log dev ss)')
+    f_nat_starr     ${\hat {\bar f}^*}$       (long_name='Foreign natural fiscal stance (log dev ss)')
+    s_nat_starr     ${\bar s^*}$              (long_name='Foreign natural terms of trade (log dev ss)')
+    r_nat_starr     ${\bar r^*}$              (long_name='Foreign natural rate (log dev ss)')
 
 
-    y_nat_cu        ${\hat {\bar y}_t^{cu}}$      (long_name='Union natural output (log dev ss)')  
-    g_nat_cu        ${\hat {\bar g}_t^{cu}}$      (long_name='Union natural government consumption (log dev ss)')
-    c_nat_cu        ${\hat {\bar c}_t^{cu}}$      (long_name='Union natural consumption (log dev ss)')
-    r_nat_cu        ${\hat {\bar r}_t^{cu}}$      (long_name='Union natural rate (log dev ss)')
+    y_nat_cu        ${\hat {\bar y}^{cu}}$      (long_name='Union natural output (log dev ss)')  
+    g_nat_cu        ${\hat {\bar g}^{cu}}$      (long_name='Union natural government consumption (log dev ss)')
+    c_nat_cu        ${\hat {\bar c}^{cu}}$      (long_name='Union natural consumption (log dev ss)')
+    r_nat_cu        ${\hat {\bar r}^{cu}}$      (long_name='Union natural rate (log dev ss)')
 ;       
 
 %-------------------------------------------------------------------------%

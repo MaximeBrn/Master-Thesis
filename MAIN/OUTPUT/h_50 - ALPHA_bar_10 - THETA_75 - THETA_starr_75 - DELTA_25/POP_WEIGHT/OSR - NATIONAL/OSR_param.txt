@@ -1,0 +1,5 @@
+OriginalVariableNames,Var1
+FP_y_gapH,0.253842151531026
+FP_pieH,-0.513651520252169
+FP_y_gapF_starr,0.253769508440538
+FP_pieF_starr,-0.513687293588458

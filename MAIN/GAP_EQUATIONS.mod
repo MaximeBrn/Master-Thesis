@@ -8,32 +8,34 @@
 %------------------------  Endogeneous Variables -------------------------%
 
 var
-    y_gap           ${\tilde y_t}$      (long_name='Home output gap (log dev ss)')   
-    g_gap           ${\tilde g_t}$      (long_name='Home government spending gap (log dev ss)')
-    c_gap           ${\tilde c_t}$      (long_name='Home consumption gap (log dev ss)')
-    c_H_gap         ${\tilde c_{H,t}}$  (long_name='Home consumption of Home-made goods gap (log dev ss)')
-    c_F_gap         ${\tilde c_{F,t}}$  (long_name='Home consumption of Foreign-made goods gap (log dev ss)')
-    f_gap           ${\tilde f_t}$      (long_name='Home fiscal stance gap (log dev ss)')
-    n_gap           ${\tilde n_t}$      (long_name='Home labor gap (log dev ss)')
-    s_gap           ${\tilde s_t}$      (long_name='Home terms of trade gap (log dev ss)')   
-    ii_gap
+    y_gap           ${\tilde y}$      (long_name='Home output gap (log dev ss)')   
+    g_gap           ${\tilde g}$      (long_name='Home government spending gap (log dev ss)')
+    c_gap           ${\tilde c}$      (long_name='Home consumption gap (log dev ss)')
+    c_H_gap         ${\tilde c^H}$  (long_name='Home consumption of Home-made goods gap (log dev ss)')
+    c_F_gap         ${\tilde c^F}$  (long_name='Home consumption of Foreign-made goods gap (log dev ss)')
+    f_gap           ${\tilde f}$      (long_name='Home fiscal stance gap (log dev ss)')
+    n_gap           ${\tilde n}$      (long_name='Home labor gap (log dev ss)')
+    s_gap           ${\tilde s}$      (long_name='Home terms of trade gap (log dev ss)')   
+    ii_gap          ${\tilde i}$
 
 
-    y_gap_starr     ${\tilde y_t^*}$    (long_name='Foreign output gap (log dev ss)') 
-    g_gap_starr     ${\tilde g_t^*}$    (long_name='Foreign government spending gap (log dev ss)')
-    c_gap_starr     ${\tilde c_t^*}$    (long_name='Foreign consumption gap (log dev ss)')
-    c_H_gap_starr   ${\tilde c_{H,t}^*}$    (long_name='Foreign consumption of Home-made goods gap (log dev ss)')
-    c_F_gap_starr   ${\tilde c_{F,t}^*}$    (long_name='Foreign consumption of Foreign-made goods gap (log dev ss)')
-    f_gap_starr     ${\tilde f_t^*}$    (long_name='Foreign fiscal stance gap (log dev ss)')
-    n_gap_starr     ${\tilde n_t^*}$    (long_name='Foreign labor gap (log dev ss)')
-    s_gap_starr     ${\tilde s_t^*}$    (long_name='Foreign terms of trade gap (log dev ss)')   
-    ii_gap_starr
+    y_gap_starr     ${\tilde y^*}$    (long_name='Foreign output gap (log dev ss)') 
+    g_gap_starr     ${\tilde g^*}$    (long_name='Foreign government spending gap (log dev ss)')
+    c_gap_starr     ${\tilde c^*}$    (long_name='Foreign consumption gap (log dev ss)')
+    c_H_gap_starr   ${\tilde c^{H*}}$    (long_name='Foreign consumption of Home-made goods gap (log dev ss)')
+    c_F_gap_starr   ${\tilde c^{F*}}$    (long_name='Foreign consumption of Foreign-made goods gap (log dev ss)')
+    f_gap_starr     ${\tilde f^*}$    (long_name='Foreign fiscal stance gap (log dev ss)')
+    n_gap_starr     ${\tilde n^*}$    (long_name='Foreign labor gap (log dev ss)')
+    s_gap_starr     ${\tilde s^*}$    (long_name='Foreign terms of trade gap (log dev ss)')   
+    ii_gap_starr    ${\tilde i^*}$
 
-    y_gap_cu        ${\tilde y_t^{cu}}$     (long_name='Union output gap (log dev ss)')
-    g_gap_cu        ${\tilde g_t^{cu}}$     (long_name='Union government spending gap (log dev ss)')  
-    c_gap_cu        ${\tilde c_t^{cu}}$     (long_name='Union government spending gap (log dev ss)')
-    ii_gap_cu
 
+    y_gap_cu        ${\tilde y^{cu}}$     (long_name='Union output gap (log dev ss)')
+    g_gap_cu        ${\tilde g^{cu}}$     (long_name='Union government spending gap (log dev ss)')  
+    c_gap_cu        ${\tilde c^{cu}}$     (long_name='Union government spending gap (log dev ss)')
+    ii_gap_cu       ${\tilde i^{cu}}$
+
+    g_gap_r         ${\tilde g^{r}}$     (long_name='Relative output gap (log dev ss)')
 ;
 
 %-------------------------------------------------------------------------%
@@ -132,6 +134,8 @@ c_gap_cu=h*c_gap+(1-h)*c_gap_starr;
 
 ii_gap_cu=ii-r_nat_cu;
 
+g_gap_r = g_gap - g_gap_starr;
+
 end;
 
 %-------------------------------------------------------------------------%
@@ -161,5 +165,7 @@ y_gap_cu=0;
 g_gap_cu=0;
 c_gap_cu=0;
 ii_gap_cu=0;
+
+g_gap_r=0;
 end;
 

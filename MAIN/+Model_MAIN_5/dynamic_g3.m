@@ -20,8 +20,8 @@ function g3 = dynamic_g3(T, y, x, params, steady_state, it_, T_flag)
 %
 
 if T_flag
-    T = Model_MAIN_5.dynamic_g3_tt(T, y, x, params, steady_state, it_);
+    T = MOdel_main_5.dynamic_g3_tt(T, y, x, params, steady_state, it_);
 end
-g3 = sparse([],[],[],139,4173281);
+g3 = sparse([],[],[],141,4330747);
 
 end

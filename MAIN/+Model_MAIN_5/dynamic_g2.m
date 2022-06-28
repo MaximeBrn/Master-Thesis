@@ -20,8 +20,8 @@ function g2 = dynamic_g2(T, y, x, params, steady_state, it_, T_flag)
 %
 
 if T_flag
-    T = Model_MAIN_5.dynamic_g2_tt(T, y, x, params, steady_state, it_);
+    T = MOdel_main_5.dynamic_g2_tt(T, y, x, params, steady_state, it_);
 end
-g2 = sparse([],[],[],139,25921);
+g2 = sparse([],[],[],141,26569);
 
 end

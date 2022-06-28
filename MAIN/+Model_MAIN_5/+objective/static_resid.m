@@ -16,10 +16,10 @@ function residual = static_resid(T, y, x, params, T_flag)
 %
 
 if T_flag
-    T = Model_MAIN_5.objective.static_resid_tt(T, y, x, params);
+    T = MOdel_main_5.objective.static_resid_tt(T, y, x, params);
 end
 residual = zeros(1, 1);
-residual(1) = T(1)*y(57)^2+T(2)*(params(6)/params(22)*y(26)^2+params(3)*y(50)^2+params(11)*params(4)*y(51)^2+params(2)*(1-params(11))*y(52)^2)+T(3)*(params(6)/params(23)*y(36)^2+params(3)*y(59)^2+params(11)*params(4)*y(60)^2+params(2)*(1-params(11))*y(61)^2);
+residual(1) = y(70)^2+y(57)^2+y(51)^2+y(60)^2+y(26)^2+y(36)^2+y(70)*y(69)+y(57)*(y(51)-y(60));
 if ~isreal(residual)
   residual = real(residual)+imag(residual).^2;
 end
