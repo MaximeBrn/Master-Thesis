@@ -96,15 +96,15 @@ parameters
         
     @#if OSR_RULE_SCOPE == "NATIONAL"
             
-            FP_pieH
-            FP_y_gapH
-%             FP_s_gapH
+%             FP_pieH
+%             FP_y_gapH
+            FP_s_gapH
 %             FP_c_gapH
 
-            FP_pieF_starr
-            FP_y_gapF_starr
+%             FP_pieF_starr
+%             FP_y_gapF_starr
 %             FP_c_gapF_starr
-%             FP_s_gapF_starr
+            FP_s_gapF_starr
 
     @#elseif OSR_RULE_SCOPE == "GLOBAL"
 
@@ -232,7 +232,7 @@ model(linear);
 %---------------------------  Monetary Policy  ---------------------------%
 
 @#if POLICY == "OSR"
-%     ii_cu=r_nat_cu + 2.5*pie_cu + 0.125*y_gap_cu + 0.7*ii_cu(-1)+20*pie_cu(+1); % Blanchard
+%     ii_cu=r_nat_cu + 2.5*pie_cu + 0.125*y_gap_cu + 0.7*ii_cu(-1); % Blanchard
     ii_cu=r_nat_cu + 1.5*pie_cu + 0.5*y_gap_cu ; % Beetsma
 @#endif
 
@@ -242,9 +242,9 @@ model(linear);
 
     @#if OSR_RULE_SCOPE == "NATIONAL"
 
-        g_gap=  0.85*g_gap(-1) + FP_y_gapH*y_gap + FP_pieH*pie ; % React to home only
-        g_gap_starr=    0.85*g_gap_starr(-1) + FP_y_gapF_starr*y_gap_starr + FP_pieF_starr*pie_starr; % React to Foreign only
-%        
+%         g_gap=  0.85*g_gap(-1) + FP_y_gapH*y_gap + FP_pieH*pie ; % React to home only
+%         g_gap_starr=    0.85*g_gap_starr(-1) + FP_y_gapF_starr*y_gap_starr + FP_pieF_starr*pie_starr; % React to Foreign only
+% %        
 %         g_gap=  0.85*g_gap(-1) + FP_y_gapH*y_gap ; % NO INFLATION
 %         g_gap_starr=    0.85*g_gap_starr(-1) + FP_y_gapF_starr*y_gap_starr; % NO INFLATION
 % %        
@@ -255,6 +255,10 @@ model(linear);
 %         g_gap= 0.85*g_gap(-1) + FP_c_gapH*c_gap(-1) + FP_s_gapH*s_gap(-1) ; % NO INFLATION
 %         g_gap_starr= 0.85*g_gap_starr(-1) + FP_c_gapF_starr*c_gap_starr(-1) + FP_s_gapF_starr*s_gap_starr(-1); % NO INFLATION
  
+        f_gap=  0.85*f_gap(-1) + FP_s_gapH*s_gap ; % React to home only
+        f_gap_starr=    0.85*f_gap_starr(-1) + FP_s_gapF_starr*s_gap_starr; % React to Foreign only
+%       
+
 %         g_gap= 0.85*g_gap(-1) + FP_y_gapH*y_gap  ; % NO INFLATION
 %         g_gap_starr= 0.85*g_gap_starr(-1) + FP_y_gapF_starr*y_gap_starr; % NO INFLATION
  
@@ -313,7 +317,7 @@ end;
 %         planner_objective (1/SIGMA*(1-DELTA)*ALPHA_bar*W_ALPHA_bar)^2*s_gap^2+1/2*(EPSILON/LAMBDA*pie^2+PHI*y_gap^2+GAMMA*DELTA*g_gap^2+SIGMA*(1-DELTA)*c_gap^2)+1/2*(EPSILON/LAMBDA_starr*pie_starr^2+PHI*y_gap_starr^2+GAMMA*DELTA*g_gap_starr^2+SIGMA*(1-DELTA)*c_gap_starr^2);
 
      % Try Beetsma
-        planner_objective (1-DELTA)*(SIGMA+(1-DELTA)*PHI)*c_gap_cu^2 + h*(1-h)*(1-DELTA)*(1+PHI*(1-DELTA))*s_gap^2 + 1*DELTA*(GAMMA+PHI*DELTA)*g_gap^2 + 1**DELTA*(GAMMA+PHI*DELTA)*g_gap_starr^2 + 1*EPSILON/LAMBDA*pie^2 + 1*EPSILON/LAMBDA_starr*pie_starr^2 + 2*(1-DELTA)*PHI*c_gap_cu*g_gap_cu + 2*h*(1-h)*(1-DELTA)*DELTA*PHI*s_gap*(g_gap-g_gap_starr);
+        planner_objective (1-DELTA)*(SIGMA+(1-DELTA)*PHI)*c_gap_cu^2 + h*(1-h)*(1-DELTA)*(1+PHI*(1-DELTA))*s_gap^2 + 1*DELTA*(GAMMA+PHI*DELTA)*g_gap^2 + 1*DELTA*(GAMMA+PHI*DELTA)*g_gap_starr^2 + 1*EPSILON/LAMBDA*pie^2 + 1*EPSILON/LAMBDA_starr*pie_starr^2 + 2*(1-DELTA)*PHI*c_gap_cu*g_gap_cu + 2*h*(1-h)*(1-DELTA)*DELTA*PHI*s_gap*(g_gap-g_gap_starr);
 
     @#elseif OBJECTIVE == "UNION"
     
@@ -342,15 +346,15 @@ end;
     estimated_params;
     @#if OSR_RULE_SCOPE =="NATIONAL"
 
-            FP_y_gapH, 0, -10, 10;
-            FP_pieH, 0, -10, 10;
+%             FP_y_gapH, 0, -10, 10;
+%             FP_pieH, 0, -10, 10;
 %             FP_c_gapH, 0, -10, 10;
-%             FP_s_gapH, 0, -10, 10;
+            FP_s_gapH, 0, -10, 10;
 
-            FP_y_gapF_starr, 0, -10, 10;
-            FP_pieF_starr, 0, -10, 10;
+%             FP_y_gapF_starr, 0, -10, 10;
+%             FP_pieF_starr, 0, -10, 10;
 %             FP_c_gapF_starr, 0, -10, 10;
-%             FP_s_gapF_starr, 0, -10, 10;
+            FP_s_gapF_starr, 0, -10, 10;
     
     @#elseif OSR_RULE_SCOPE == "GLOBAL"
 
@@ -423,27 +427,27 @@ end;
    @#if OSR_RULE_SCOPE =="NATIONAL"
 
         osr_params 
-            FP_y_gapH
-            FP_pieH
+%             FP_y_gapH
+%             FP_pieH
 %             FP_c_gapH
-%             FP_s_gapH
+            FP_s_gapH
 
-            FP_y_gapF_starr
-            FP_pieF_starr
+%             FP_y_gapF_starr
+%             FP_pieF_starr
 %             FP_c_gapF_starr
-%             FP_s_gapF_starr
+            FP_s_gapF_starr
         ;
 
         osr_params_bounds;
-            FP_y_gapH, -10, 10;
-            FP_pieH, -10,10;
+%             FP_y_gapH, -10, 10;
+%             FP_pieH, -10,10;
 %             FP_c_gapH, -10, 10;
-%             FP_s_gapH, -10, 10;
+            FP_s_gapH, -10, 10;
 
-            FP_y_gapF_starr, -10,10;
-            FP_pieF_starr, -10, 10;
+%             FP_y_gapF_starr, -10,10;
+%             FP_pieF_starr, -10, 10;
 %             FP_c_gapF_starr, -10, 10;
-%             FP_s_gapF_starr, -10, 10;
+            FP_s_gapF_starr, -10, 10;
         end;
 
    @#elseif OSR_RULE_SCOPE =="GLOBAL"

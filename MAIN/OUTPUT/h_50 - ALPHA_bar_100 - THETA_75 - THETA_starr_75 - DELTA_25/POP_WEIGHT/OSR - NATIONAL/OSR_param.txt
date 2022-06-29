@@ -1,3 +1,0 @@
-OriginalVariableNames,Var1
-FP_y_gapH,-3.03958043428755
-FP_y_gapF_starr,-10

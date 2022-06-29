@@ -20,7 +20,7 @@ function g1 = dynamic_g1(T, y, x, params, steady_state, it_, T_flag)
 %
 
 if T_flag
-    T = MODEL_MAIN_6.dynamic_g1_tt(T, y, x, params, steady_state, it_);
+    T = Model_Main_6.dynamic_g1_tt(T, y, x, params, steady_state, it_);
 end
 g1 = zeros(72, 88);
 g1(1,5)=1+params(3);
@@ -260,18 +260,16 @@ g1(68,28)=(-1);
 g1(68,52)=1;
 g1(68,53)=(-1.5);
 g1(68,72)=(-0.5);
-g1(69,30)=(-params(30));
-g1(69,54)=(-params(31));
 g1(69,3)=(-0.85);
-g1(69,55)=1;
-g1(70,40)=(-params(32));
-g1(70,63)=(-params(33));
+g1(69,59)=1;
+g1(69,61)=(-params(30));
 g1(70,4)=(-0.85);
-g1(70,64)=1;
-g1(71,1)=(-params(34));
+g1(70,68)=1;
+g1(70,70)=(-params(31));
+g1(71,1)=(-params(32));
 g1(71,5)=1;
 g1(71,87)=1;
-g1(72,2)=(-params(34));
+g1(72,2)=(-params(32));
 g1(72,6)=1;
 g1(72,88)=1;
 

@@ -34,8 +34,11 @@ var
     y_cu        ${\hat y^{cu}}$       (long_name='Union output (log dev ss)')
     g_cu        ${\hat g^{cu}}$       (long_name='Union government spending (log dev ss)')
     c_cu        ${\hat c^{cu}}$       (long_name='Union consumption (log dev ss)')
+    c_H_cu
+    c_F_cu      
     ii_cu       ${i^{cu}}$            (long_name='Union nominal interest rate (log dev ss)')
     pie_cu      ${\pi^{cu}}$          (long_name='Union inflation (log dev ss)')
+    f_cu
 
     ;       
 
@@ -153,6 +156,11 @@ g_cu=h*g+(1-h)*g_starr;
 
 c_cu=h*c+(1-h)*c_starr;
 
+c_H_cu=h*c_H+(1-h)*c_H_starr;
+
+c_F_cu=h*c_F+(1-h)*c_F_starr;
+
+f_cu=h*f+(1-h)*f_starr;
 end;
 
 %-------------------------------------------------------------------------%
@@ -185,6 +193,9 @@ pie_cu=0;
 y_cu=0;
 g_cu=0;
 c_cu=0;
+c_H_cu=0;
+c_F_cu=0;
+f_cu=0;
 end;
 
 

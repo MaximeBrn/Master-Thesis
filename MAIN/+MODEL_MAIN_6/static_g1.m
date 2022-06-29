@@ -16,7 +16,7 @@ function g1 = static_g1(T, y, x, params, T_flag)
 %
 
 if T_flag
-    T = MODEL_MAIN_6.static_g1_tt(T, y, x, params);
+    T = Model_Main_6.static_g1_tt(T, y, x, params);
 end
 g1 = zeros(72, 72);
 g1(1,1)=1+params(3);
@@ -230,14 +230,12 @@ g1(68,24)=(-1);
 g1(68,48)=1;
 g1(68,49)=(-1.5);
 g1(68,68)=(-0.5);
-g1(69,26)=(-params(30));
-g1(69,50)=(-params(31));
-g1(69,51)=0.15;
-g1(70,36)=(-params(32));
-g1(70,59)=(-params(33));
-g1(70,60)=0.15;
-g1(71,1)=1-params(34);
-g1(72,2)=1-params(34);
+g1(69,55)=0.15;
+g1(69,57)=(-params(30));
+g1(70,64)=0.15;
+g1(70,66)=(-params(31));
+g1(71,1)=1-params(32);
+g1(72,2)=1-params(32);
 if ~isreal(g1)
     g1 = real(g1)+2*imag(g1);
 end

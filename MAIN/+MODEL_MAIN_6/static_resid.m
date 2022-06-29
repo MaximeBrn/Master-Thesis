@@ -16,7 +16,7 @@ function residual = static_resid(T, y, x, params, T_flag)
 %
 
 if T_flag
-    T = MODEL_MAIN_6.static_resid_tt(T, y, x, params);
+    T = Model_Main_6.static_resid_tt(T, y, x, params);
 end
 residual = zeros(72, 1);
 lhs = 0;
@@ -219,17 +219,17 @@ residual(67) = lhs - rhs;
 lhs = y(48);
 rhs = y(24)+y(49)*1.5+y(68)*0.5;
 residual(68) = lhs - rhs;
-lhs = y(51);
-rhs = y(51)*0.85+y(50)*params(31)+y(26)*params(30);
+lhs = y(55);
+rhs = y(55)*0.85+y(57)*params(30);
 residual(69) = lhs - rhs;
-lhs = y(60);
-rhs = y(60)*0.85+y(59)*params(33)+y(36)*params(32);
+lhs = y(64);
+rhs = y(64)*0.85+y(66)*params(31);
 residual(70) = lhs - rhs;
 lhs = y(1);
-rhs = y(1)*params(34)-x(1);
+rhs = y(1)*params(32)-x(1);
 residual(71) = lhs - rhs;
 lhs = y(2);
-rhs = y(2)*params(34)-x(2);
+rhs = y(2)*params(32)-x(2);
 residual(72) = lhs - rhs;
 if ~isreal(residual)
   residual = real(residual)+imag(residual).^2;

@@ -1,5 +1,0 @@
-OriginalVariableNames,Var1
-FP_c_gapH,-5.35777547794925
-FP_s_gapH,1.05824365119729
-FP_c_gapF_starr,3.85290081792341e-05
-FP_s_gapF_starr,-8.7850051600441e-05

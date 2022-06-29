@@ -32,7 +32,10 @@ var
     y_nat_cu        ${\hat {\bar y}^{cu}}$      (long_name='Union natural output (log dev ss)')  
     g_nat_cu        ${\hat {\bar g}^{cu}}$      (long_name='Union natural government consumption (log dev ss)')
     c_nat_cu        ${\hat {\bar c}^{cu}}$      (long_name='Union natural consumption (log dev ss)')
+    c_H_nat_cu
+    c_F_nat_cu      
     r_nat_cu        ${\hat {\bar r}^{cu}}$      (long_name='Union natural rate (log dev ss)')
+    f_nat_cu
 ;       
 
 %-------------------------------------------------------------------------%
@@ -149,6 +152,11 @@ c_nat_cu=h*c_nat+(1-h)*c_nat_starr;
 
 r_nat_cu=h*r_nat+(1-h)*r_nat_starr;
 
+c_H_nat_cu=h*c_H_nat+(1-h)*c_H_nat_starr;
+
+c_F_nat_cu=h*c_F_nat+(1-h)*c_F_nat_starr;
+
+f_nat_cu = h*f_nat+(1-h)*f_nat_starr;
 end;
 
 %-------------------------------------------------------------------------%
@@ -178,6 +186,9 @@ y_nat_cu=0;
 g_nat_cu=0;
 c_nat_cu=0;
 r_nat_cu=0;
+c_H_nat_cu=0;
+c_F_nat_cu=0;
+f_nat_cu=0;
 end;
 
 

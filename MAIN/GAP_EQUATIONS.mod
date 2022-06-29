@@ -33,7 +33,11 @@ var
     y_gap_cu        ${\tilde y^{cu}}$     (long_name='Union output gap (log dev ss)')
     g_gap_cu        ${\tilde g^{cu}}$     (long_name='Union government spending gap (log dev ss)')  
     c_gap_cu        ${\tilde c^{cu}}$     (long_name='Union government spending gap (log dev ss)')
+    c_H_gap_cu
+    c_F_gap_cu
     ii_gap_cu       ${\tilde i^{cu}}$
+    n_gap_cu
+    f_gap_cu
 
     g_gap_r         ${\tilde g^{r}}$     (long_name='Relative output gap (log dev ss)')
 ;
@@ -136,6 +140,15 @@ ii_gap_cu=ii-r_nat_cu;
 
 g_gap_r = g_gap - g_gap_starr;
 
+n_gap_cu=h*n_gap + (1-h)*n_gap_starr;
+
+f_gap_cu = h*f_gap + (1-h)*f_gap_starr;
+
+c_H_gap_cu = h*c_H_gap + (1-h)*c_H_gap_starr;
+
+c_F_gap_cu = h*c_F_gap + (1-h)*c_F_gap_starr;
+
+
 end;
 
 %-------------------------------------------------------------------------%
@@ -165,7 +178,10 @@ y_gap_cu=0;
 g_gap_cu=0;
 c_gap_cu=0;
 ii_gap_cu=0;
-
+n_gap_cu=0;
 g_gap_r=0;
+f_gap_cu=0;
+c_H_gap_cu=0;
+c_F_gap_cu=0;
 end;
 

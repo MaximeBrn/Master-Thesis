@@ -5,9 +5,9 @@ function [residual, g1] = static_resid_g1(T, y, x, params, T_flag)
 %
 
     if T_flag
-        T = MODEL_MAIN_6.static_g1_tt(T, y, x, params);
+        T = Model_Main_6.static_g1_tt(T, y, x, params);
     end
-    residual = MODEL_MAIN_6.static_resid(T, y, x, params, false);
-    g1       = MODEL_MAIN_6.static_g1(T, y, x, params, false);
+    residual = Model_Main_6.static_resid(T, y, x, params, false);
+    g1       = Model_Main_6.static_g1(T, y, x, params, false);
 
 end

@@ -15,7 +15,7 @@ function T = static_g1_tt(T, y, x, params)
 
 assert(length(T) >= 0);
 
-T = MODEL_MAIN_6.static_resid_tt(T, y, x, params);
+T = Model_Main_6.static_resid_tt(T, y, x, params);
 
 
 end

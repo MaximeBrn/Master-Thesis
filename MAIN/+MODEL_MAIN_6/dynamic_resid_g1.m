@@ -5,9 +5,9 @@ function [residual, g1] = dynamic_resid_g1(T, y, x, params, steady_state, it_, T
 %
 
     if T_flag
-        T = MODEL_MAIN_6.dynamic_g1_tt(T, y, x, params, steady_state, it_);
+        T = Model_Main_6.dynamic_g1_tt(T, y, x, params, steady_state, it_);
     end
-    residual = MODEL_MAIN_6.dynamic_resid(T, y, x, params, steady_state, it_, false);
-    g1       = MODEL_MAIN_6.dynamic_g1(T, y, x, params, steady_state, it_, false);
+    residual = Model_Main_6.dynamic_resid(T, y, x, params, steady_state, it_, false);
+    g1       = Model_Main_6.dynamic_g1(T, y, x, params, steady_state, it_, false);
 
 end

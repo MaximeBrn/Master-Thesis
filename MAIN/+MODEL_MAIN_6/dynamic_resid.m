@@ -20,7 +20,7 @@ function residual = dynamic_resid(T, y, x, params, steady_state, it_, T_flag)
 %
 
 if T_flag
-    T = MODEL_MAIN_6.dynamic_resid_tt(T, y, x, params, steady_state, it_);
+    T = Model_Main_6.dynamic_resid_tt(T, y, x, params, steady_state, it_);
 end
 residual = zeros(72, 1);
 lhs = 0;
@@ -227,17 +227,17 @@ residual(67) = lhs - rhs;
 lhs = y(52);
 rhs = y(28)+y(53)*1.5+y(72)*0.5;
 residual(68) = lhs - rhs;
-lhs = y(55);
-rhs = 0.85*y(3)+y(54)*params(31)+y(30)*params(30);
+lhs = y(59);
+rhs = 0.85*y(3)+y(61)*params(30);
 residual(69) = lhs - rhs;
-lhs = y(64);
-rhs = 0.85*y(4)+y(63)*params(33)+y(40)*params(32);
+lhs = y(68);
+rhs = 0.85*y(4)+y(70)*params(31);
 residual(70) = lhs - rhs;
 lhs = y(5);
-rhs = params(34)*y(1)-x(it_, 1);
+rhs = params(32)*y(1)-x(it_, 1);
 residual(71) = lhs - rhs;
 lhs = y(6);
-rhs = params(34)*y(2)-x(it_, 2);
+rhs = params(32)*y(2)-x(it_, 2);
 residual(72) = lhs - rhs;
 
 end
