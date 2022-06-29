@@ -11,9 +11,9 @@
 @#define POLICY = "OSR" // Are FP and MP "RAMSEY" or "OSR"
 @#define OBJECTIVE = "POP_WEIGHT" // "EQUAL_WEIGHT" or "POP_WEIGHT" 
 @#define OSR_MP_RULE = "TAYLOR" // "BLANCHARD" or "TAYLOR"
-@#define OSR_FP_RULE = "BEETSMA" // "BEETSMA" or "BEETSMA_NATIONAL" or "KIRSANOVA" or "KIRSANOVA_NATIONAL" or "MB" or "MB_NATIONAL"
-@#define OSR_FP_FOREIGN = "FOREIGN_PASSIVE" // "BOTH_ACTIVE" or "FOREIGN_PASSIVE"
-@#define OSR_FP_HOME = "HOME_UNCOORDINATED" // "HOME_COORDINATED" or "HOME_UNCOORDINATED"
+@#define OSR_FP_RULE = "MB" // "OUTPUT_GAP_ONLY" or "BEETSMA" or "BEETSMA_NATIONAL" or "KIRSANOVA" or "KIRSANOVA_NATIONAL" or "MB" or "MB_NATIONAL"
+@#define OSR_FP_FOREIGN = "BOTH_ACTIVE" // "BOTH_ACTIVE" or "FOREIGN_PASSIVE"
+@#define OSR_FP_HOME = "HOME_COORDINATED" // "HOME_COORDINATED" or "HOME_UNCOORDINATED"
 
 %-------------------------------------------------------------------------%
 %--------------------------- DECLARE VARIABLES ---------------------------%
@@ -105,53 +105,70 @@ RHOG
             FP_s_gapF_starr
     @#endif
 
-
     @#elseif OSR_FP_RULE == "BEETSMA_NATIONAL"
 
         FP_c_gapH
         FP_s_gapH
 
+        @#if OSR_FP_FOREIGN == "BOTH_ACTIVE"
         FP_c_gapF_starr
         FP_s_gapF_starr
-
+        @#endif
+        
     @#elseif OSR_FP_RULE == "KIRSANOVA"
 
         FP_y_gapH
         FP_y_gapF
         FP_pieH
         FP_pieF
-
+        
+        @#if OSR_FP_FOREIGN == "BOTH_ACTIVE"
         FP_y_gapH_starr
         FP_y_gapF_starr
         FP_pieH_starr
         FP_pieF_starr
+        @#endif
 
     @#elseif OSR_FP_RULE == "KIRSANOVA_NATIONAL"
 
         FP_y_gapH
         FP_pieH
-
+        
+        @#if OSR_FP_FOREIGN == "BOTH_ACTIVE"
         FP_y_gapF_starr
         FP_pieF_starr
+        @#endif
 
     @#elseif OSR_FP_RULE == "MB"
 
         FP_c_gapH
         FP_c_gapF
         FP_s_gapH
-
+        
+        @#if OSR_FP_FOREIGN == "BOTH_ACTIVE"
         FP_c_gapH_starr
         FP_c_gapF_starr
         FP_s_gapF_starr
+        @#endif
 
     @#elseif OSR_FP_RULE == "MB_NATIONAL"
 
         FP_c_gapH
         FP_s_gapH
-
+        
+        @#if OSR_FP_FOREIGN == "BOTH_ACTIVE"
         FP_c_gapF_starr
         FP_s_gapF_starr
+        @#endif
             
+    @#elseif OSR_FP_RULE == "OUTPUT_GAP_ONLY"
+
+        FP_y_gapH
+        
+        @#if OSR_FP_FOREIGN == "BOTH_ACTIVE"
+        FP_y_gapF_starr
+        @#endif
+
     @#endif
 
 @#endif
@@ -167,9 +184,9 @@ RHOG
 
 %---------------------------  Union Features  ----------------------------%
 
-h               =   0.5; % 0.5 or 0.75
-ALPHA_bar       =   0.4; % 0.4 or 0.6
-THETA           =   0.75; % 0.75 or 0.5
+h               =   0.75; % 0.5 or 0.75
+ALPHA_bar       =   0.6; % 0.4 or 0.6
+THETA           =   0.75; % 0.5 or 0.75
 
 %---------------------------  Fixed Parameters  --------------------------%
 
@@ -212,7 +229,7 @@ RHOG        =   0.92;
 
 
 % @#if POLICY == "OSR"    
-% 
+
 %     @#if OSR_FP_RULE == "BEETSMA"
 %         
 %         FP_c_gapCU
@@ -249,17 +266,17 @@ RHOG        =   0.92;
 % 
 %         FP_y_gapF_starr
 %         FP_pieF_starr
-% 
+
 %     @#elseif OSR_FP_RULE == "MB"
 % 
-%         FP_c_gapH
-%         FP_c_gapF
-%         FP_s_gapH
+%         FP_c_gapH=7;
+%         FP_c_gapF=-7;
+%         FP_s_gapH=9;
 % 
-%         FP_c_gapH_starr
-%         FP_c_gapF_starr
-%         FP_s_gapF_starr
-% 
+%         FP_c_gapH_starr=7;
+%         FP_c_gapF_starr=-7;
+%         FP_s_gapF_starr=9;
+
 %     @#elseif OSR_FP_RULE == "MB_NATIONAL"
 % 
 %         FP_c_gapH
@@ -269,9 +286,8 @@ RHOG        =   0.92;
 %         FP_s_gapF_starr
 %             
 %     @#endif
-% 
-% @#endif
 
+% @#endif
 
 %-------------------------------------------------------------------------%
 %---------------------------  MODEL EQUATIONS ----------------------------%
@@ -316,49 +332,67 @@ model(linear);
     @#if OSR_FP_RULE == "BEETSMA"
         
         g_gap       =   RHOG * g_gap(-1)          +   FP_c_gapCU * c_gap_cu         +  FP_s_gapH * s_gap;
-        
-        @#if OSR_FP_FOREIGN == "BOTH_ACTIVE"
-            
-            g_gap_starr =   RHOG * g_gap_starr(-1)    +   FP_c_gapCU_starr * c_gap_cu   +  FP_s_gapF_starr * s_gap_starr;
-
+        @#if OSR_FP_FOREIGN == "BOTH_ACTIVE"            
+        g_gap_starr =   RHOG * g_gap_starr(-1)    +   FP_c_gapCU_starr * c_gap_cu   +  FP_s_gapF_starr * s_gap_starr;
         @#elseif OSR_FP_FOREIGN == "FOREIGN_PASSIVE"
-
-%             f_gap_starr=0;
-            g_gap_starr =   0;
-
+        g_gap_starr=0; 
         @#endif
 
     @#elseif OSR_FP_RULE == "BEETSMA_NATIONAL"
 
-
         g_gap       =   RHOG * g_gap(-1)        +FP_c_gapH * c_gap              +FP_s_gapH * s_gap;
+        @#if OSR_FP_FOREIGN == "BOTH_ACTIVE"
         g_gap_starr =   RHOG * g_gap_starr(-1)  +FP_c_gapF_starr * c_gap_starr  +FP_s_gapF_starr * s_gap_starr;
-
+        @#elseif OSR_FP_FOREIGN == "FOREIGN_PASSIVE"
+        g_gap_starr=0; 
+        @#endif
 
     @#elseif OSR_FP_RULE == "KIRSANOVA"
 
         g_gap       =   RHOG * g_gap(-1)        +FP_y_gapH * y_gap          +FP_y_gapF * y_gap_starr        +FP_pieH * pie          +FP_pieF * pie_starr;
+        @#if OSR_FP_FOREIGN == "BOTH_ACTIVE"
         g_gap_starr =   RHOG * g_gap_starr(-1)  +FP_y_gapH_starr * y_gap    +FP_y_gapF_starr * y_gap_starr  +FP_pieH_starr * pie    +FP_pieF_starr * pie_starr;
-        
+        @#elseif OSR_FP_FOREIGN == "FOREIGN_PASSIVE"
+%         g_gap_starr=0;
+        f_gap_starr=0; 
+        @#endif
 
     @#elseif OSR_FP_RULE == "KIRSANOVA_NATIONAL"
 
         g_gap       =   RHOG * g_gap(-1)        +FP_y_gapH * y_gap              +FP_pieH * pie;
+        @#if OSR_FP_FOREIGN == "BOTH_ACTIVE"
         g_gap_starr =   RHOG * g_gap_starr(-1)  +FP_y_gapF_starr * y_gap_starr  +FP_pieF_starr * pie_starr;
+        @#elseif OSR_FP_FOREIGN == "FOREIGN_PASSIVE"
+        g_gap_starr=0; 
+        @#endif
 
     @#elseif OSR_FP_RULE == "MB"
 
-
         f_gap       =   RHOG * f_gap(-1)        +FP_c_gapH * (c_gap-y_gap)          +FP_c_gapF * (c_gap_starr-y_gap_starr)          +FP_s_gapH * s_gap;
+        @#if OSR_FP_FOREIGN == "BOTH_ACTIVE"
         f_gap_starr =   RHOG * f_gap_starr(-1)  +FP_c_gapH_starr * (c_gap-y_gap)    +FP_c_gapF_starr * (c_gap_starr-y_gap_starr)    +FP_s_gapF_starr * s_gap_starr;
-       
+        @#elseif OSR_FP_FOREIGN == "FOREIGN_PASSIVE"
+        f_gap_starr=0; 
+        @#endif
 
     @#elseif OSR_FP_RULE == "MB_NATIONAL"
 
-
         f_gap       =   RHOG * f_gap(-1)        +FP_c_gapH * (c_gap-y_gap)                      +FP_s_gapH * s_gap;
+        @#if OSR_FP_FOREIGN == "BOTH_ACTIVE"
         f_gap_starr =   RHOG * f_gap_starr(-1)  +FP_c_gapF_starr * (c_gap_starr-y_gap_starr)    +FP_s_gapF_starr * s_gap_starr;
-            
+        @#elseif OSR_FP_FOREIGN == "FOREIGN_PASSIVE"
+        f_gap_starr=0; 
+        @#endif
+    
+        @#elseif OSR_FP_RULE == "OUTPUT_GAP_ONLY"
+
+        g_gap       =   RHOG * g_gap(-1)        +FP_y_gapH * y_gap;
+        @#if OSR_FP_FOREIGN == "BOTH_ACTIVE"
+        g_gap_starr =   RHOG * g_gap_starr(-1)  +FP_y_gapF_starr * y_gap_starr;
+        @#elseif OSR_FP_FOREIGN == "FOREIGN_PASSIVE"
+        g_gap_starr=0; 
+        @#endif
+
     @#endif
 
 @#endif
@@ -379,6 +413,7 @@ steady_state_model;
 a=0;
 a_starr=0;
 end;
+
 
 %-------------------------------------------------------------------------%
 %-----------------------------  SIMULATIONS  -----------------------------%
@@ -403,7 +438,7 @@ end;
 %--------------------  IRFs under Optimal Commitment  --------------------%
 
     ramsey_model(instruments=(ii_cu,g_gap,g_gap_starr),planner_discount=BETA);
-
+    
     steady;
     check;
     stoch_simul(irf_shocks=(eps_a_starr),nograph,nocorr,nodecomposition,nomoments,irf=200);
@@ -421,21 +456,20 @@ end;
         FP_c_gapCU, 0, -10, 10;
         FP_s_gapH, 0, -10, 10;
 
-        @#if OSR_FP_FOREIGN == "BOTH_ACTIVE"
-            
+        @#if OSR_FP_FOREIGN == "BOTH_ACTIVE"       
             FP_c_gapCU_starr, 0, -10, 10;
             FP_s_gapF_starr, 0, -10, 10;
-
         @#endif
-
 
     @#elseif OSR_FP_RULE == "BEETSMA_NATIONAL"
 
         FP_c_gapH, 0, -10, 10;
         FP_s_gapH, 0, -10, 10;
 
+        @#if OSR_FP_FOREIGN == "BOTH_ACTIVE" 
         FP_c_gapF_starr, 0, -10, 10;
         FP_s_gapF_starr, 0, -10, 10;
+        @#endif
 
     @#elseif OSR_FP_RULE == "KIRSANOVA"
 
@@ -444,18 +478,22 @@ end;
         FP_pieH, 0, -10, 10;
         FP_pieF, 0, -10, 10;
 
+        @#if OSR_FP_FOREIGN == "BOTH_ACTIVE" 
         FP_y_gapH_starr, 0, -10, 10;
         FP_y_gapF_starr, 0, -10, 10;
         FP_pieH_starr, 0, -10, 10;
         FP_pieF_starr, 0, -10, 10;
+        @#endif
 
     @#elseif OSR_FP_RULE == "KIRSANOVA_NATIONAL"
 
         FP_y_gapH, 0, -10, 10;
         FP_pieH, 0, -10, 10;
 
+        @#if OSR_FP_FOREIGN == "BOTH_ACTIVE" 
         FP_y_gapF_starr, 0, -10, 10;
         FP_pieF_starr, 0, -10, 10;
+        @#endif
 
     @#elseif OSR_FP_RULE == "MB"
 
@@ -463,19 +501,30 @@ end;
         FP_c_gapF, 0, -10, 10;
         FP_s_gapH, 0, -10, 10;
 
+        @#if OSR_FP_FOREIGN == "BOTH_ACTIVE" 
         FP_c_gapH_starr, 0, -10, 10;
         FP_c_gapF_starr, 0, -10, 10;
         FP_s_gapF_starr, 0, -10, 10;
-        
+        @#endif
 
     @#elseif OSR_FP_RULE == "MB_NATIONAL"
 
         FP_c_gapH, 0, -10, 10;
         FP_s_gapH, 0, -10, 10;
 
+        @#if OSR_FP_FOREIGN == "BOTH_ACTIVE" 
         FP_c_gapF_starr, 0, -10, 10;
         FP_s_gapF_starr, 0, -10, 10;
+        @#endif
             
+    @#elseif OSR_FP_RULE == "OUTPUT_GAP_ONLY"
+
+        FP_y_gapH, 0, -10, 10;
+
+        @#if OSR_FP_FOREIGN == "BOTH_ACTIVE" 
+        FP_y_gapF_starr, 0, -10, 10;
+        @#endif
+
     @#endif
     end;
 
@@ -512,7 +561,7 @@ end;
         
             @#endif
     
-       @#elseif OSR_FP_HOME == "HOME_UNCOORDINATED"
+       @#elseif OSR_FP_HOME == "HOME_UNCOORDINATED" && OSR_FP_FOREIGN == "FOREIGN_PASSIVE"
        
             y_gap   1;
             c_gap   1;
@@ -531,11 +580,9 @@ end;
             FP_c_gapCU
             FP_s_gapH
     
-             @#if OSR_FP_FOREIGN == "BOTH_ACTIVE"
-                
+             @#if OSR_FP_FOREIGN == "BOTH_ACTIVE"      
                  FP_c_gapCU_starr
                  FP_s_gapF_starr
-
             @#endif
         ;
 
@@ -543,11 +590,9 @@ end;
             FP_c_gapCU, -10, 10;
             FP_s_gapH, -10, 10;
              
-            @#if OSR_FP_FOREIGN == "BOTH_ACTIVE"
-                
+            @#if OSR_FP_FOREIGN == "BOTH_ACTIVE"       
                 FP_c_gapCU_starr, -10, 10;
                 FP_s_gapF_starr, -10, 10;
-                
             @#endif
         end;
 
@@ -557,16 +602,20 @@ end;
             FP_c_gapH
             FP_s_gapH
     
+            @#if OSR_FP_FOREIGN == "BOTH_ACTIVE" 
             FP_c_gapF_starr
             FP_s_gapF_starr
+            @#endif
         ;
     
         osr_params_bounds;
             FP_c_gapH, -10, 10;
             FP_s_gapH, -10, 10;
     
+            @#if OSR_FP_FOREIGN == "BOTH_ACTIVE" 
             FP_c_gapF_starr, -10, 10;
             FP_s_gapF_starr, -10, 10;
+            @#endif
         end;
 
     @#elseif OSR_FP_RULE == "KIRSANOVA"
@@ -577,10 +626,12 @@ end;
             FP_pieH
             FP_pieF
     
+            @#if OSR_FP_FOREIGN == "BOTH_ACTIVE" 
             FP_y_gapH_starr
             FP_y_gapF_starr
             FP_pieH_starr
             FP_pieF_starr
+            @#endif
         ;
     
         osr_params_bounds;
@@ -589,10 +640,12 @@ end;
             FP_pieH, -10, 10;
             FP_pieF, -10, 10;
     
+            @#if OSR_FP_FOREIGN == "BOTH_ACTIVE" 
             FP_y_gapH_starr, -10, 10;
             FP_y_gapF_starr, -10, 10;
             FP_pieH_starr, -10, 10;
             FP_pieF_starr, -10, 10;
+            @#endif
         end;
 
     @#elseif OSR_FP_RULE == "KIRSANOVA_NATIONAL"
@@ -601,16 +654,20 @@ end;
             FP_y_gapH
             FP_pieH
     
+            @#if OSR_FP_FOREIGN == "BOTH_ACTIVE" 
             FP_y_gapF_starr
             FP_pieF_starr
+            @#endif
         ;
     
         osr_params_bounds;
             FP_y_gapH, -10, 10;
             FP_pieH, -10, 10;
     
+            @#if OSR_FP_FOREIGN == "BOTH_ACTIVE" 
             FP_y_gapF_starr, -10, 10;
             FP_pieF_starr, -10, 10;
+            @#endif
         end;
 
     @#elseif OSR_FP_RULE == "MB"
@@ -620,22 +677,24 @@ end;
             FP_c_gapF
             FP_s_gapH
     
+            @#if OSR_FP_FOREIGN == "BOTH_ACTIVE" 
             FP_c_gapH_starr
             FP_c_gapF_starr
             FP_s_gapF_starr
+            @#endif
         ;
     
         osr_params_bounds;
             FP_c_gapH, -10, 10;
             FP_c_gapF, -10, 10;
             FP_s_gapH, -10, 10;
+            
     
+            @#if OSR_FP_FOREIGN == "BOTH_ACTIVE" 
             FP_c_gapH_starr, -10, 10;
             FP_c_gapF_starr, -10, 10;
             FP_s_gapF_starr, -10, 10;
-%             FP_c_gapH_starr, -0.0001, 0.0001;
-%             FP_c_gapF_starr, -0.0001, 0.0001;
-%             FP_s_gapF_starr, -0.0001, 0.0001;
+            @#endif
         end;
 
     @#elseif OSR_FP_RULE == "MB_NATIONAL"
@@ -644,18 +703,39 @@ end;
             FP_c_gapH
             FP_s_gapH
     
+            @#if OSR_FP_FOREIGN == "BOTH_ACTIVE" 
             FP_c_gapF_starr
             FP_s_gapF_starr
+            @#endif
         ;
     
         osr_params_bounds;
             FP_c_gapH, -10, 10;
             FP_s_gapH, -10, 10;
-    
+   
+            @#if OSR_FP_FOREIGN == "BOTH_ACTIVE" 
             FP_c_gapF_starr, -10, 10;
             FP_s_gapF_starr, -10, 10;
+            @#endif
         end;
-            
+    
+    @#elseif OSR_FP_RULE == "OUTPUT_GAP_ONLY"
+
+        osr_params
+            FP_y_gapH
+    
+            @#if OSR_FP_FOREIGN == "BOTH_ACTIVE" 
+            FP_y_gapF_starr
+            @#endif
+        ;
+    
+        osr_params_bounds;
+            FP_y_gapH, -10, 10;
+   
+            @#if OSR_FP_FOREIGN == "BOTH_ACTIVE" 
+            FP_y_gapF_starr, -10, 10;
+            @#endif
+        end;        
     @#endif    
   
 %---------------------------  IRFs under OSR  ----------------------------%
@@ -1067,3 +1147,4 @@ figure_name = "IRFs_Detail_n_s_i"
 set(gcf,'Position',[1 1 1366 691])
 saveas(gcf,folder_name+"/"+figure_name+".png")
 
+close all

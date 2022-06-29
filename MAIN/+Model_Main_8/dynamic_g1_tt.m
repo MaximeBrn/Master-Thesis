@@ -18,9 +18,10 @@ function T = dynamic_g1_tt(T, y, x, params, steady_state, it_)
 %   T           [#temp variables by 1]       double  vector of temporary terms
 %
 
-assert(length(T) >= 2);
+assert(length(T) >= 3);
 
 T = Model_Main_8.dynamic_resid_tt(T, y, x, params, steady_state, it_);
 
+T(3) = (-(1-params(7)));
 
 end

@@ -1,0 +1,5 @@
+OriginalVariableNames,Var1
+FP_y_gapH,7.5
+FP_pieH,7.5
+FP_y_gapF_starr,-7.5
+FP_pieF_starr,2.5
