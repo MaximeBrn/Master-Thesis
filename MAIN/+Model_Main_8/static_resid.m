@@ -16,7 +16,7 @@ function residual = static_resid(T, y, x, params, T_flag)
 %
 
 if T_flag
-    T = Model_Main_8.static_resid_tt(T, y, x, params);
+    T = MODEL_MAIN_8.static_resid_tt(T, y, x, params);
 end
 residual = zeros(85, 1);
 lhs = 0;
@@ -216,7 +216,7 @@ residual(66) = lhs - rhs;
 lhs = y(74);
 rhs = y(43)-y(18);
 residual(67) = lhs - rhs;
-lhs = y(73);
+lhs = 0;
 rhs = y(47)-y(19);
 residual(68) = lhs - rhs;
 lhs = y(75);
@@ -244,7 +244,7 @@ lhs = y(83);
 rhs = y(58)-y(29);
 residual(76) = lhs - rhs;
 lhs = y(84);
-rhs = params(7)*y(64)+(1-params(7))*y(73);
+rhs = params(7)*y(64);
 residual(77) = lhs - rhs;
 lhs = y(80);
 rhs = params(7)*y(62)+(1-params(7))*y(71);
@@ -258,14 +258,12 @@ residual(80) = lhs - rhs;
 lhs = y(64);
 rhs = y(64)*params(30)+params(31)*(y(61)-y(59))+params(32)*(y(70)-y(68))+y(66)*params(33);
 residual(81) = lhs - rhs;
-lhs = y(73);
-rhs = y(73)*params(30)+(y(61)-y(59))*params(34)+(y(70)-y(68))*params(35)+y(75)*params(36);
-residual(82) = lhs - rhs;
+residual(82) = y(73);
 lhs = y(1);
-rhs = y(1)*params(37)-x(1);
+rhs = y(1)*params(34)-x(1);
 residual(83) = lhs - rhs;
 lhs = y(2);
-rhs = y(2)*params(37)-x(2);
+rhs = y(2)*params(34)-x(2);
 residual(84) = lhs - rhs;
 lhs = y(3);
 rhs = y(1)*params(7)+y(2)*(1-params(7));

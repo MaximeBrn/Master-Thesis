@@ -10,3 +10,246 @@ Processing outputs ...
 done
 Preprocessing completed.
 
+28.3% of the prior support gives unique saddle-path solution.
+ 0.0% of the prior support gives explosive dynamics.
+71.7% of the prior support gives indeterminacy.
+
+
+
+
+Smirnov statistics in driving unique solution
+Parameter            d-stat         p-value
+FP_c_gapH             0.401           0.000
+FP_c_gapF             0.311           0.000
+FP_s_gapH             0.221           0.000
+
+No correlation term with pvalue <1e-05 and |corr. coef.| >0 found for NO unique Stable Saddle-Path
+
+
+
+
+Smirnov statistics in driving indeterminacy
+Parameter            d-stat         p-value
+FP_c_gapH             0.401           0.000
+FP_c_gapF             0.311           0.000
+FP_s_gapH             0.221           0.000
+
+No correlation term with pvalue <1e-05 and |corr. coef.| >0 found for indeterminacy
+
+
+STEADY-STATE RESULTS:
+
+a             		 0
+a_starr       		 0
+a_cu          		 0
+y_nat         		 0
+g_nat         		 0
+c_nat         		 0
+c_H_nat       		 0
+c_F_nat       		 0
+n_nat         		 0
+f_nat         		 0
+s_nat         		 0
+r_nat         		 0
+y_nat_starr   		 0
+g_nat_starr   		 0
+c_nat_starr   		 0
+c_H_nat_starr 		 0
+c_F_nat_starr 		 0
+n_nat_starr   		 0
+f_nat_starr   		 0
+s_nat_starr   		 0
+r_nat_starr   		 0
+y_nat_cu      		 0
+g_nat_cu      		 0
+c_nat_cu      		 0
+c_H_nat_cu    		 0
+c_F_nat_cu    		 0
+r_nat_cu      		 0
+f_nat_cu      		 0
+n_nat_cu      		 0
+y             		 0
+pie           		 0
+g             		 0
+n             		 0
+c             		 0
+c_H           		 0
+c_F           		 0
+f             		 0
+s             		 0
+ii            		 0
+y_starr       		 0
+pie_starr     		 0
+g_starr       		 0
+n_starr       		 0
+c_starr       		 0
+c_H_starr     		 0
+c_F_starr     		 0
+f_starr       		 0
+ii_starr      		 0
+s_starr       		 0
+y_cu          		 0
+g_cu          		 0
+c_cu          		 0
+c_H_cu        		 0
+c_F_cu        		 0
+ii_cu         		 0
+pie_cu        		 0
+f_cu          		 0
+n_cu          		 0
+y_gap         		 0
+g_gap         		 0
+c_gap         		 0
+c_H_gap       		 0
+c_F_gap       		 0
+f_gap         		 0
+n_gap         		 0
+s_gap         		 0
+ii_gap        		 0
+y_gap_starr   		 0
+g_gap_starr   		 0
+c_gap_starr   		 0
+c_H_gap_starr 		 0
+c_F_gap_starr 		 0
+f_gap_starr   		 0
+n_gap_starr   		 0
+s_gap_starr   		 0
+ii_gap_starr  		 0
+y_gap_cu      		 0
+g_gap_cu      		 0
+c_gap_cu      		 0
+c_H_gap_cu    		 0
+c_F_gap_cu    		 0
+ii_gap_cu     		 0
+n_gap_cu      		 0
+f_gap_cu      		 0
+g_gap_r       		 0
+
+EIGENVALUES:
+         Modulus             Real        Imaginary
+
+          0.6291           0.6291                0
+            0.95             0.95                0
+            0.95             0.95                0
+           1.163            1.146           0.1952
+           1.163            1.146          -0.1952
+           1.468            1.468                0
+            1.51            -1.51                0
+       2.137e+16       -2.137e+16                0
+       4.091e+16       -4.091e+16                0
+       1.275e+17        1.275e+17                0
+       1.066e+32        1.066e+32                0
+             Inf              Inf                0
+             Inf              Inf                0
+
+
+There are 10 eigenvalue(s) larger than 1 in modulus 
+for 10 forward-looking variable(s)
+
+The rank condition is verified.
+
+
+OPTIMAL SIMPLE RULE
+
+
+OSR: Initial value of the objective function: 0.0522863 
+
+  n=3: (3,7)-CMA-ES(w=[64 28 8]%, mu_eff=2.0) on function osr_obj
+Iterat, #Fevals:   Function Value    (median,worst) |Axis Ratio|idx:Min SD idx:Max SD
+    1 ,      8 : 4.4704939520245e-02 +(1e+08,1e+08) | 1.05e+00 |  1:3.1e+00  3:3.2e+00
+    2 ,     15 : 2.4388667304800e-02 +(1e+08,1e+08) | 1.08e+00 |  1:2.5e+00  2:2.6e+00
+   10 ,     71 : 4.3956549211606e-03 +(1e-02,5e-02) | 1.39e+00 |  3:8.9e-01  2:1.2e+00
+   20 ,    141 : 4.3903432077740e-03 +(6e-05,9e-04) | 2.48e+00 |  3:3.6e-01  2:6.2e-01
+   30 ,    211 : 4.3064254273665e-03 +(1e-04,7e-04) | 3.58e+00 |  3:1.5e-01  2:2.2e-01
+   40 ,    281 : 4.0677949163038e-03 +(1e-04,3e-04) | 7.75e+00 |  3:1.2e-01  2:2.2e-01
+   50 ,    351 : 3.6810224273785e-03 +(2e-04,1e+08) | 9.39e+00 |  1:8.3e-02  2:1.3e-01
+   60 ,    421 : 3.4142886044688e-03 +(1e-04,1e+08) | 9.41e+00 |  3:3.6e-02  2:4.4e-02
+   70 ,    491 : 3.3046253294733e-03 +(1e-05,1e+08) | 1.41e+01 |  1:1.2e-02  3:2.6e-02
+   80 ,    561 : 3.3039202953298e-03 +(1e-05,1e+08) | 1.25e+01 |  1:2.3e-03  3:7.0e-03
+   90 ,    631 : 3.3045638533415e-03 +(8e-06,1e+08) | 1.58e+01 |  1:2.3e-03  3:1.3e-02
+Iterat, #Fevals:   Function Value    (median,worst) |Axis Ratio|idx:Min SD idx:Max SD
+  100 ,    701 : 3.3049495696272e-03 +(9e-07,1e+08) | 1.40e+01 |  1:5.2e-04  3:3.9e-03
+  110 ,    771 : 3.3036396909547e-03 +(2e-06,1e+08) | 2.43e+01 |  1:2.5e-04  3:3.7e-03
+  120 ,    841 : 3.3036110820932e-03 +(8e-08,1e+08) | 2.07e+01 |  1:2.9e-05  3:4.6e-04
+  130 ,    911 : 3.3036084641667e-03 +(1e-08,1e+08) | 2.20e+01 |  1:1.0e-05  3:1.9e-04
+  138 ,    967 : 3.3036052804964e-03 +(2e-08,3e-08) | 2.21e+01 |  1:5.7e-06  3:9.5e-05
+#Fevals:   f(returned x)   |    bestever.f     | stopflag (saved to variablescmaes.mat)
+    968: 3.30360528050e-03 | 3.30360244778e-03 | tolfun
+mean solution: -2.4e-01 +3.9e+00 -5.9e+00
+std deviation:  5.7e-06  7.2e-05  9.5e-05
+use plotcmaesdat.m for plotting the output at any time (option LogModulo must not be zero)
+
+OPTIMAL VALUE OF THE PARAMETERS:
+
+       FP_c_gapH        -0.237205
+
+       FP_c_gapF          3.93791
+
+       FP_s_gapH         -5.85634
+
+Objective function :        0.0033036
+
+
+
+MODEL SUMMARY
+
+  Number of variables:         85
+  Number of stochastic shocks: 2
+  Number of state variables:   3
+  Number of jumpers:           10
+  Number of static variables:  74
+
+
+MATRIX OF COVARIANCE OF EXOGENOUS SHOCKS
+Variables            eps_a  eps_a_starr
+eps_a             1.000000     0.000000
+eps_a_starr       0.000000     1.000000
+
+POLICY AND TRANSITION FUNCTIONS
+                                   a         a_starr            a_cu           y_nat           g_nat           c_nat         c_H_nat         c_F_nat           n_nat           f_nat           s_nat           r_nat     y_nat_starr     g_nat_starr     c_nat_starr   c_H_nat_starr   c_F_nat_starr     n_nat_starr     f_nat_starr     s_nat_starr     r_nat_starr        y_nat_cu        g_nat_cu        c_nat_cu      c_H_nat_cu      c_F_nat_cu        r_nat_cu        f_nat_cu        n_nat_cu               y             pie               g               n               c             c_H             c_F               f               s              ii         y_starr       pie_starr         g_starr         n_starr         c_starr       c_H_starr       c_F_starr         f_starr        ii_starr         s_starr            y_cu            g_cu            c_cu          c_H_cu          c_F_cu           ii_cu          pie_cu            f_cu            n_cu           y_gap           g_gap           c_gap         c_H_gap         c_F_gap           f_gap           n_gap           s_gap          ii_gap     y_gap_starr     g_gap_starr     c_gap_starr   c_H_gap_starr   c_F_gap_starr     f_gap_starr     n_gap_starr     s_gap_starr    ii_gap_starr        y_gap_cu        g_gap_cu        c_gap_cu      c_H_gap_cu      c_F_gap_cu       ii_gap_cu        n_gap_cu        f_gap_cu         g_gap_r
+f_gap(-1)                          0               0               0               0               0               0               0               0               0               0               0               0               0               0               0               0               0               0               0               0               0               0               0               0               0               0               0               0               0       54.088275       13.956604       54.651177       54.088275        3.569858       35.925362     -125.852157        0.562902       35.950560        0.032281      -53.951038      -13.959308      -53.951038      -53.951038       -3.620254      125.801761      -35.975758               0        0.032281      -35.950560        0.068619        0.350070       -0.025198       80.863561      -80.913957        0.032281       -0.001352        0.281451        0.068619       54.088275       54.651177        3.569858       35.925362     -125.852157        0.562902       54.088275       35.950560        0.032281      -53.951038      -53.951038       -3.620254      125.801761      -35.975758               0      -53.951038      -35.950560        0.032281        0.068619        0.350070       -0.025198       80.863561      -80.913957        0.032281        0.068619        0.281451      108.602215
+a(-1)                       0.950000               0        0.475000        0.995238        0.904762        0.265397        0.753968       -1.688889        0.045238       -0.090476        0.542857       -0.045238       -0.361905        0.361905        0.156825        2.111111       -0.331746       -0.361905        0.723810       -0.542857       -0.018095        0.316667        0.633333        0.211111        1.432540       -1.010317       -0.031667        0.316667       -0.158333        0.937281       -0.002617        0.847274       -0.012719        0.261490        0.715214       -1.553404       -0.090007        0.504137       -0.031789       -0.303859        0.002425        0.419950       -0.303859        0.160663        1.975557       -0.293061        0.723810       -0.031789       -0.504137        0.316711        0.633612        0.211077        1.345386       -0.923232       -0.031789       -0.000096        0.316902       -0.158289       -0.057958       -0.057488       -0.003906       -0.038754        0.135485        0.000470       -0.057958       -0.038720        0.013449        0.058045        0.058045        0.003838       -0.135554        0.038685               0        0.058045        0.038720       -0.013694        0.000044        0.000279       -0.000034       -0.087154        0.087085       -0.000122        0.000044        0.000235       -0.115533
+a_starr(-1)                        0        0.950000        0.475000       -0.361905        0.361905        0.156825       -0.331746        2.111111       -0.361905        0.723810       -0.542857       -0.018095        0.995238        0.904762        0.265397       -1.688889        0.753968        0.045238       -0.090476        0.542857       -0.045238        0.316667        0.633333        0.211111       -1.010317        1.432540       -0.031667        0.316667       -0.158333       -0.303947        0.002617        0.419393       -0.303947        0.160732       -0.292992        1.975626        0.723340       -0.504137       -0.031544        0.937193       -0.002425        0.846717       -0.012807        0.261559       -1.553335        0.715283       -0.090476       -0.031544        0.504137        0.316623        0.633055        0.211146       -0.923163        1.345454       -0.031544        0.000096        0.316432       -0.158377        0.057958        0.057488        0.003906        0.038754       -0.135485       -0.000470        0.057958        0.038720       -0.013449       -0.058045       -0.058045       -0.003838        0.135554       -0.038685               0       -0.058045       -0.038720        0.013694       -0.000044       -0.000279        0.000034        0.087154       -0.087085        0.000122       -0.000044       -0.000235        0.115533
+eps_a                      -1.000000               0       -0.500000       -1.047619       -0.952381       -0.279365       -0.793651        1.777778       -0.047619        0.095238       -0.571429        0.047619        0.380952       -0.380952       -0.165079       -2.222222        0.349206        0.380952       -0.761905        0.571429        0.019048       -0.333333       -0.666667       -0.222222       -1.507937        1.063492        0.033333       -0.333333        0.166667       -0.986611        0.002755       -0.891867        0.013389       -0.275253       -0.752857        1.635162        0.094744       -0.530671        0.033462        0.319852       -0.002552       -0.442053        0.319852       -0.169119       -2.079534        0.308485       -0.761905        0.033462        0.530671       -0.333380       -0.666960       -0.222186       -1.416195        0.971823        0.033462        0.000101       -0.333581        0.166620        0.061008        0.060514        0.004112        0.040794       -0.142616       -0.000494        0.061008        0.040758       -0.014157       -0.061100       -0.061100       -0.004040        0.142688       -0.040721               0       -0.061100       -0.040758        0.014415       -0.000046       -0.000293        0.000036        0.091741       -0.091669        0.000129       -0.000046       -0.000247        0.121614
+eps_a_starr                        0       -1.000000       -0.500000        0.380952       -0.380952       -0.165079        0.349206       -2.222222        0.380952       -0.761905        0.571429        0.019048       -1.047619       -0.952381       -0.279365        1.777778       -0.793651       -0.047619        0.095238       -0.571429        0.047619       -0.333333       -0.666667       -0.222222        1.063492       -1.507937        0.033333       -0.333333        0.166667        0.319944       -0.002755       -0.441466        0.319944       -0.169191        0.308412       -2.079606       -0.761410        0.530671        0.033205       -0.986519        0.002552       -0.891281        0.013481       -0.275326        1.635090       -0.752929        0.095238        0.033205       -0.530671       -0.333287       -0.666373       -0.222258        0.971751       -1.416268        0.033205       -0.000101       -0.333086        0.166713       -0.061008       -0.060514       -0.004112       -0.040794        0.142616        0.000494       -0.061008       -0.040758        0.014157        0.061100        0.061100        0.004040       -0.142688        0.040721               0        0.061100        0.040758       -0.014415        0.000046        0.000293       -0.000036       -0.091741        0.091669       -0.000129        0.000046        0.000247       -0.121614
+
+pol_name = 
+
+    "OSR - POP_WEIGHT - TAYLOR - MB - FOREIGN_PASSIVE - HOME_UNCOORDINATED"
+
+
+calibration_name = 
+
+    "h_0.5 - ALPHA_bar_0.4 - THETA_0.75"
+
+
+benchmark_folder_name = 
+
+    "OUTPUT/h_0.5 - ALPHA_bar_0.4 - THETA_0.75/POP_WEIGHT/RAMSEY"
+
+
+folder_name = 
+
+    "OUTPUT/h_0.5 - ALPHA_bar_0.4 - THETA_0.75/POP_WEIGHT/OSR - TAYLOR -  MB -  FOREIGN_PASSIVE -  HOME_UNCOORDINATED"
+
+[Warning: Directory already exists.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('MODEL_MAIN_8.driver', 'C:\Users\33689\Documents\GitHub\Master-Thesis\MAIN\+MODEL_MAIN_8\driver.m', 839)" style="font-weight:bold">MODEL_MAIN_8.driver</a> (<a href="matlab: opentoline('C:\Users\33689\Documents\GitHub\Master-Thesis\MAIN\+MODEL_MAIN_8\driver.m',839,0)">line 839</a>)
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('dynare', 'C:\dynare\5.0\matlab\dynare.m', 281)" style="font-weight:bold">dynare</a> (<a href="matlab: opentoline('C:\dynare\5.0\matlab\dynare.m',281,0)">line 281</a>)] 
+
+T_irf =
+
+   200
+
+
+T_plot =
+
+   100
+
+
+my_annotation =
+
+    'OSR, POP WEIGHT, TAYLOR, MB, FOREIGN PASSIVE, HOME UNCOORDINATED, $$h$$ = 0.5, $$\bar{\alpha}$$ =0.4, $$\theta$$ = 0.75'
+
+Total computing time : 0h00m40s
+Note: 1 warning(s) encountered in the preprocessor
+Note: warning(s) encountered in MATLAB/Octave code

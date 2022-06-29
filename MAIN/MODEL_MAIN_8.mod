@@ -12,8 +12,8 @@
 @#define OBJECTIVE = "POP_WEIGHT" // "EQUAL_WEIGHT" or "POP_WEIGHT" 
 @#define OSR_MP_RULE = "TAYLOR" // "BLANCHARD" or "TAYLOR"
 @#define OSR_FP_RULE = "MB" // "OUTPUT_GAP_ONLY" or "BEETSMA" or "BEETSMA_NATIONAL" or "KIRSANOVA" or "KIRSANOVA_NATIONAL" or "MB" or "MB_NATIONAL"
-@#define OSR_FP_FOREIGN = "BOTH_ACTIVE" // "BOTH_ACTIVE" or "FOREIGN_PASSIVE"
-@#define OSR_FP_HOME = "HOME_COORDINATED" // "HOME_COORDINATED" or "HOME_UNCOORDINATED"
+@#define OSR_FP_FOREIGN = "FOREIGN_PASSIVE" // "BOTH_ACTIVE" or "FOREIGN_PASSIVE"
+@#define OSR_FP_HOME = "HOME_UNCOORDINATED" // "HOME_COORDINATED" or "HOME_UNCOORDINATED"
 
 %-------------------------------------------------------------------------%
 %--------------------------- DECLARE VARIABLES ---------------------------%
@@ -184,8 +184,8 @@ RHOG
 
 %---------------------------  Union Features  ----------------------------%
 
-h               =   0.75; % 0.5 or 0.75
-ALPHA_bar       =   0.6; % 0.4 or 0.6
+h               =   0.5; % 0.5 or 0.75
+ALPHA_bar       =   0.4; % 0.4 or 0.6
 THETA           =   0.75; % 0.5 or 0.75
 
 %---------------------------  Fixed Parameters  --------------------------%
@@ -428,7 +428,8 @@ end;
     @#if OBJECTIVE == "POP_WEIGHT"
         
         planner_objective (1-DELTA)*(SIGMA+(1-DELTA)*PHI)*c_gap_cu^2 + h*(1-h)*(1-DELTA)*(1+PHI*(1-DELTA))*s_gap^2 + h*DELTA*(GAMMA+PHI*DELTA)*g_gap^2 + (1-h)*DELTA*(GAMMA+PHI*DELTA)*g_gap_starr^2 + h*EPSILON/LAMBDA*pie^2 + (1-h)*EPSILON/LAMBDA_starr*pie_starr^2 + 2*(1-DELTA)*PHI*c_gap_cu*g_gap_cu + 2*h*(1-h)*(1-DELTA)*DELTA*PHI*s_gap*(g_gap-g_gap_starr);
-
+%     %add ALPHA_bar to BEETSMA
+%     planner_objective (1-DELTA)*(SIGMA+(1-DELTA)*PHI)*c_gap_cu^2 + ALPHA_bar*h*(1-h)*(1-DELTA)*(1+PHI*(1-DELTA))*s_gap^2 + h*DELTA*(GAMMA+PHI*DELTA)*g_gap^2 + (1-h)*DELTA*(GAMMA+PHI*DELTA)*g_gap_starr^2 + h*EPSILON/LAMBDA*pie^2 + (1-h)*EPSILON/LAMBDA_starr*pie_starr^2 + 2*(1-DELTA)*PHI*c_gap_cu*g_gap_cu + ALPHA_bar*2*h*(1-h)*(1-DELTA)*DELTA*PHI*s_gap*(g_gap-g_gap_starr);
     @#elseif OBJECTIVE == "EQUAL_WEIGHT"
     
         planner_objective (1-DELTA)*(SIGMA+(1-DELTA)*PHI)*c_gap_cu^2 + h*(1-h)*(1-DELTA)*(1+PHI*(1-DELTA))*s_gap^2 + 1*DELTA*(GAMMA+PHI*DELTA)*g_gap^2 + 1*DELTA*(GAMMA+PHI*DELTA)*g_gap_starr^2 + 1*EPSILON/LAMBDA*pie^2 + 1*EPSILON/LAMBDA_starr*pie_starr^2 + 2*(1-DELTA)*PHI*c_gap_cu*g_gap_cu + 2*h*(1-h)*(1-DELTA)*DELTA*PHI*s_gap*(g_gap-g_gap_starr);
@@ -538,13 +539,15 @@ end;
             @#if OBJECTIVE == "POP_WEIGHT"
         
                 c_gap_cu            (1-DELTA)*(SIGMA+(1-DELTA)*PHI);
-                s_gap               h*(1-h)*(1-DELTA)*(1+PHI*(1-DELTA));
+%                 s_gap               h*(1-h)*(1-DELTA)*(1+PHI*(1-DELTA));
+                s_gap               ALPHA_bar*h*(1-h)*(1-DELTA)*(1+PHI*(1-DELTA));
                 g_gap               h*DELTA*(GAMMA+PHI*DELTA);
                 g_gap_starr         (1-h)*DELTA*(GAMMA+PHI*DELTA);
                 pie                 h*EPSILON/LAMBDA;
                 pie_starr           (1-h)*EPSILON/LAMBDA_starr;
                 c_gap_cu,g_gap_cu   2*(1-DELTA)*PHI;
-                s_gap,g_gap_r       2*h*(1-h)*(1-DELTA)*DELTA*PHI;
+%                 s_gap,g_gap_r       2*h*(1-h)*(1-DELTA)*DELTA*PHI;
+                s_gap,g_gap_r       ALPHA_bar*2*h*(1-h)*(1-DELTA)*DELTA*PHI;
         
         
         
@@ -563,11 +566,12 @@ end;
     
        @#elseif OSR_FP_HOME == "HOME_UNCOORDINATED" && OSR_FP_FOREIGN == "FOREIGN_PASSIVE"
        
-            y_gap   1;
-            c_gap   1;
-            g_gap   1;
-            pie     1;
-       
+                c_gap           (1-DELTA)*(SIGMA+(1-DELTA)*PHI);
+                s_gap           (1-DELTA)*(1+PHI*(1-DELTA));
+                g_gap           DELTA*(GAMMA+PHI*DELTA);
+                pie             EPSILON/LAMBDA; 
+                c_gap,g_gap     2*(1-DELTA)*PHI;
+
        @#endif
    end;
 
@@ -797,37 +801,39 @@ calibration_name="h_"+h+" - ALPHA_bar_"+ALPHA_bar+" - THETA_"+THETA
 % Create folder to store output
 mkdir(folder_name)
 
-%--------------------------  Quadratic Loss  -----------------------------%
-
-T_irf=options_.irf
-
-% Compute the quadratic loss under for the chosen policy objective
-@#if OBJECTIVE == "POP_WEIGHT"
-        
-%     Loss = sum(cumprod(ones(1,T_irf)*BETA)'.*((1/SIGMA*(1-DELTA)*ALPHA_bar*W_ALPHA_bar)^2*s_gap_eps_a_starr.^2+h/2*(EPSILON/LAMBDA*pie_eps_a_starr.^2+PHI*y_gap_eps_a_starr.^2+GAMMA*DELTA*g_gap_eps_a_starr.^2+SIGMA*(1-DELTA)*c_gap_eps_a_starr.^2)+(1-h)/2*(EPSILON/LAMBDA_starr*pie_starr_eps_a_starr.^2+PHI*y_gap_starr_eps_a_starr.^2+GAMMA*DELTA*g_gap_starr_eps_a_starr.^2+SIGMA*(1-DELTA)*c_gap_starr_eps_a_starr.^2)));
-      Loss = sum(cumprod(ones(1,T_irf)*BETA)'.*((1-DELTA)*(SIGMA+(1-DELTA)*PHI)*c_gap_cu_eps_a_starr.^2 + h*(1-h)*(1-DELTA)*(1+PHI*(1-DELTA))*s_gap_eps_a_starr.^2 + h*DELTA*(GAMMA+PHI*DELTA)*g_gap_eps_a_starr.^2 + (1-h)*DELTA*(GAMMA+PHI*DELTA)*g_gap_starr_eps_a_starr.^2 + h*EPSILON/LAMBDA*pie_eps_a_starr.^2 + (1-h)*EPSILON/LAMBDA_starr*pie_starr_eps_a_starr.^2 + 2*(1-DELTA)*PHI*c_gap_cu_eps_a_starr.*g_gap_cu_eps_a_starr + 2*h*(1-h)*(1-DELTA)*DELTA*PHI*s_gap_eps_a_starr.*g_gap_r_eps_a_starr));
-
-@#elseif OBJECTIVE == "EQUAL_WEIGHT"
-    
-%     Loss = sum(cumprod(ones(1,T_irf)*BETA)'.*((1/SIGMA*(1-DELTA)*ALPHA_bar*W_ALPHA_bar)^2*s_gap_eps_a_starr.^2+1/2*(EPSILON/LAMBDA*pie_eps_a_starr.^2+PHI*y_gap_eps_a_starr.^2+GAMMA*DELTA*g_gap_eps_a_starr.^2+SIGMA*(1-DELTA)*c_gap_eps_a_starr.^2)+1/2*(EPSILON/LAMBDA_starr*pie_starr_eps_a_starr.^2+PHI*y_gap_starr_eps_a_starr.^2+GAMMA*DELTA*g_gap_starr_eps_a_starr.^2+SIGMA*(1-DELTA)*c_gap_starr_eps_a_starr.^2)));
-      Loss = sum(cumprod(ones(1,T_irf)*BETA)'.*((1-DELTA)*(SIGMA+(1-DELTA)*PHI)*c_gap_cu_eps_a_starr.^2 + h*(1-h)*(1-DELTA)*(1+PHI*(1-DELTA))*s_gap_eps_a_starr.^2 + 1*DELTA*(GAMMA+PHI*DELTA)*g_gap_eps_a_starr.^2 + 1*DELTA*(GAMMA+PHI*DELTA)*g_gap_starr_eps_a_starr.^2 + 1*EPSILON/LAMBDA*pie_eps_a_starr.^2 + 1*EPSILON/LAMBDA_starr*pie_starr_eps_a_starr.^2 + 2*(1-DELTA)*PHI*c_gap_cu_eps_a_starr.*g_gap_cu_eps_a_starr + 2*h*(1-h)*(1-DELTA)*DELTA*PHI*s_gap_eps_a_starr.*g_gap_r_eps_a_starr));
-
-@#endif
-
-
-@#if POLICY == "RAMSEY"
-    
-    writematrix(Loss, folder_name+"/Loss_benchmark.txt");
-
-@#elseif POLICY == "OSR"
-    
-    Loss_benchmark_txt = readlines(benchmark_folder_name+"/Loss_benchmark.txt");
-    Loss_benchmark = str2num(Loss_benchmark_txt(1));
-    CEV = sqrt((1-BETA)/((1-DELTA)*(SIGMA+(1-DELTA)*PHI))*(Loss-Loss_benchmark))*100;
-    writematrix(CEV, folder_name+"/CEV.txt");
-    writematrix(Loss, folder_name+"/Loss.txt");
-
-@#endif
+% %--------------------------  Quadratic Loss  -----------------------------%
+% 
+% T_irf=options_.irf
+% 
+% % Compute the quadratic loss under for the chosen policy objective
+% @#if OBJECTIVE == "POP_WEIGHT"
+%  
+%       Loss = sum(cumprod(ones(1,T_irf)*BETA)'.*((1-DELTA)*(SIGMA+(1-DELTA)*PHI)*c_gap_cu_eps_a_starr.^2 + h*(1-h)*(1-DELTA)*(1+PHI*(1-DELTA))*s_gap_eps_a_starr.^2 + h*DELTA*(GAMMA+PHI*DELTA)*g_gap_eps_a_starr.^2 + (1-h)*DELTA*(GAMMA+PHI*DELTA)*g_gap_starr_eps_a_starr.^2 + h*EPSILON/LAMBDA*pie_eps_a_starr.^2 + (1-h)*EPSILON/LAMBDA_starr*pie_starr_eps_a_starr.^2 + 2*(1-DELTA)*PHI*c_gap_cu_eps_a_starr.*g_gap_cu_eps_a_starr + 2*h*(1-h)*(1-DELTA)*DELTA*PHI*s_gap_eps_a_starr.*g_gap_r_eps_a_starr));
+% 
+% % % add ALPHA_bar to BEETSMA
+% %         Loss = sum(cumprod(ones(1,T_irf)*BETA)'.*((1-DELTA)*(SIGMA+(1-DELTA)*PHI)*c_gap_cu_eps_a_starr.^2 + ALPHA_bar*h*(1-h)*(1-DELTA)*(1+PHI*(1-DELTA))*s_gap_eps_a_starr.^2 + h*DELTA*(GAMMA+PHI*DELTA)*g_gap_eps_a_starr.^2 + (1-h)*DELTA*(GAMMA+PHI*DELTA)*g_gap_starr_eps_a_starr.^2 + h*EPSILON/LAMBDA*pie_eps_a_starr.^2 + (1-h)*EPSILON/LAMBDA_starr*pie_starr_eps_a_starr.^2 + 2*(1-DELTA)*PHI*c_gap_cu_eps_a_starr.*g_gap_cu_eps_a_starr + ALPHA_bar*2*h*(1-h)*(1-DELTA)*DELTA*PHI*s_gap_eps_a_starr.*g_gap_r_eps_a_starr));
+% 
+% @#elseif OBJECTIVE == "EQUAL_WEIGHT"
+%     
+% %     Loss = sum(cumprod(ones(1,T_irf)*BETA)'.*((1/SIGMA*(1-DELTA)*ALPHA_bar*W_ALPHA_bar)^2*s_gap_eps_a_starr.^2+1/2*(EPSILON/LAMBDA*pie_eps_a_starr.^2+PHI*y_gap_eps_a_starr.^2+GAMMA*DELTA*g_gap_eps_a_starr.^2+SIGMA*(1-DELTA)*c_gap_eps_a_starr.^2)+1/2*(EPSILON/LAMBDA_starr*pie_starr_eps_a_starr.^2+PHI*y_gap_starr_eps_a_starr.^2+GAMMA*DELTA*g_gap_starr_eps_a_starr.^2+SIGMA*(1-DELTA)*c_gap_starr_eps_a_starr.^2)));
+%       Loss = sum(cumprod(ones(1,T_irf)*BETA)'.*((1-DELTA)*(SIGMA+(1-DELTA)*PHI)*c_gap_cu_eps_a_starr.^2 + h*(1-h)*(1-DELTA)*(1+PHI*(1-DELTA))*s_gap_eps_a_starr.^2 + 1*DELTA*(GAMMA+PHI*DELTA)*g_gap_eps_a_starr.^2 + 1*DELTA*(GAMMA+PHI*DELTA)*g_gap_starr_eps_a_starr.^2 + 1*EPSILON/LAMBDA*pie_eps_a_starr.^2 + 1*EPSILON/LAMBDA_starr*pie_starr_eps_a_starr.^2 + 2*(1-DELTA)*PHI*c_gap_cu_eps_a_starr.*g_gap_cu_eps_a_starr + 2*h*(1-h)*(1-DELTA)*DELTA*PHI*s_gap_eps_a_starr.*g_gap_r_eps_a_starr));
+% 
+% @#endif
+% 
+% 
+% @#if POLICY == "RAMSEY"
+%     
+%     writematrix(Loss, folder_name+"/Loss_benchmark.txt");
+% 
+% @#elseif POLICY == "OSR"
+%     
+%     Loss_benchmark_txt = readlines(benchmark_folder_name+"/Loss_benchmark.txt");
+%     Loss_benchmark = str2num(Loss_benchmark_txt(1));
+%     CEV = sqrt((1-BETA)/((1-DELTA)*(SIGMA+(1-DELTA)*PHI))*(Loss-Loss_benchmark))*100;
+%     writematrix(CEV, folder_name+"/CEV.txt");
+%     writematrix(Loss, folder_name+"/Loss.txt");
+% 
+% @#endif
 
 
 
@@ -840,311 +846,314 @@ T_irf=options_.irf
         
 @#endif
 
-
-%-------------------------------------------------------------------------%
-%-------------------------------  PLOTS  ---------------------------------%
-%-------------------------------------------------------------------------%
-
-%---------------------------- Plot options  ------------------------------%
-
 T_plot=100
-t = 1:1:T_plot;
-zeroline = ones(T_plot,1)*0;
-
-%---------------------------  IRFs Summary  ------------------------------%
-
-figure('NumberTitle', 'off','visible','off')
-subplot(3,3,1); % Productivity
-Home=plot(t,a_eps_a_starr(1:T_plot),'LineWidth',1.5,'DisplayName','Home'); hold on
-Foreign=plot(t,a_starr_eps_a_starr(1:T_plot),'LineWidth',1.5,'DisplayName','Foreign'); hold on
-Union=plot(t,a_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'DisplayName','Union','Color','Magenta'); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black')
-title('Productivity : $$a_t$$, $$a_t^*$$ and $$a_t^{cu}$$','interpreter','latex','FontSize',10);
-legend([Home,Foreign,Union],{'Home','Foreign','Union'},'location','southeast');
-
-subplot(3,3,2); % Consumption gap
-plot(t,c_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,c_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,c_gap_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black')
-title('Consumption Gap : $$\tilde c_t$$, $$\tilde c_t^*$$ and $$\tilde c_t^{cu}$$','interpreter','latex','FontSize',10);
-
-subplot(3,3,3); % Labor gap
-plot(t,n_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,n_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,n_gap_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black')
-title('Labor Gap : $$\tilde n_t$$, $$\tilde n_t^*$$ and $$\tilde n_t^{cu}$$','interpreter','latex','FontSize',10);
-
-subplot(3,3,4); % Government consumption gap
-plot(t,g_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,g_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,g_gap_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black');
-title('Government Consumption Gap : $$\tilde g_t$$, $$\tilde g_t^*$$ and $$\tilde g_t^{cu}$$','interpreter','latex','FontSize',10);
-
-subplot(3,3,5); % Output gap
-plot(t,y_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,y_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,y_gap_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black')
-title('Output Gap : $$\tilde y_t$$, $$\tilde y_t^*$$ and $$\tilde y_t^{cu}$$','interpreter','latex','FontSize',10);
-
-subplot(3,3,6); % Fiscal stance gap
-plot(t,f_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,f_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,f_gap_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black');
-title('Fiscal Stance Gap : $$\tilde f_t$$, $$\tilde f_t^*$$ and $$\tilde f_t^{cu}$$','interpreter','latex','FontSize',10);
-
-subplot(3,3,7); % Inflation
-plot(t,pie_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,pie_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,pie_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black');
-title('Producer Price Inflation : $$\pi_{H,t}$$, $$\pi_{F,t}^*$$ and $$\pi_t^{cu}$$','interpreter','latex','FontSize',10);
-
-subplot(3,3,8); % Interest rate
-plot(t,ii_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,ii_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,ii_gap_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black');
-title('Interest Rate Gap : $$\tilde i_t$$, $$\tilde i_t^*$$ and $$\tilde i_t^{cu}$$','interpreter','latex','FontSize',10);
-
-subplot(3,3,9); % Terms of trade gap
-plot(t,s_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,s_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black');
-title('Terms of Trade Gap : $$\tilde s_t$$ and $$\tilde s_t^*$$','interpreter','latex','FontSize',10);
-
-annotation('textbox', [0, 0.05, 1, 0],'interpreter','latex','string',[char(strrep(strrep(pol_name," - ",", "),"_"," ")) ', $$h$$ = ' num2str(h) ', $$\bar{\alpha}$$ =' num2str(ALPHA_bar) ', $$\theta$$ = ' num2str(THETA)],'FontSize',10)
-
-% Save figure
-figure_name = "IRFs_Summmary"
-set(gcf,'Position',[1 1 1366 691])
-saveas(gcf,folder_name+"/"+figure_name+".png")
-
-%----------------------  IRFs Detail c,c_H,c_F  ------------------------%
-
-figure('NumberTitle', 'off','visible','off')
-subplot(3,3,1); % Consumption
-Home=plot(t,c_eps_a_starr(1:T_plot),'LineWidth',1.5,'DisplayName','Home'); hold on
-Foreign=plot(t,c_starr_eps_a_starr(1:T_plot),'LineWidth',1.5,'DisplayName','Foreign'); hold on
-Union=plot(t,c_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black')
-title('Consumption : $$\hat c_t$$, $$\hat c_t^*$$ and $$\hat c_t^{cu}$$','interpreter','latex','FontSize',10);
-legend([Home,Foreign,Union],{'Home','Foreign','Union'},'location','southeast');
-
-subplot(3,3,4); % Natural consumption
-plot(t,c_nat_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,c_nat_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,c_nat_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black')
-title('Natural Consumption : $$\hat{\bar c}_t$$, $$\hat{\bar c}_t^*$$ and $$\hat{bar c}_t^{cu}$$','interpreter','latex','FontSize',10);
-
-subplot(3,3,7); % Consumption gap
-plot(t,c_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,c_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,c_gap_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black')
-title('Consumption Gap : $$\tilde c_t$$, $$\tilde c_t^*$$ and $$\tilde c_t^{cu}$$','interpreter','latex','FontSize',10);
-
-subplot(3,3,2); % Consumption Home-made goods
-plot(t,c_H_eps_a_starr(1:T_plot),'LineWidth',1.5,'DisplayName','Home'); hold on
-plot(t,c_H_starr_eps_a_starr(1:T_plot),'LineWidth',1.5,'DisplayName','Foreign'); hold on
-plot(t,c_H_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black')
-title('Consumption $$\textit{Home}$$-made : $$\hat c_{H,t}$$, $$\hat c_{H,t}^*$$ and $$\hat c_{H,t}^{cu}$$','interpreter','latex','FontSize',10);
-
-subplot(3,3,5); % Natural consumption Home-made goods
-plot(t,c_H_nat_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,c_H_nat_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,c_H_nat_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black')
-title('Natural Consumption $$\textit{Home}$$-made : $$\hat{\bar c}_{H,t}$$, $$\hat{\bar c}_{H,t}^*$$ and $$\hat{bar c}_{H,t}^{cu}$$','interpreter','latex','FontSize',10);
-
-subplot(3,3,8); % Consumption Home-made goods gap
-plot(t,c_H_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,c_H_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,c_H_gap_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black')
-title('Consumption Gap $$\textit{Home}$$-made : $$\tilde c_{H,t}$$, $$\tilde c_{H,t}^*$$ and $$\tilde c_{H,t}^{cu}$$','interpreter','latex','FontSize',10);
-
-subplot(3,3,3); % Consumption Foreign-made goods 
-plot(t,c_F_eps_a_starr(1:T_plot),'LineWidth',1.5,'DisplayName','Home'); hold on
-plot(t,c_F_starr_eps_a_starr(1:T_plot),'LineWidth',1.5,'DisplayName','Foreign'); hold on
-plot(t,c_F_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black')
-title('Consumption $$\textit{Foreign}$$-made : $$\hat c_{F,t}$$, $$\hat c_{F,t}^*$$ and $$\hat c_{F,t}^{cu}$$','interpreter','latex','FontSize',10);
-
-subplot(3,3,6); % Natural consumption Foreign-made goods
-plot(t,c_F_nat_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,c_F_nat_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,c_F_nat_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black')
-title('Natural Consumption $$\textit{Foreign}$$-made : $$\hat{\bar c}_{F,t}$$, $$\hat{\bar c}_{F,t}^*$$ and $$\hat{bar c}_{F,t}^{cu}$$','interpreter','latex','FontSize',10);
-
-subplot(3,3,9); % Consumption Foreign-made goods gap
-plot(t,c_F_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,c_F_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,c_F_gap_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black')
-title('Consumption Gap $$\textit{Foreign}$$-made : $$\tilde c_{F,t}$$, $$\tilde c_{F,t}^*$$ and $$\tilde c_{F,t}^{cu}$$','interpreter','latex','FontSize',10);
-
-annotation('textbox', [0, 0.05, 1, 0],'interpreter','latex','string',[char(strrep(strrep(pol_name," - ",", "),"_"," ")) ', $$h$$ = ' num2str(h) ', $$\bar{\alpha}$$ =' num2str(ALPHA_bar) ', $$\theta$$ = ' num2str(THETA)],'FontSize',10)
-
-% Save figure
-figure_name = "IRFs_Detail_c_cH_cF"
-set(gcf,'Position',[1 1 1366 691])
-saveas(gcf,folder_name+"/"+figure_name+".png")
-
-%----------------------  IRFs Detailed g,y,f  ------------------------%
-
-figure('NumberTitle', 'off','visible','off')
-subplot(3,3,1); % Government consumption
-Home=plot(t,g_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-Foreign=plot(t,g_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-Union=plot(t,g_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black')
-title('Government Consumption : $$\hat g_t$$, $$\hat g_t^*$$ and $$\hat g_t^{cu}$$','interpreter','latex','FontSize',10);
-legend([Home,Foreign,Union],{'Home','Foreign','Union'},'location','southeast');
-
-subplot(3,3,4); % Natural government consumption
-plot(t,g_nat_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,g_nat_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,g_nat_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black')
-title('Natural Government Consumption : $$\hat{\bar g}_t$$, $$\hat{\bar g}_t^*$$ and $$\hat{\bar g}_t^{cu}$$','interpreter','latex','FontSize',10);
-
-subplot(3,3,7); % Government consumption gap
-plot(t,g_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,g_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,g_gap_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black');
-title('Government Consumption Gap : $$\tilde g_t$$, $$\tilde g_t^*$$ and $$\tilde g_t^{cu}$$','interpreter','latex','FontSize',10);
-
-subplot(3,3,2); % Output
-plot(t,y_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,y_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,y_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black')
-title('Output : $$\hat y_t$$, $$\hat y_t^*$$ and $$\hat y_t^{cu}$$','interpreter','latex','FontSize',10);
-legend([Home,Foreign,Union],{'Home','Foreign','Union'},'location','southeast');
-
-subplot(3,3,5); % Natural Output
-plot(t,y_nat_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,y_nat_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,y_nat_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black')
-title('Natural Output : $$\hat{\bar y}_t$$, $$\hat{\bar y}_t^*$$ and $$\hat{\bar y}_t^{cu}$$','interpreter','latex','FontSize',10);
-
-subplot(3,3,8); % Output gap
-plot(t,y_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,y_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,y_gap_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black');
-title('Output Gap : $$\tilde y_t$$, $$\tilde y_t^*$$ and $$\tilde y_t^{cu}$$','interpreter','latex','FontSize',10);
-
-subplot(3,3,3); % Fiscal stance
-plot(t,f_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,f_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,f_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black')
-title('Fiscal stance : $$\hat f_t$$, $$\hat f_t^*$$ and $$\hat f_t^{cu}$$','interpreter','latex','FontSize',10);
-legend([Home,Foreign,Union],{'Home','Foreign','Union'},'location','southeast');
-
-subplot(3,3,6); % Natural Fiscal stance
-plot(t,f_nat_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,f_nat_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,f_nat_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black')
-title('Natural Fiscal stance : $$\hat{\bar f}_t$$, $$\hat{\bar f}_t^*$$ and $$\hat{\bar f}_t^{cu}$$','interpreter','latex','FontSize',10);
-
-subplot(3,3,9); % Fiscal stance gap
-plot(t,f_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,f_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,f_gap_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black');
-title('Fiscal stance Gap : $$\tilde f_t$$, $$\tilde f_t^*$$ and $$\tilde f_t^{cu}$$','interpreter','latex','FontSize',10);
-
-annotation('textbox', [0, 0.05, 1, 0],'interpreter','latex','string',[char(strrep(strrep(pol_name," - ",", "),"_"," ")) ', $$h$$ = ' num2str(h) ', $$\bar{\alpha}$$ =' num2str(ALPHA_bar) ', $$\theta$$ = ' num2str(THETA)],'FontSize',10)
-
-% Save figure
-figure_name = "IRFs_Detail_g_y_f"
-set(gcf,'Position',[1 1 1366 691])
-saveas(gcf,folder_name+"/"+figure_name+".png")
-
-%----------------------  IRFs Detailed n,s,i  ------------------------%
-
-figure('NumberTitle', 'off','visible','off')
-subplot(3,3,1); % Labor
-Home=plot(t,n_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-Foreign=plot(t,n_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-Union=plot(t,n_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black')
-title('Labor : $$\hat n_t$$, $$\hat n_t^*$$ and $$\hat n_t^{cu}$$','interpreter','latex','FontSize',10);
-legend([Home,Foreign,Union],{'Home','Foreign','Union'},'location','southeast');
-
-subplot(3,3,4); % Natural labor
-plot(t,n_nat_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,n_nat_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,n_nat_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black')
-title('Natural Labor : $$\hat{\bar n}_t$$, $$\hat{\bar n}_t^*$$ and $$\hat{\bar n}_t^{cu}$$','interpreter','latex','FontSize',10);
-
-subplot(3,3,7); % Labor gap
-plot(t,n_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,n_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,n_gap_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black');
-title('Labor Gap : $$\tilde n_t$$, $$\tilde n_t^*$$ and $$\tilde n_t^{cu}$$','interpreter','latex','FontSize',10);
-
-subplot(3,3,2); % Interest rate
-plot(t,ii_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,ii_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,ii_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black')
-title('Interest rate : $$\hat i_t$$, $$\hat i_t^*$$ and $$\hat i_t^{cu}$$','interpreter','latex','FontSize',10);
-legend([Home,Foreign,Union],{'Home','Foreign','Union'},'location','southeast');
-
-subplot(3,3,5); % Natural rate
-plot(t,r_nat_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,r_nat_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,r_nat_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black')
-title('Natural Rate : $$\hat{\bar r}_t$$, $$\hat{\bar r}_t^*$$ and $$\hat{\bar r}_t^{cu}$$','interpreter','latex','FontSize',10);
-
-subplot(3,3,8); % Interest rate gap
-plot(t,ii_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,ii_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,ii_gap_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black');
-title('Interest rate Gap : $$\tilde i_t$$, $$\tilde i_t^*$$ and $$\tilde i_t^{cu}$$','interpreter','latex','FontSize',10);
-
-subplot(3,3,3); % Terms of trade
-plot(t,s_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,s_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black')
-title('Terms of trade : $$\hat s_t$$ and $$\hat s_t^*$$','interpreter','latex','FontSize',10);
-legend([Home,Foreign,Union],{'Home','Foreign','Union'},'location','southeast');
-
-subplot(3,3,6); % Natural terms of trade
-plot(t,s_nat_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,s_nat_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black')
-title('Natural Terms of trade : $$\hat{\bar s}_t$$ and $$\hat{\bar s}_t^*$$','interpreter','latex','FontSize',10);
-
-subplot(3,3,9); % Terms of trade gap
-plot(t,s_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,s_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
-plot(t,zeroline,'LineWidth',0.5,'Color','Black');
-title('Terms of trade Gap : $$\tilde s_t$$ and $$\tilde s_t^*$$','interpreter','latex','FontSize',10);
-
-annotation('textbox', [0, 0.05, 1, 0],'interpreter','latex','string',[char(strrep(strrep(pol_name," - ",", "),"_"," ")) ', $$h$$ = ' num2str(h) ', $$\bar{\alpha}$$ =' num2str(ALPHA_bar) ', $$\theta$$ = ' num2str(THETA)],'FontSize',10)
-
-% Save figure
-figure_name = "IRFs_Detail_n_s_i"
-set(gcf,'Position',[1 1 1366 691])
-saveas(gcf,folder_name+"/"+figure_name+".png")
+my_annotation=[char(strrep(strrep(pol_name," - ",", "),"_"," ")) ', $$h$$ = ' num2str(h) ', $$\bar{\alpha}$$ =' num2str(ALPHA_bar) ', $$\theta$$ = ' num2str(THETA)]
+generate_plot(oo_.irfs,T_plot,my_annotation,folder_name)
+% 
+% %-------------------------------------------------------------------------%
+% %-------------------------------  PLOTS  ---------------------------------%
+% %-------------------------------------------------------------------------%
+% 
+% %---------------------------- Plot options  ------------------------------%
+% 
+% T_plot=100
+% t = 1:1:T_plot;
+% zeroline = ones(T_plot,1)*0;
+% 
+% %---------------------------  IRFs Summary  ------------------------------%
+% 
+% figure('NumberTitle', 'off','visible','off')
+% subplot(3,3,1); % Productivity
+% Home=plot(t,a_eps_a_starr(1:T_plot),'LineWidth',1.5,'DisplayName','Home'); hold on
+% Foreign=plot(t,a_starr_eps_a_starr(1:T_plot),'LineWidth',1.5,'DisplayName','Foreign'); hold on
+% Union=plot(t,a_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'DisplayName','Union','Color','Magenta'); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black')
+% title('Productivity : $$a_t$$, $$a_t^*$$ and $$a_t^{cu}$$','interpreter','latex','FontSize',10);
+% legend([Home,Foreign,Union],{'Home','Foreign','Union'},'location','southeast');
+% 
+% subplot(3,3,2); % Consumption gap
+% plot(t,c_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,c_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,c_gap_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black')
+% title('Consumption Gap : $$\tilde c_t$$, $$\tilde c_t^*$$ and $$\tilde c_t^{cu}$$','interpreter','latex','FontSize',10);
+% 
+% subplot(3,3,3); % Labor gap
+% plot(t,n_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,n_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,n_gap_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black')
+% title('Labor Gap : $$\tilde n_t$$, $$\tilde n_t^*$$ and $$\tilde n_t^{cu}$$','interpreter','latex','FontSize',10);
+% 
+% subplot(3,3,4); % Government consumption gap
+% plot(t,g_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,g_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,g_gap_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black');
+% title('Government Consumption Gap : $$\tilde g_t$$, $$\tilde g_t^*$$ and $$\tilde g_t^{cu}$$','interpreter','latex','FontSize',10);
+% 
+% subplot(3,3,5); % Output gap
+% plot(t,y_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,y_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,y_gap_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black')
+% title('Output Gap : $$\tilde y_t$$, $$\tilde y_t^*$$ and $$\tilde y_t^{cu}$$','interpreter','latex','FontSize',10);
+% 
+% subplot(3,3,6); % Fiscal stance gap
+% plot(t,f_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,f_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,f_gap_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black');
+% title('Fiscal Stance Gap : $$\tilde f_t$$, $$\tilde f_t^*$$ and $$\tilde f_t^{cu}$$','interpreter','latex','FontSize',10);
+% 
+% subplot(3,3,7); % Inflation
+% plot(t,pie_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,pie_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,pie_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black');
+% title('Producer Price Inflation : $$\pi_{H,t}$$, $$\pi_{F,t}^*$$ and $$\pi_t^{cu}$$','interpreter','latex','FontSize',10);
+% 
+% subplot(3,3,8); % Interest rate
+% plot(t,ii_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,ii_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,ii_gap_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black');
+% title('Interest Rate Gap : $$\tilde i_t$$, $$\tilde i_t^*$$ and $$\tilde i_t^{cu}$$','interpreter','latex','FontSize',10);
+% 
+% subplot(3,3,9); % Terms of trade gap
+% plot(t,s_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,s_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black');
+% title('Terms of Trade Gap : $$\tilde s_t$$ and $$\tilde s_t^*$$','interpreter','latex','FontSize',10);
+% 
+% annotation('textbox', [0, 0.05, 1, 0],'interpreter','latex','string',[char(strrep(strrep(pol_name," - ",", "),"_"," ")) ', $$h$$ = ' num2str(h) ', $$\bar{\alpha}$$ =' num2str(ALPHA_bar) ', $$\theta$$ = ' num2str(THETA)],'FontSize',10)
+% 
+% % Save figure
+% figure_name = "IRFs_Summmary"
+% set(gcf,'Position',[1 1 1366 691])
+% saveas(gcf,folder_name+"/"+figure_name+".png")
+% 
+% %----------------------  IRFs Detail c,c_H,c_F  ------------------------%
+% 
+% figure('NumberTitle', 'off','visible','off')
+% subplot(3,3,1); % Consumption
+% Home=plot(t,c_eps_a_starr(1:T_plot),'LineWidth',1.5,'DisplayName','Home'); hold on
+% Foreign=plot(t,c_starr_eps_a_starr(1:T_plot),'LineWidth',1.5,'DisplayName','Foreign'); hold on
+% Union=plot(t,c_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black')
+% title('Consumption : $$\hat c_t$$, $$\hat c_t^*$$ and $$\hat c_t^{cu}$$','interpreter','latex','FontSize',10);
+% legend([Home,Foreign,Union],{'Home','Foreign','Union'},'location','southeast');
+% 
+% subplot(3,3,4); % Natural consumption
+% plot(t,c_nat_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,c_nat_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,c_nat_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black')
+% title('Natural Consumption : $$\hat{\bar c}_t$$, $$\hat{\bar c}_t^*$$ and $$\hat{bar c}_t^{cu}$$','interpreter','latex','FontSize',10);
+% 
+% subplot(3,3,7); % Consumption gap
+% plot(t,c_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,c_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,c_gap_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black')
+% title('Consumption Gap : $$\tilde c_t$$, $$\tilde c_t^*$$ and $$\tilde c_t^{cu}$$','interpreter','latex','FontSize',10);
+% 
+% subplot(3,3,2); % Consumption Home-made goods
+% plot(t,c_H_eps_a_starr(1:T_plot),'LineWidth',1.5,'DisplayName','Home'); hold on
+% plot(t,c_H_starr_eps_a_starr(1:T_plot),'LineWidth',1.5,'DisplayName','Foreign'); hold on
+% plot(t,c_H_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black')
+% title('Consumption $$\textit{Home}$$-made : $$\hat c_{H,t}$$, $$\hat c_{H,t}^*$$ and $$\hat c_{H,t}^{cu}$$','interpreter','latex','FontSize',10);
+% 
+% subplot(3,3,5); % Natural consumption Home-made goods
+% plot(t,c_H_nat_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,c_H_nat_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,c_H_nat_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black')
+% title('Natural Consumption $$\textit{Home}$$-made : $$\hat{\bar c}_{H,t}$$, $$\hat{\bar c}_{H,t}^*$$ and $$\hat{bar c}_{H,t}^{cu}$$','interpreter','latex','FontSize',10);
+% 
+% subplot(3,3,8); % Consumption Home-made goods gap
+% plot(t,c_H_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,c_H_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,c_H_gap_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black')
+% title('Consumption Gap $$\textit{Home}$$-made : $$\tilde c_{H,t}$$, $$\tilde c_{H,t}^*$$ and $$\tilde c_{H,t}^{cu}$$','interpreter','latex','FontSize',10);
+% 
+% subplot(3,3,3); % Consumption Foreign-made goods 
+% plot(t,c_F_eps_a_starr(1:T_plot),'LineWidth',1.5,'DisplayName','Home'); hold on
+% plot(t,c_F_starr_eps_a_starr(1:T_plot),'LineWidth',1.5,'DisplayName','Foreign'); hold on
+% plot(t,c_F_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black')
+% title('Consumption $$\textit{Foreign}$$-made : $$\hat c_{F,t}$$, $$\hat c_{F,t}^*$$ and $$\hat c_{F,t}^{cu}$$','interpreter','latex','FontSize',10);
+% 
+% subplot(3,3,6); % Natural consumption Foreign-made goods
+% plot(t,c_F_nat_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,c_F_nat_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,c_F_nat_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black')
+% title('Natural Consumption $$\textit{Foreign}$$-made : $$\hat{\bar c}_{F,t}$$, $$\hat{\bar c}_{F,t}^*$$ and $$\hat{bar c}_{F,t}^{cu}$$','interpreter','latex','FontSize',10);
+% 
+% subplot(3,3,9); % Consumption Foreign-made goods gap
+% plot(t,c_F_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,c_F_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,c_F_gap_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black')
+% title('Consumption Gap $$\textit{Foreign}$$-made : $$\tilde c_{F,t}$$, $$\tilde c_{F,t}^*$$ and $$\tilde c_{F,t}^{cu}$$','interpreter','latex','FontSize',10);
+% 
+% annotation('textbox', [0, 0.05, 1, 0],'interpreter','latex','string',[char(strrep(strrep(pol_name," - ",", "),"_"," ")) ', $$h$$ = ' num2str(h) ', $$\bar{\alpha}$$ =' num2str(ALPHA_bar) ', $$\theta$$ = ' num2str(THETA)],'FontSize',10)
+% 
+% % Save figure
+% figure_name = "IRFs_Detail_c_cH_cF"
+% set(gcf,'Position',[1 1 1366 691])
+% saveas(gcf,folder_name+"/"+figure_name+".png")
+% 
+% %----------------------  IRFs Detailed g,y,f  ------------------------%
+% 
+% figure('NumberTitle', 'off','visible','off')
+% subplot(3,3,1); % Government consumption
+% Home=plot(t,g_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% Foreign=plot(t,g_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% Union=plot(t,g_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black')
+% title('Government Consumption : $$\hat g_t$$, $$\hat g_t^*$$ and $$\hat g_t^{cu}$$','interpreter','latex','FontSize',10);
+% legend([Home,Foreign,Union],{'Home','Foreign','Union'},'location','southeast');
+% 
+% subplot(3,3,4); % Natural government consumption
+% plot(t,g_nat_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,g_nat_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,g_nat_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black')
+% title('Natural Government Consumption : $$\hat{\bar g}_t$$, $$\hat{\bar g}_t^*$$ and $$\hat{\bar g}_t^{cu}$$','interpreter','latex','FontSize',10);
+% 
+% subplot(3,3,7); % Government consumption gap
+% plot(t,g_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,g_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,g_gap_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black');
+% title('Government Consumption Gap : $$\tilde g_t$$, $$\tilde g_t^*$$ and $$\tilde g_t^{cu}$$','interpreter','latex','FontSize',10);
+% 
+% subplot(3,3,2); % Output
+% plot(t,y_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,y_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,y_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black')
+% title('Output : $$\hat y_t$$, $$\hat y_t^*$$ and $$\hat y_t^{cu}$$','interpreter','latex','FontSize',10);
+% legend([Home,Foreign,Union],{'Home','Foreign','Union'},'location','southeast');
+% 
+% subplot(3,3,5); % Natural Output
+% plot(t,y_nat_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,y_nat_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,y_nat_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black')
+% title('Natural Output : $$\hat{\bar y}_t$$, $$\hat{\bar y}_t^*$$ and $$\hat{\bar y}_t^{cu}$$','interpreter','latex','FontSize',10);
+% 
+% subplot(3,3,8); % Output gap
+% plot(t,y_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,y_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,y_gap_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black');
+% title('Output Gap : $$\tilde y_t$$, $$\tilde y_t^*$$ and $$\tilde y_t^{cu}$$','interpreter','latex','FontSize',10);
+% 
+% subplot(3,3,3); % Fiscal stance
+% plot(t,f_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,f_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,f_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black')
+% title('Fiscal stance : $$\hat f_t$$, $$\hat f_t^*$$ and $$\hat f_t^{cu}$$','interpreter','latex','FontSize',10);
+% legend([Home,Foreign,Union],{'Home','Foreign','Union'},'location','southeast');
+% 
+% subplot(3,3,6); % Natural Fiscal stance
+% plot(t,f_nat_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,f_nat_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,f_nat_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black')
+% title('Natural Fiscal stance : $$\hat{\bar f}_t$$, $$\hat{\bar f}_t^*$$ and $$\hat{\bar f}_t^{cu}$$','interpreter','latex','FontSize',10);
+% 
+% subplot(3,3,9); % Fiscal stance gap
+% plot(t,f_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,f_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,f_gap_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black');
+% title('Fiscal stance Gap : $$\tilde f_t$$, $$\tilde f_t^*$$ and $$\tilde f_t^{cu}$$','interpreter','latex','FontSize',10);
+% 
+% annotation('textbox', [0, 0.05, 1, 0],'interpreter','latex','string',[char(strrep(strrep(pol_name," - ",", "),"_"," ")) ', $$h$$ = ' num2str(h) ', $$\bar{\alpha}$$ =' num2str(ALPHA_bar) ', $$\theta$$ = ' num2str(THETA)],'FontSize',10)
+% 
+% % Save figure
+% figure_name = "IRFs_Detail_g_y_f"
+% set(gcf,'Position',[1 1 1366 691])
+% saveas(gcf,folder_name+"/"+figure_name+".png")
+% 
+% %----------------------  IRFs Detailed n,s,i  ------------------------%
+% 
+% figure('NumberTitle', 'off','visible','off')
+% subplot(3,3,1); % Labor
+% Home=plot(t,n_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% Foreign=plot(t,n_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% Union=plot(t,n_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black')
+% title('Labor : $$\hat n_t$$, $$\hat n_t^*$$ and $$\hat n_t^{cu}$$','interpreter','latex','FontSize',10);
+% legend([Home,Foreign,Union],{'Home','Foreign','Union'},'location','southeast');
+% 
+% subplot(3,3,4); % Natural labor
+% plot(t,n_nat_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,n_nat_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,n_nat_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black')
+% title('Natural Labor : $$\hat{\bar n}_t$$, $$\hat{\bar n}_t^*$$ and $$\hat{\bar n}_t^{cu}$$','interpreter','latex','FontSize',10);
+% 
+% subplot(3,3,7); % Labor gap
+% plot(t,n_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,n_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,n_gap_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black');
+% title('Labor Gap : $$\tilde n_t$$, $$\tilde n_t^*$$ and $$\tilde n_t^{cu}$$','interpreter','latex','FontSize',10);
+% 
+% subplot(3,3,2); % Interest rate
+% plot(t,ii_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,ii_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,ii_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black')
+% title('Interest rate : $$\hat i_t$$, $$\hat i_t^*$$ and $$\hat i_t^{cu}$$','interpreter','latex','FontSize',10);
+% legend([Home,Foreign,Union],{'Home','Foreign','Union'},'location','southeast');
+% 
+% subplot(3,3,5); % Natural rate
+% plot(t,r_nat_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,r_nat_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,r_nat_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black')
+% title('Natural Rate : $$\hat{\bar r}_t$$, $$\hat{\bar r}_t^*$$ and $$\hat{\bar r}_t^{cu}$$','interpreter','latex','FontSize',10);
+% 
+% subplot(3,3,8); % Interest rate gap
+% plot(t,ii_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,ii_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,ii_gap_cu_eps_a_starr(1:T_plot),'LineWidth',1.5,'Color','Magenta'); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black');
+% title('Interest rate Gap : $$\tilde i_t$$, $$\tilde i_t^*$$ and $$\tilde i_t^{cu}$$','interpreter','latex','FontSize',10);
+% 
+% subplot(3,3,3); % Terms of trade
+% plot(t,s_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,s_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black')
+% title('Terms of trade : $$\hat s_t$$ and $$\hat s_t^*$$','interpreter','latex','FontSize',10);
+% legend([Home,Foreign,Union],{'Home','Foreign','Union'},'location','southeast');
+% 
+% subplot(3,3,6); % Natural terms of trade
+% plot(t,s_nat_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,s_nat_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black')
+% title('Natural Terms of trade : $$\hat{\bar s}_t$$ and $$\hat{\bar s}_t^*$$','interpreter','latex','FontSize',10);
+% 
+% subplot(3,3,9); % Terms of trade gap
+% plot(t,s_gap_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,s_gap_starr_eps_a_starr(1:T_plot),'LineWidth',1.5); hold on
+% plot(t,zeroline,'LineWidth',0.5,'Color','Black');
+% title('Terms of trade Gap : $$\tilde s_t$$ and $$\tilde s_t^*$$','interpreter','latex','FontSize',10);
+% 
+% annotation('textbox', [0, 0.05, 1, 0],'interpreter','latex','string',[char(strrep(strrep(pol_name," - ",", "),"_"," ")) ', $$h$$ = ' num2str(h) ', $$\bar{\alpha}$$ =' num2str(ALPHA_bar) ', $$\theta$$ = ' num2str(THETA)],'FontSize',10)
+% 
+% % Save figure
+% figure_name = "IRFs_Detail_n_s_i"
+% set(gcf,'Position',[1 1 1366 691])
+% saveas(gcf,folder_name+"/"+figure_name+".png")
 
 close all
