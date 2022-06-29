@@ -140,7 +140,7 @@ ii_gap_cu=ii-r_nat_cu;
 
 g_gap_r = g_gap - g_gap_starr;
 
-n_gap_cu=h*n_gap + (1-h)*n_gap_starr;
+n_gap_cu= n_cu - n_nat_cu;
 
 f_gap_cu = h*f_gap + (1-h)*f_gap_starr;
 

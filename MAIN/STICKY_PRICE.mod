@@ -39,6 +39,7 @@ var
     ii_cu       ${i^{cu}}$            (long_name='Union nominal interest rate (log dev ss)')
     pie_cu      ${\pi^{cu}}$          (long_name='Union inflation (log dev ss)')
     f_cu
+    n_cu
 
     ;       
 
@@ -161,6 +162,8 @@ c_H_cu=h*c_H+(1-h)*c_H_starr;
 c_F_cu=h*c_F+(1-h)*c_F_starr;
 
 f_cu=h*f+(1-h)*f_starr;
+
+n_cu=h*n+(1-h)*n_starr;
 end;
 
 %-------------------------------------------------------------------------%
@@ -196,6 +199,7 @@ c_cu=0;
 c_H_cu=0;
 c_F_cu=0;
 f_cu=0;
+n_cu=0;
 end;
 
 

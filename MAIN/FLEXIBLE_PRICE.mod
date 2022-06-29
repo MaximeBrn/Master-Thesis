@@ -36,6 +36,7 @@ var
     c_F_nat_cu      
     r_nat_cu        ${\hat {\bar r}^{cu}}$      (long_name='Union natural rate (log dev ss)')
     f_nat_cu
+    n_nat_cu
 ;       
 
 %-------------------------------------------------------------------------%
@@ -157,6 +158,8 @@ c_H_nat_cu=h*c_H_nat+(1-h)*c_H_nat_starr;
 c_F_nat_cu=h*c_F_nat+(1-h)*c_F_nat_starr;
 
 f_nat_cu = h*f_nat+(1-h)*f_nat_starr;
+
+n_nat_cu= h*n_nat+(1-h)*n_nat_starr;
 end;
 
 %-------------------------------------------------------------------------%
@@ -189,6 +192,7 @@ r_nat_cu=0;
 c_H_nat_cu=0;
 c_F_nat_cu=0;
 f_nat_cu=0;
+n_nat_cu=0;
 end;
 
 
