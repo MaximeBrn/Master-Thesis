@@ -18,6 +18,6 @@ function g2 = static_g2(T, y, x, params, T_flag)
 if T_flag
     T = MODEL_MAIN_8.static_g2_tt(T, y, x, params);
 end
-g2 = sparse([],[],[],85,7225);
+g2 = sparse([],[],[],168,28224);
 
 end

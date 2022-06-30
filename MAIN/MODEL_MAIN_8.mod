@@ -8,7 +8,7 @@
 %----------------------------  POLICY REGIME  ----------------------------%
 %-------------------------------------------------------------------------%
 
-@#define POLICY = "OSR" // Are FP and MP "RAMSEY" or "OSR"
+@#define POLICY = "RAMSEY" // Are FP and MP "RAMSEY" or "OSR"
 @#define OBJECTIVE = "POP_WEIGHT" // "EQUAL_WEIGHT" or "POP_WEIGHT" 
 @#define OSR_MP_RULE = "TAYLOR" // "BLANCHARD" or "TAYLOR"
 @#define OSR_FP_RULE = "MB" // "OUTPUT_GAP_ONLY" or "BEETSMA" or "BEETSMA_NATIONAL" or "KIRSANOVA" or "KIRSANOVA_NATIONAL" or "MB" or "MB_NATIONAL"
@@ -326,7 +326,7 @@ model(linear);
 @#endif
 
 %----------------------------  Fiscal Policy  ----------------------------%
-
+f_gap_starr=0;
 @#if POLICY == "OSR"
 
     @#if OSR_FP_RULE == "BEETSMA"
@@ -427,13 +427,28 @@ end;
 
     @#if OBJECTIVE == "POP_WEIGHT"
         
-        planner_objective (1-DELTA)*(SIGMA+(1-DELTA)*PHI)*c_gap_cu^2 + h*(1-h)*(1-DELTA)*(1+PHI*(1-DELTA))*s_gap^2 + h*DELTA*(GAMMA+PHI*DELTA)*g_gap^2 + (1-h)*DELTA*(GAMMA+PHI*DELTA)*g_gap_starr^2 + h*EPSILON/LAMBDA*pie^2 + (1-h)*EPSILON/LAMBDA_starr*pie_starr^2 + 2*(1-DELTA)*PHI*c_gap_cu*g_gap_cu + 2*h*(1-h)*(1-DELTA)*DELTA*PHI*s_gap*(g_gap-g_gap_starr);
-%     %add ALPHA_bar to BEETSMA
-%     planner_objective (1-DELTA)*(SIGMA+(1-DELTA)*PHI)*c_gap_cu^2 + ALPHA_bar*h*(1-h)*(1-DELTA)*(1+PHI*(1-DELTA))*s_gap^2 + h*DELTA*(GAMMA+PHI*DELTA)*g_gap^2 + (1-h)*DELTA*(GAMMA+PHI*DELTA)*g_gap_starr^2 + h*EPSILON/LAMBDA*pie^2 + (1-h)*EPSILON/LAMBDA_starr*pie_starr^2 + 2*(1-DELTA)*PHI*c_gap_cu*g_gap_cu + ALPHA_bar*2*h*(1-h)*(1-DELTA)*DELTA*PHI*s_gap*(g_gap-g_gap_starr);
+        planner_objective 
+                (1-DELTA)*(SIGMA+(1-DELTA)*PHI)*c_gap_cu^2
+                +h*(1-h)*ALPHA_bar*(1-DELTA)*(1+PHI*(1-DELTA))*s_gap^2
+                +h*DELTA*(GAMMA+PHI*DELTA)*g_gap^2
+                +h*EPSILON/LAMBDA*pie^2
+                +(1-h)*DELTA*(GAMMA+PHI*DELTA)*g_gap_starr^2
+                +(1-h)*EPSILON/LAMBDA_starr*pie_starr^2
+                +2*(1-DELTA)*PHI*c_gap_cu*g_gap_cu
+                +2*ALPHA_bar*h*(1-h)*(1-DELTA)*DELTA*PHI*s_gap*g_gap_r;
+        
+
     @#elseif OBJECTIVE == "EQUAL_WEIGHT"
     
-        planner_objective (1-DELTA)*(SIGMA+(1-DELTA)*PHI)*c_gap_cu^2 + h*(1-h)*(1-DELTA)*(1+PHI*(1-DELTA))*s_gap^2 + 1*DELTA*(GAMMA+PHI*DELTA)*g_gap^2 + 1*DELTA*(GAMMA+PHI*DELTA)*g_gap_starr^2 + 1*EPSILON/LAMBDA*pie^2 + 1*EPSILON/LAMBDA_starr*pie_starr^2 + 2*(1-DELTA)*PHI*c_gap_cu*g_gap_cu + 2*h*(1-h)*(1-DELTA)*DELTA*PHI*s_gap*(g_gap-g_gap_starr);
-
+            planner_objective 
+                (1-DELTA)*(SIGMA+(1-DELTA)*PHI)*c_gap_cu^2
+                +0.5*(1-0.5)*ALPHA_bar*(1-DELTA)*(1+PHI*(1-DELTA))*s_gap^2
+                +0.5*DELTA*(GAMMA+PHI*DELTA)*g_gap^2
+                +0.5*EPSILON/LAMBDA*pie^2
+                +(1-0.5)*DELTA*(GAMMA+PHI*DELTA)*g_gap_starr^2
+                +(1-0.5)*EPSILON/LAMBDA_starr*pie_starr^2
+                +2*(1-DELTA)*PHI*c_gap_cu*g_gap_cu
+                +2*ALPHA_bar*0.5*(1-0.5)*(1-DELTA)*DELTA*PHI*s_gap*g_gap_r;    
     @#endif
 
 %--------------------  IRFs under Optimal Commitment  --------------------%
@@ -539,35 +554,33 @@ end;
             @#if OBJECTIVE == "POP_WEIGHT"
         
                 c_gap_cu            (1-DELTA)*(SIGMA+(1-DELTA)*PHI);
-%                 s_gap               h*(1-h)*(1-DELTA)*(1+PHI*(1-DELTA));
-                s_gap               ALPHA_bar*h*(1-h)*(1-DELTA)*(1+PHI*(1-DELTA));
+                s_gap               h*(1-h)*ALPHA_bar*(1-DELTA)*(1+PHI*(1-DELTA));
                 g_gap               h*DELTA*(GAMMA+PHI*DELTA);
-                g_gap_starr         (1-h)*DELTA*(GAMMA+PHI*DELTA);
                 pie                 h*EPSILON/LAMBDA;
+                g_gap_starr         (1-h)*DELTA*(GAMMA+PHI*DELTA);
                 pie_starr           (1-h)*EPSILON/LAMBDA_starr;
                 c_gap_cu,g_gap_cu   2*(1-DELTA)*PHI;
-%                 s_gap,g_gap_r       2*h*(1-h)*(1-DELTA)*DELTA*PHI;
-                s_gap,g_gap_r       ALPHA_bar*2*h*(1-h)*(1-DELTA)*DELTA*PHI;
+                s_gap,g_gap_r       2*ALPHA_bar*h*(1-h)*(1-DELTA)*DELTA*PHI;
         
         
         
             @#elseif OBJECTIVE == "EQUAL_WEIGHT"
         
                 c_gap_cu            (1-DELTA)*(SIGMA+(1-DELTA)*PHI);
-                s_gap               h*(1-h)*(1-DELTA)*(1+PHI*(1-DELTA));
-                g_gap               DELTA*(GAMMA+PHI*DELTA);
-                g_gap_starr         DELTA*(GAMMA+PHI*DELTA);
-                pie                 EPSILON/LAMBDA;
-                pie_starr           EPSILON/LAMBDA_starr;
+                s_gap               0.5*(1-0.5)*ALPHA_bar*(1-DELTA)*(1+PHI*(1-DELTA));
+                g_gap               0.5*DELTA*(GAMMA+PHI*DELTA);
+                pie                 0.5*EPSILON/LAMBDA;
+                g_gap_starr         (1-0.5)*DELTA*(GAMMA+PHI*DELTA);
+                pie_starr           (1-0.5)*EPSILON/LAMBDA_starr;
                 c_gap_cu,g_gap_cu   2*(1-DELTA)*PHI;
-                s_gap,g_gap_r       2*h*(1-h)*(1-DELTA)*DELTA*PHI;
+                s_gap,g_gap_r       2*ALPHA_bar*0.5*(1-0.5)*(1-DELTA)*DELTA*PHI;
         
             @#endif
     
        @#elseif OSR_FP_HOME == "HOME_UNCOORDINATED" && OSR_FP_FOREIGN == "FOREIGN_PASSIVE"
        
                 c_gap           (1-DELTA)*(SIGMA+(1-DELTA)*PHI);
-                s_gap           (1-DELTA)*(1+PHI*(1-DELTA));
+                s_gap           ALPHA*(1-DELTA)*(1+PHI*(1-DELTA));
                 g_gap           DELTA*(GAMMA+PHI*DELTA);
                 pie             EPSILON/LAMBDA; 
                 c_gap,g_gap     2*(1-DELTA)*PHI;
@@ -759,50 +772,55 @@ end;
 
 %----------------------------  Output Folder  ----------------------------%
 
-@#if POLICY == "RAMSEY"
-    
-    pol_name="@{POLICY} - @{OBJECTIVE}"
+[pol_name,folder_name,benchmark_folder_name]=get_folder_name("@{POLICY}","@{OBJECTIVE}","@{OSR_MP_RULE}","@{OSR_FP_RULE}","@{OSR_FP_FOREIGN}","@{OSR_FP_HOME}",h,ALPHA_bar,THETA);
 
-@#elseif POLICY == "OSR"
 
-    @#if OSR_FP_FOREIGN == "BOTH_ACTIVE"
-        
-        pol_name="@{POLICY} - @{OBJECTIVE} - @{OSR_MP_RULE} - @{OSR_FP_RULE} - @{OSR_FP_FOREIGN}"
-
-    @#elseif OSR_FP_FOREIGN == "FOREIGN_PASSIVE"
-
-         pol_name="@{POLICY} - @{OBJECTIVE} - @{OSR_MP_RULE} - @{OSR_FP_RULE} - @{OSR_FP_FOREIGN} - @{OSR_FP_HOME}"   
-
-    @#endif
-
-@#endif
-
-calibration_name="h_"+h+" - ALPHA_bar_"+ALPHA_bar+" - THETA_"+THETA
-@#if POLICY == "RAMSEY"
-    
-    folder_name = "OUTPUT/"+calibration_name+"/"+"@{OBJECTIVE}/"+"@{POLICY}"
-
-@#elseif POLICY == "OSR"
-
-    benchmark_folder_name = "OUTPUT/"+calibration_name+"/"+"@{OBJECTIVE}/"+"RAMSEY"
-    
-    @#if OSR_FP_FOREIGN == "BOTH_ACTIVE"
-    
-        folder_name = "OUTPUT/"+calibration_name+"/"+"@{OBJECTIVE}/"+"@{POLICY} - @{OSR_MP_RULE} -  @{OSR_FP_RULE} -  @{OSR_FP_FOREIGN}"
-
-    @#elseif OSR_FP_FOREIGN == "FOREIGN_PASSIVE"
-    
-        folder_name = "OUTPUT/"+calibration_name+"/"+"@{OBJECTIVE}/"+"@{POLICY} - @{OSR_MP_RULE} -  @{OSR_FP_RULE} -  @{OSR_FP_FOREIGN} -  @{OSR_FP_HOME}"
-    
-    @#endif
-
-@#endif
+% @#if POLICY == "RAMSEY"
+%     
+%     pol_name="@{POLICY} - @{OBJECTIVE}"
+% 
+% @#elseif POLICY == "OSR"
+% 
+%     @#if OSR_FP_FOREIGN == "BOTH_ACTIVE"
+%         
+%         pol_name="@{POLICY} - @{OBJECTIVE} - @{OSR_MP_RULE} - @{OSR_FP_RULE} - @{OSR_FP_FOREIGN}"
+% 
+%     @#elseif OSR_FP_FOREIGN == "FOREIGN_PASSIVE"
+% 
+%          pol_name="@{POLICY} - @{OBJECTIVE} - @{OSR_MP_RULE} - @{OSR_FP_RULE} - @{OSR_FP_FOREIGN} - @{OSR_FP_HOME}"   
+% 
+%     @#endif
+% 
+% @#endif
+% 
+% calibration_name="h_"+h+" - ALPHA_bar_"+ALPHA_bar+" - THETA_"+THETA
+% @#if POLICY == "RAMSEY"
+%     
+%     folder_name = "OUTPUT/"+calibration_name+"/"+"@{OBJECTIVE}/"+"@{POLICY}"
+% 
+% @#elseif POLICY == "OSR"
+% 
+%     benchmark_folder_name = "OUTPUT/"+calibration_name+"/"+"@{OBJECTIVE}/"+"RAMSEY"
+%     
+%     @#if OSR_FP_FOREIGN == "BOTH_ACTIVE"
+%     
+%         folder_name = "OUTPUT/"+calibration_name+"/"+"@{OBJECTIVE}/"+"@{POLICY} - @{OSR_MP_RULE} -  @{OSR_FP_RULE} -  @{OSR_FP_FOREIGN}"
+% 
+%     @#elseif OSR_FP_FOREIGN == "FOREIGN_PASSIVE"
+%     
+%         folder_name = "OUTPUT/"+calibration_name+"/"+"@{OBJECTIVE}/"+"@{POLICY} - @{OSR_MP_RULE} -  @{OSR_FP_RULE} -  @{OSR_FP_FOREIGN} -  @{OSR_FP_HOME}"
+%     
+%     @#endif
+% 
+% @#endif
 
 % Create folder to store output
 mkdir(folder_name)
 
 % %--------------------------  Quadratic Loss  -----------------------------%
-% 
+
+analyze_welfare(oo_.irfs,options_.irf,"@{OBJECTIVE}","@{POLICY}",folder_name,benchmark_folder_name,BETA,SIGMA,DELTA,PHI,GAMMA,EPSILON,LAMBDA,LAMBDA_starr,h,ALPHA_bar);
+
 % T_irf=options_.irf
 % 
 % % Compute the quadratic loss under for the chosen policy objective
@@ -842,7 +860,9 @@ mkdir(folder_name)
 % Optimal parameters of OSR
 @#if POLICY == "OSR"
  
-    writetable(rows2vars(struct2table(oo_.osr.optim_params)), folder_name+"/OSR_param.txt")
+    OSR_coef_table=rows2vars(struct2table(oo_.osr.optim_params));
+    OSR_coef_table.Properties.VariableNames = ["Coefficient","Value"];
+    writetable(OSR_coef_table, folder_name+"/OSR_coef.csv","WriteRowNames",true)
         
 @#endif
 
