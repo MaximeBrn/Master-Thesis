@@ -8,11 +8,11 @@ if POLICY == "RAMSEY"
 
 elseif POLICY == "OSR"
 
-    if OSR_FP_FOREIGN == "BOTH_ACTIVE"
+    if OSR_FP_FOREIGN == "FOREIGN_UNCONSTRAINED"
         
         pol_name=POLICY+" - "+OBJECTIVE+" - "+OSR_MP_RULE+" - "+OSR_FP_RULE+" - "+OSR_FP_FOREIGN;
 
-    elseif OSR_FP_FOREIGN == "FOREIGN_PASSIVE"
+    elseif OSR_FP_FOREIGN == "FOREIGN_CONSTRAINED"
 
          pol_name=POLICY+" - "+OBJECTIVE+" - "+OSR_MP_RULE+" - "+OSR_FP_RULE+" - "+OSR_FP_FOREIGN+" - "+OSR_FP_HOME;
 
@@ -32,11 +32,11 @@ elseif POLICY == "OSR"
 
     benchmark_folder_name = "OUTPUT/"+calibration_name+"/"+OBJECTIVE+"/"+"RAMSEY";
     
-    if OSR_FP_FOREIGN == "BOTH_ACTIVE"
+    if OSR_FP_FOREIGN == "FOREIGN_UNCONSTRAINED"
     
         folder_name = "OUTPUT/"+calibration_name+"/"+OBJECTIVE+"/"+POLICY+" - "+OSR_MP_RULE+" - "+OSR_FP_RULE+" - "+OSR_FP_FOREIGN;
 
-    elseif OSR_FP_FOREIGN == "FOREIGN_PASSIVE"
+    elseif OSR_FP_FOREIGN == "FOREIGN_CONSTRAINED"
     
         folder_name = "OUTPUT/"+calibration_name+"/"+OBJECTIVE+"/"+POLICY+" - "+OSR_MP_RULE+" - "+OSR_FP_RULE+" - "+OSR_FP_FOREIGN+" - "+OSR_FP_HOME;
     

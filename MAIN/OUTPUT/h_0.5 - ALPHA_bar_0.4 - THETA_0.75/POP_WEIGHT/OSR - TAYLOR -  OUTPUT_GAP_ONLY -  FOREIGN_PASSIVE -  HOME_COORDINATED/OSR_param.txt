@@ -1,2 +1,0 @@
-OriginalVariableNames,Var1
-FP_y_gapH,0.741389606777244

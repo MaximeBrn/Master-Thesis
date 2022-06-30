@@ -1,3 +1,0 @@
-OriginalVariableNames,Var1
-FP_c_gapCU,-10
-FP_s_gapH,-6.40351847703384
