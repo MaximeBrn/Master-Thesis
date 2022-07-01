@@ -77,10 +77,10 @@ elseif POLICY == "OSR"
     % Concat the two loss
     CEV_table=horzcat(Loss_RAMSEY_table,Loss_OSR_table);
 
-    % Add CEV
+    % Add CEV column
     CEV_table.CEV=sign(CEV_table.Loss_OSR-CEV_table.Loss_RAMSEY).*sqrt((1-BETA)/((1-DELTA)*(SIGMA+(1-DELTA)*PHI))*abs(CEV_table.Loss_OSR-CEV_table.Loss_RAMSEY))*100;
     
-    % Save CEV
+    % Save CEV table
     writetable(CEV_table,folder_name+"/CEV.csv","WriteRowNames",true)
 
 end
