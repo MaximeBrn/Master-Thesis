@@ -8,16 +8,16 @@
 %----------------------------  POLICY REGIME  ----------------------------%
 %-------------------------------------------------------------------------%
 
-@#define OBJECTIVE = "POP_WEIGHT" // "EQUAL_WEIGHT" or "POP_WEIGHT" 
+@#define OBJECTIVE = "EQUAL_WEIGHT" // "EQUAL_WEIGHT" or "POP_WEIGHT" 
 
 @#define FP_FOREIGN = "FOREIGN_UNCONSTRAINED" // "FOREIGN_UNCONSTRAINED" or "FOREIGN_CONSTRAINED"
 
 @#define POLICY = "OSR" // Are FP and MP "RAMSEY" or "OSR"
 
-@#define OSR_MP_RULE = "TAYLOR" // "BLANCHARD" or "TAYLOR"
-@#define OSR_FP_RULE = "MB" // "OUTPUT_GAP_ONLY" or "BEETSMA" or "BEETSMA_NATIONAL" or "KIRSANOVA" or "KIRSANOVA_NATIONAL" or "MB" or "MB_NATIONAL"
+@#define OSR_MP_RULE = "BLANCHARD" // "BLANCHARD" or "TAYLOR"
+@#define OSR_FP_RULE = "F_GAP_RULE" // "G_GAP_RULE" or "F_GAP_RULE" or "BEETSMA" or "BEETSMA_NATIONAL" or "KIRSANOVA" or "KIRSANOVA_NATIONAL" or "MB" or "F_GAP_RULE"
 
-@#define OSR_FP_HOME = "HOME_UNION_ORIENTED" // "HOME_UNION_ORIENTED" or "HOME_DOM_ORIENTED"
+@#define OSR_FP_HOME = "HOME_DOM_ORIENTED" // "HOME_UNION_ORIENTED" or "HOME_DOM_ORIENTED"
 
 %-------------------------------------------------------------------------%
 %--------------------------- DECLARE VARIABLES ---------------------------%
@@ -126,6 +126,16 @@ RHOG
         FP_pieF_starr
         @#endif
 
+    @#elseif OSR_FP_RULE == "G_GAP_RULE"
+
+        FP_y_gapH
+        FP_pieH
+        
+        @#if FP_FOREIGN == "FOREIGN_UNCONSTRAINED"
+        FP_y_gapF_starr
+        FP_pieF_starr
+        @#endif
+
     @#elseif OSR_FP_RULE == "KIRSANOVA_NATIONAL"
 
         FP_y_gapH
@@ -148,7 +158,7 @@ RHOG
         FP_s_gapF_starr
         @#endif
 
-    @#elseif OSR_FP_RULE == "MB_NATIONAL"
+    @#elseif OSR_FP_RULE == "F_GAP_RULE"
 
         FP_c_gapH
         FP_s_gapH
@@ -156,14 +166,6 @@ RHOG
         @#if FP_FOREIGN == "FOREIGN_UNCONSTRAINED"
         FP_c_gapF_starr
         FP_s_gapF_starr
-        @#endif
-            
-    @#elseif OSR_FP_RULE == "OUTPUT_GAP_ONLY"
-
-        FP_y_gapH
-        
-        @#if FP_FOREIGN == "FOREIGN_UNCONSTRAINED"
-        FP_y_gapF_starr
         @#endif
 
     @#endif
@@ -235,11 +237,11 @@ model(linear);
 
     @#if OSR_MP_RULE == "TAYLOR"
 
-        ii_cu   =   r_nat_cu    +1.5 * pie_cu   +0.5 * y_gap_cu ; % Taylor rule
+        ii_cu - r_nat_cu  =       +1.5 * pie_cu   +0.5 * y_gap_cu ; % Taylor rule
    
    @#elseif OSR_MP_RULE == "BLANCHARD"
     
-        ii_cu   =   r_nat_cu    +2.5 * pie_cu   +0.125 * y_gap_cu   +0.7 * ii_cu(-1); % Blanchard rule
+        ii_cu - r_nat_cu  =  +0.7 * (ii_cu(-1)-r_nat_cu(-1)) +2.5 * pie_cu   +0.125 * y_gap_cu ; % Blanchard rule
 
    @#endif 
     
@@ -286,6 +288,16 @@ model(linear);
 %         f_gap_starr=0; 
         @#endif
 
+    @#elseif OSR_FP_RULE == "G_GAP_RULE"
+
+        g_gap       =   RHOG * g_gap(-1)        +FP_y_gapH * (y_gap(-1)-y_gap_cu(-1))               +FP_pieH * (pie(-1)-pie_cu(-1));
+        @#if FP_FOREIGN == "FOREIGN_UNCONSTRAINED"
+        g_gap_starr =   RHOG * g_gap_starr(-1)  +FP_y_gapF_starr * (y_gap_starr(-1)-y_gap_cu(-1))   +FP_pieF_starr * (pie_starr(-1)-pie_cu(-1));
+        @#elseif FP_FOREIGN == "FOREIGN_CONSTRAINED"
+        g_gap_starr=0;
+        @#endif
+
+
     @#elseif OSR_FP_RULE == "KIRSANOVA_NATIONAL"
 
         g_gap       =   RHOG * g_gap(-1)        +FP_y_gapH * y_gap              +FP_pieH * pie;
@@ -304,24 +316,15 @@ model(linear);
         f_gap_starr=0; 
         @#endif
 
-    @#elseif OSR_FP_RULE == "MB_NATIONAL"
+    @#elseif OSR_FP_RULE == "F_GAP_RULE"
 
-        f_gap       =   RHOG * f_gap(-1)        +FP_c_gapH * (c_gap-y_gap)                      +FP_s_gapH * s_gap;
+        f_gap       =   RHOG * f_gap(-1)        +FP_c_gapH * (c_gap(-1)-y_gap(-1)-(c_gap_cu(-1)-y_gap_cu(-1)))                      +FP_s_gapH * s_gap(-1);
         @#if FP_FOREIGN == "FOREIGN_UNCONSTRAINED"
-        f_gap_starr =   RHOG * f_gap_starr(-1)  +FP_c_gapF_starr * (c_gap_starr-y_gap_starr)    +FP_s_gapF_starr * s_gap_starr;
+        f_gap_starr =   RHOG * f_gap_starr(-1)  +FP_c_gapF_starr * (c_gap_starr(-1)-y_gap_starr(-1)-(c_gap_cu(-1)-y_gap_cu(-1)))    +FP_s_gapF_starr * s_gap_starr(-1);
         @#elseif FP_FOREIGN == "FOREIGN_CONSTRAINED"
         f_gap_starr=0; 
         @#endif
-    
-        @#elseif OSR_FP_RULE == "OUTPUT_GAP_ONLY"
-
-        g_gap       =   RHOG * g_gap(-1)        +FP_y_gapH * y_gap;
-        @#if FP_FOREIGN == "FOREIGN_UNCONSTRAINED"
-        g_gap_starr =   RHOG * g_gap_starr(-1)  +FP_y_gapF_starr * y_gap_starr;
-        @#elseif FP_FOREIGN == "FOREIGN_CONSTRAINED"
-        g_gap_starr=0; 
-        @#endif
-
+   
     @#endif
 
 @#endif
@@ -387,7 +390,7 @@ end;
     
    
     @#for h_val in [ "0.5", "0.75"]
-    @#for ALPHA_bar_val in ["0.4", "0.6"]
+    @#for ALPHA_bar_val in ["0.4", "0.6", "1"]
     @#for THETA_val in ["0.5", "0.75"]
 
 %     @#for h_val in [ "0.5"]
@@ -515,6 +518,28 @@ end;
             @#endif
         end;
 
+    @#elseif OSR_FP_RULE == "G_GAP_RULE"
+    
+        osr_params
+            FP_y_gapH
+            FP_pieH
+    
+            @#if FP_FOREIGN == "FOREIGN_UNCONSTRAINED" 
+            FP_y_gapF_starr
+            FP_pieF_starr
+            @#endif
+        ;
+    
+        osr_params_bounds;
+            FP_y_gapH, -10, 10;
+            FP_pieH, -10, 10;
+    
+            @#if FP_FOREIGN == "FOREIGN_UNCONSTRAINED" 
+            FP_y_gapF_starr, -10, 10;
+            FP_pieF_starr, -10, 10;
+            @#endif
+        end;
+    
     @#elseif OSR_FP_RULE == "KIRSANOVA_NATIONAL"
 
         osr_params
@@ -564,7 +589,7 @@ end;
             @#endif
         end;
 
-    @#elseif OSR_FP_RULE == "MB_NATIONAL"
+    @#elseif OSR_FP_RULE == "F_GAP_RULE"
 
         osr_params
             FP_c_gapH
@@ -585,31 +610,15 @@ end;
             FP_s_gapF_starr, -10, 10;
             @#endif
         end;
-    
-    @#elseif OSR_FP_RULE == "OUTPUT_GAP_ONLY"
-
-        osr_params
-            FP_y_gapH
-    
-            @#if FP_FOREIGN == "FOREIGN_UNCONSTRAINED" 
-            FP_y_gapF_starr
-            @#endif
-        ;
-    
-        osr_params_bounds;
-            FP_y_gapH, -10, 10;
-   
-            @#if FP_FOREIGN == "FOREIGN_UNCONSTRAINED" 
-            FP_y_gapF_starr, -10, 10;
-            @#endif
-        end;        
+      
     @#endif    
 
 
 
 %--------------------------  Check Determinacy  --------------------------%
     
-    @#for h_val in [ "0.5", "0.75"]
+%     @#for h_val in [ "0.5", "0.75"]
+    @#for h_val in [ "0.75"]
     @#for ALPHA_bar_val in ["0.4", "0.6", "1"]
     @#for THETA_val in ["0.5", "0.75"]
     
@@ -664,6 +673,16 @@ end;
         FP_pieF_starr, 0, -10, 10;
         @#endif
 
+     @#elseif OSR_FP_RULE == "G_GAP_RULE"
+
+        FP_y_gapH, 0, -10, 10;
+        FP_pieH, 0, -10, 10;
+
+        @#if FP_FOREIGN == "FOREIGN_UNCONSTRAINED" 
+        FP_y_gapF_starr, 0, -10, 10;
+        FP_pieF_starr, 0, -10, 10;
+        @#endif
+
     @#elseif OSR_FP_RULE == "KIRSANOVA_NATIONAL"
 
         FP_y_gapH, 0, -10, 10;
@@ -686,7 +705,7 @@ end;
         FP_s_gapF_starr, 0, -10, 10;
         @#endif
 
-    @#elseif OSR_FP_RULE == "MB_NATIONAL"
+    @#elseif OSR_FP_RULE == "F_GAP_RULE"
 
         FP_c_gapH, 0, -10, 10;
         FP_s_gapH, 0, -10, 10;
@@ -694,14 +713,6 @@ end;
         @#if FP_FOREIGN == "FOREIGN_UNCONSTRAINED" 
         FP_c_gapF_starr, 0, -10, 10;
         FP_s_gapF_starr, 0, -10, 10;
-        @#endif
-            
-    @#elseif OSR_FP_RULE == "OUTPUT_GAP_ONLY"
-
-        FP_y_gapH, 0, -10, 10;
-
-        @#if FP_FOREIGN == "FOREIGN_UNCONSTRAINED" 
-        FP_y_gapF_starr, 0, -10, 10;
         @#endif
 
     @#endif

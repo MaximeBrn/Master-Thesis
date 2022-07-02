@@ -1,9 +1,0 @@
-Starting Dynare (version 5.0).
-Calling Dynare with arguments: none
-Starting preprocessing of the model file ...
-
-Macro-processing error: backtrace...
-- Unknown variable INITIALIZE
-- binary operation: "FLEXIBLE_PRICE.mod" line 12, col 9-24
-- @#if: "FLEXIBLE_PRICE.mod" line 12, col 1 to line 18, col 11
-

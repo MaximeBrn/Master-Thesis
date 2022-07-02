@@ -290,9 +290,9 @@ M_.endo_names(85) = {'g_gap_r'};
 M_.endo_names_tex(85) = {'{\tilde g^{r}}'};
 M_.endo_names_long(85) = {'Relative output gap (log dev ss)'};
 M_.endo_partitions = struct();
-M_.param_names = cell(31,1);
-M_.param_names_tex = cell(31,1);
-M_.param_names_long = cell(31,1);
+M_.param_names = cell(29,1);
+M_.param_names_tex = cell(29,1);
+M_.param_names_long = cell(29,1);
 M_.param_names(1) = {'BETA'};
 M_.param_names_tex(1) = {'{\beta}'};
 M_.param_names_long(1) = {'BETA'};
@@ -368,29 +368,23 @@ M_.param_names_long(24) = {'RHOG'};
 M_.param_names(25) = {'FP_c_gapH'};
 M_.param_names_tex(25) = {'FP\_c\_gapH'};
 M_.param_names_long(25) = {'FP_c_gapH'};
-M_.param_names(26) = {'FP_c_gapF'};
-M_.param_names_tex(26) = {'FP\_c\_gapF'};
-M_.param_names_long(26) = {'FP_c_gapF'};
-M_.param_names(27) = {'FP_s_gapH'};
-M_.param_names_tex(27) = {'FP\_s\_gapH'};
-M_.param_names_long(27) = {'FP_s_gapH'};
-M_.param_names(28) = {'FP_c_gapH_starr'};
-M_.param_names_tex(28) = {'FP\_c\_gapH\_starr'};
-M_.param_names_long(28) = {'FP_c_gapH_starr'};
-M_.param_names(29) = {'FP_c_gapF_starr'};
-M_.param_names_tex(29) = {'FP\_c\_gapF\_starr'};
-M_.param_names_long(29) = {'FP_c_gapF_starr'};
-M_.param_names(30) = {'FP_s_gapF_starr'};
-M_.param_names_tex(30) = {'FP\_s\_gapF\_starr'};
-M_.param_names_long(30) = {'FP_s_gapF_starr'};
-M_.param_names(31) = {'RHOA'};
-M_.param_names_tex(31) = {'RHOA'};
-M_.param_names_long(31) = {'RHOA'};
+M_.param_names(26) = {'FP_s_gapH'};
+M_.param_names_tex(26) = {'FP\_s\_gapH'};
+M_.param_names_long(26) = {'FP_s_gapH'};
+M_.param_names(27) = {'FP_c_gapF_starr'};
+M_.param_names_tex(27) = {'FP\_c\_gapF\_starr'};
+M_.param_names_long(27) = {'FP_c_gapF_starr'};
+M_.param_names(28) = {'FP_s_gapF_starr'};
+M_.param_names_tex(28) = {'FP\_s\_gapF\_starr'};
+M_.param_names_long(28) = {'FP_s_gapF_starr'};
+M_.param_names(29) = {'RHOA'};
+M_.param_names_tex(29) = {'RHOA'};
+M_.param_names_long(29) = {'RHOA'};
 M_.param_partitions = struct();
 M_.exo_det_nbr = 0;
 M_.exo_nbr = 2;
 M_.endo_nbr = 85;
-M_.param_nbr = 31;
+M_.param_nbr = 29;
 M_.orig_endo_nbr = 85;
 M_.aux_vars = [];
 M_ = setup_solvers(M_);
@@ -425,20 +419,10 @@ M_.orig_maximum_lag = 1;
 M_.orig_maximum_lead = 1;
 M_.orig_maximum_lag_with_diffs_expanded = 1;
 M_.lead_lag_incidence = [
- 1 5 90;
- 2 6 91;
- 0 7 0;
- 0 8 92;
- 0 9 0;
- 0 10 0;
- 0 11 0;
- 0 12 0;
- 0 13 0;
- 0 14 0;
- 0 15 0;
- 0 16 0;
- 0 17 93;
- 0 18 0;
+ 1 15 100;
+ 2 16 101;
+ 0 17 0;
+ 0 18 102;
  0 19 0;
  0 20 0;
  0 21 0;
@@ -447,26 +431,26 @@ M_.lead_lag_incidence = [
  0 24 0;
  0 25 0;
  0 26 0;
- 0 27 0;
+ 0 27 103;
  0 28 0;
  0 29 0;
  0 30 0;
  0 31 0;
  0 32 0;
  0 33 0;
- 0 34 94;
- 0 35 95;
- 0 36 96;
+ 0 34 0;
+ 0 35 0;
+ 0 36 0;
  0 37 0;
  0 38 0;
  0 39 0;
  0 40 0;
- 0 41 0;
+ 3 41 0;
  0 42 0;
  0 43 0;
- 0 44 97;
- 0 45 98;
- 0 46 99;
+ 0 44 104;
+ 0 45 105;
+ 0 46 106;
  0 47 0;
  0 48 0;
  0 49 0;
@@ -474,9 +458,9 @@ M_.lead_lag_incidence = [
  0 51 0;
  0 52 0;
  0 53 0;
- 0 54 0;
- 0 55 0;
- 0 56 0;
+ 0 54 107;
+ 0 55 108;
+ 0 56 109;
  0 57 0;
  0 58 0;
  0 59 0;
@@ -488,35 +472,45 @@ M_.lead_lag_incidence = [
  0 65 0;
  0 66 0;
  0 67 0;
- 3 68 0;
- 0 69 0;
+ 0 68 0;
+ 4 69 0;
  0 70 0;
  0 71 0;
  0 72 0;
- 0 73 0;
+ 5 73 0;
  0 74 0;
- 0 75 0;
+ 6 75 0;
  0 76 0;
- 4 77 0;
- 0 78 0;
+ 0 77 0;
+ 7 78 0;
  0 79 0;
- 0 80 0;
+ 8 80 0;
  0 81 0;
- 0 82 0;
+ 9 82 0;
  0 83 0;
- 0 84 0;
+ 10 84 0;
  0 85 0;
  0 86 0;
- 0 87 0;
+ 11 87 0;
  0 88 0;
- 0 89 0;]';
-M_.nstatic = 73;
+ 12 89 0;
+ 0 90 0;
+ 13 91 0;
+ 0 92 0;
+ 14 93 0;
+ 0 94 0;
+ 0 95 0;
+ 0 96 0;
+ 0 97 0;
+ 0 98 0;
+ 0 99 0;]';
+M_.nstatic = 63;
 M_.nfwrd   = 8;
-M_.npred   = 2;
+M_.npred   = 12;
 M_.nboth   = 2;
 M_.nsfwrd   = 10;
-M_.nspred   = 4;
-M_.ndynamic   = 12;
+M_.nspred   = 14;
+M_.ndynamic   = 22;
 M_.dynamic_tmp_nbr = [2; 1; 0; 0; ];
 M_.model_local_variables_dynamic_tt_idxs = {
 };
@@ -600,7 +594,7 @@ M_.equations_tags = {
   77 , 'name' , 'f_gap_cu' ;
   78 , 'name' , 'c_H_gap_cu' ;
   79 , 'name' , 'c_F_gap_cu' ;
-  80 , 'name' , 'ii_cu' ;
+  80 , 'name' , '80' ;
   81 , 'name' , 'f_gap' ;
   82 , 'name' , 'f_gap_starr' ;
   83 , 'name' , 'a' ;
@@ -667,27 +661,27 @@ M_.mapping.ii_cu.eqidx = [43 44 80 ];
 M_.mapping.pie_cu.eqidx = [45 80 ];
 M_.mapping.f_cu.eqidx = [51 ];
 M_.mapping.n_cu.eqidx = [52 76 ];
-M_.mapping.y_gap.eqidx = [53 71 81 82 ];
+M_.mapping.y_gap.eqidx = [53 71 81 ];
 M_.mapping.g_gap.eqidx = [54 72 75 ];
-M_.mapping.c_gap.eqidx = [55 73 81 82 ];
+M_.mapping.c_gap.eqidx = [55 73 81 ];
 M_.mapping.c_H_gap.eqidx = [56 78 ];
 M_.mapping.c_F_gap.eqidx = [57 79 ];
 M_.mapping.f_gap.eqidx = [59 77 81 ];
 M_.mapping.n_gap.eqidx = [58 ];
 M_.mapping.s_gap.eqidx = [60 81 ];
 M_.mapping.ii_gap.eqidx = [61 ];
-M_.mapping.y_gap_starr.eqidx = [62 71 81 82 ];
+M_.mapping.y_gap_starr.eqidx = [62 71 82 ];
 M_.mapping.g_gap_starr.eqidx = [63 72 75 ];
-M_.mapping.c_gap_starr.eqidx = [64 73 81 82 ];
+M_.mapping.c_gap_starr.eqidx = [64 73 82 ];
 M_.mapping.c_H_gap_starr.eqidx = [65 78 ];
 M_.mapping.c_F_gap_starr.eqidx = [66 79 ];
 M_.mapping.f_gap_starr.eqidx = [68 77 82 ];
 M_.mapping.n_gap_starr.eqidx = [67 ];
 M_.mapping.s_gap_starr.eqidx = [69 82 ];
 M_.mapping.ii_gap_starr.eqidx = [70 ];
-M_.mapping.y_gap_cu.eqidx = [71 80 ];
+M_.mapping.y_gap_cu.eqidx = [71 80 81 82 ];
 M_.mapping.g_gap_cu.eqidx = [72 ];
-M_.mapping.c_gap_cu.eqidx = [73 ];
+M_.mapping.c_gap_cu.eqidx = [73 81 82 ];
 M_.mapping.c_H_gap_cu.eqidx = [78 ];
 M_.mapping.c_F_gap_cu.eqidx = [79 ];
 M_.mapping.ii_gap_cu.eqidx = [74 ];
@@ -696,7 +690,7 @@ M_.mapping.f_gap_cu.eqidx = [77 ];
 M_.mapping.g_gap_r.eqidx = [75 ];
 M_.static_and_dynamic_models_differ = false;
 M_.has_external_function = false;
-M_.state_var = [1 2 64 73 ];
+M_.state_var = [1 2 27 55 59 61 64 66 68 70 73 75 77 79 ];
 M_.exo_names_orig_ord = [1:2];
 M_.maximum_lag = 1;
 M_.maximum_lead = 1;
@@ -706,9 +700,9 @@ oo_.steady_state = zeros(85, 1);
 M_.maximum_exo_lag = 0;
 M_.maximum_exo_lead = 0;
 oo_.exo_steady_state = zeros(2, 1);
-M_.params = NaN(31, 1);
+M_.params = NaN(29, 1);
 M_.endo_trends = struct('deflator', cell(85, 1), 'log_deflator', cell(85, 1), 'growth_factor', cell(85, 1), 'log_growth_factor', cell(85, 1));
-M_.NNZDerivatives = [296; 0; -1; ];
+M_.NNZDerivatives = [298; 0; -1; ];
 M_.static_tmp_nbr = [0; 1; 0; 0; ];
 M_.model_local_variables_static_tt_idxs = {
 };
@@ -734,8 +728,8 @@ M_.params(10) = 0.75;
 THETA_starr = M_.params(10);
 M_.params(11) = 0.25;
 DELTA = M_.params(11);
-M_.params(31) = 0.95;
-RHOA = M_.params(31);
+M_.params(29) = 0.95;
+RHOA = M_.params(29);
 M_.params(24) = 0.92;
 RHOG = M_.params(24);
 M_.params(17) = (1-M_.params(10))*(1-M_.params(10)*M_.params(1))/M_.params(10);
@@ -746,484 +740,18 @@ M_.params(12) = (1-M_.params(11))^M_.params(2);
 CHI_C = M_.params(12);
 M_.params(13) = M_.params(11)^M_.params(4);
 CHI_G = M_.params(13);
-M_.osr.param_names = {'FP_c_gapH';'FP_c_gapF';'FP_s_gapH';'FP_c_gapH_starr';'FP_c_gapF_starr';'FP_s_gapF_starr'};
+M_.osr.param_names = {'FP_c_gapH';'FP_s_gapH';'FP_c_gapF_starr';'FP_s_gapF_starr'};
 M_.osr.param_names = cellstr(M_.osr.param_names);
 M_.osr.param_indices = zeros(length(M_.osr.param_names), 1);
 M_.osr.param_indices(1) = 25;
 M_.osr.param_indices(2) = 26;
 M_.osr.param_indices(3) = 27;
 M_.osr.param_indices(4) = 28;
-M_.osr.param_indices(5) = 29;
-M_.osr.param_indices(6) = 30;
 M_.osr.param_bounds = [-inf(length(M_.osr.param_names), 1), inf(length(M_.osr.param_names), 1)];
 M_.osr.param_bounds(strcmp(M_.osr.param_names, 'FP_c_gapH'), :) = [(-10), 10];
-M_.osr.param_bounds(strcmp(M_.osr.param_names, 'FP_c_gapF'), :) = [(-10), 10];
 M_.osr.param_bounds(strcmp(M_.osr.param_names, 'FP_s_gapH'), :) = [(-10), 10];
-M_.osr.param_bounds(strcmp(M_.osr.param_names, 'FP_c_gapH_starr'), :) = [(-10), 10];
 M_.osr.param_bounds(strcmp(M_.osr.param_names, 'FP_c_gapF_starr'), :) = [(-10), 10];
 M_.osr.param_bounds(strcmp(M_.osr.param_names, 'FP_s_gapF_starr'), :) = [(-10), 10];
-M_.params(7) = 0.5;
-h = M_.params(7);
-M_.params(8) = 0.4;
-ALPHA_bar = M_.params(8);
-M_.params(9) = 0.5;
-THETA = M_.params(9);
-M_.params(14) = M_.params(8)*(1-M_.params(7));
-ALPHA = M_.params(14);
-M_.params(15) = M_.params(8)*M_.params(7);
-ALPHA_starr = M_.params(15);
-M_.params(16) = (1-M_.params(9))*(1-M_.params(1)*M_.params(9))/M_.params(9);
-LAMBDA = M_.params(16);
-M_.params(18) = 1+(2-M_.params(8))*(M_.params(2)*M_.params(5)-1);
-W_ALPHA_bar = M_.params(18);
-M_.params(20) = M_.params(18)-1;
-THETA_ALPHA_bar = M_.params(20);
-M_.params(21) = M_.params(19)/(1+M_.params(8)*M_.params(20));
-SIGMA_tilde_ALPHA_bar = M_.params(21);
-M_.params(22) = 1+M_.params(8)*M_.params(7)*M_.params(20);
-OMEGA = M_.params(22);
-M_.params(23) = 1+M_.params(8)*(1-M_.params(7))*M_.params(20);
-OMEGA_starr = M_.params(23);
-estim_params_.var_exo = zeros(0, 10);
-estim_params_.var_endo = zeros(0, 10);
-estim_params_.corrx = zeros(0, 11);
-estim_params_.corrn = zeros(0, 11);
-estim_params_.param_vals = zeros(0, 10);
-estim_params_.param_vals = [estim_params_.param_vals; 25, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 26, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 27, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 28, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 29, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 30, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-options_.varobs = M_.endo_names; 
-options_gsa = struct();
-dynare_sensitivity(options_gsa);
-%
-% OPTIM_WEIGHTS
-%
-M_.osr.variable_weights = sparse(M_.endo_nbr,M_.endo_nbr);
-M_.osr.variable_indices = [];
-
-M_.osr.variable_weights(79,79) = (1-M_.params(11))*(M_.params(2)+(1-M_.params(11))*M_.params(3));
-M_.osr.variable_indices = [M_.osr.variable_indices; 79];
-M_.osr.variable_weights(60,60) = M_.params(11)*M_.params(7)*(M_.params(4)+M_.params(11)*M_.params(3));
-M_.osr.variable_indices = [M_.osr.variable_indices; 60];
-M_.osr.variable_weights(69,69) = (M_.params(4)+M_.params(11)*M_.params(3))*M_.params(11)*(1-M_.params(7));
-M_.osr.variable_indices = [M_.osr.variable_indices; 69];
-M_.osr.variable_weights(31,31) = M_.params(7)*M_.params(6)/M_.params(16);
-M_.osr.variable_indices = [M_.osr.variable_indices; 31];
-M_.osr.variable_weights(41,41) = (1-M_.params(7))*M_.params(6)/M_.params(17);
-M_.osr.variable_indices = [M_.osr.variable_indices; 41];
-M_.osr.variable_weights(66,66) = (1-M_.params(11))*M_.params(8)*M_.params(7)*(1-M_.params(7))*(1+(1-M_.params(11))*M_.params(3));
-M_.osr.variable_indices = [M_.osr.variable_indices; 66];
-M_.osr.variable_weights(79,78) = M_.params(3)*2*(1-M_.params(11));
-M_.osr.variable_indices = [M_.osr.variable_indices; 79; 78];
-M_.osr.variable_weights(66,85) = M_.params(3)*M_.params(11)*(1-M_.params(11))*(1-M_.params(7))*M_.params(7)*2*M_.params(8);
-M_.osr.variable_indices = [M_.osr.variable_indices; 66; 85];
-options_.TeX = true;
-options_.irf = 200;
-options_.nocorr = true;
-options_.nograph = true;
-options_.nomoments = true;
-options_.osr.opt_algo = 9;
-options_.irf_shocks = {'eps_a_starr'};
-var_list_ = {};
-oo_.osr = osr(var_list_,M_.osr.param_names,M_.osr.variable_indices,M_.osr.variable_weights);
-[pol_name,folder_name,benchmark_folder_name]=get_folder_name("OSR","POP_WEIGHT","TAYLOR","MB","FOREIGN_UNCONSTRAINED","HOME_UNION_ORIENTED",h,ALPHA_bar,THETA);
-mkdir(folder_name)
-analyze_welfare(oo_.irfs,options_.irf,"POP_WEIGHT","OSR",folder_name,benchmark_folder_name,BETA,SIGMA,DELTA,PHI,GAMMA,EPSILON,LAMBDA,LAMBDA_starr,h,ALPHA_bar);
-T_plot=100
-my_annotation=[char(strrep(strrep("POP_WEIGHT, "+pol_name," - ",", "),"_"," ")) ', $$h$$ = ' num2str(h) ', $$\bar{\alpha}$$ =' num2str(ALPHA_bar) ', $$\theta$$ = ' num2str(THETA)]
-generate_plot(oo_.irfs,T_plot,my_annotation,folder_name)
-OSR_coef_table=rows2vars(struct2table(oo_.osr.optim_params));
-OSR_coef_table.Properties.VariableNames = ["Coefficient","Value"];
-writetable(OSR_coef_table, folder_name+"/OSR_coef.csv","WriteRowNames",true)        
-close all
-M_.params(7) = 0.5;
-h = M_.params(7);
-M_.params(8) = 0.4;
-ALPHA_bar = M_.params(8);
-M_.params(9) = 0.75;
-THETA = M_.params(9);
-M_.params(14) = M_.params(8)*(1-M_.params(7));
-ALPHA = M_.params(14);
-M_.params(15) = M_.params(8)*M_.params(7);
-ALPHA_starr = M_.params(15);
-M_.params(16) = (1-M_.params(9))*(1-M_.params(1)*M_.params(9))/M_.params(9);
-LAMBDA = M_.params(16);
-M_.params(18) = 1+(2-M_.params(8))*(M_.params(2)*M_.params(5)-1);
-W_ALPHA_bar = M_.params(18);
-M_.params(20) = M_.params(18)-1;
-THETA_ALPHA_bar = M_.params(20);
-M_.params(21) = M_.params(19)/(1+M_.params(8)*M_.params(20));
-SIGMA_tilde_ALPHA_bar = M_.params(21);
-M_.params(22) = 1+M_.params(8)*M_.params(7)*M_.params(20);
-OMEGA = M_.params(22);
-M_.params(23) = 1+M_.params(8)*(1-M_.params(7))*M_.params(20);
-OMEGA_starr = M_.params(23);
-estim_params_.var_exo = zeros(0, 10);
-estim_params_.var_endo = zeros(0, 10);
-estim_params_.corrx = zeros(0, 11);
-estim_params_.corrn = zeros(0, 11);
-estim_params_.param_vals = zeros(0, 10);
-estim_params_.param_vals = [estim_params_.param_vals; 25, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 26, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 27, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 28, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 29, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 30, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-options_.varobs = M_.endo_names; 
-options_gsa = struct();
-dynare_sensitivity(options_gsa);
-%
-% OPTIM_WEIGHTS
-%
-M_.osr.variable_weights = sparse(M_.endo_nbr,M_.endo_nbr);
-M_.osr.variable_indices = [];
-
-M_.osr.variable_weights(79,79) = (1-M_.params(11))*(M_.params(2)+(1-M_.params(11))*M_.params(3));
-M_.osr.variable_indices = [M_.osr.variable_indices; 79];
-M_.osr.variable_weights(60,60) = M_.params(11)*M_.params(7)*(M_.params(4)+M_.params(11)*M_.params(3));
-M_.osr.variable_indices = [M_.osr.variable_indices; 60];
-M_.osr.variable_weights(69,69) = (M_.params(4)+M_.params(11)*M_.params(3))*M_.params(11)*(1-M_.params(7));
-M_.osr.variable_indices = [M_.osr.variable_indices; 69];
-M_.osr.variable_weights(31,31) = M_.params(7)*M_.params(6)/M_.params(16);
-M_.osr.variable_indices = [M_.osr.variable_indices; 31];
-M_.osr.variable_weights(41,41) = (1-M_.params(7))*M_.params(6)/M_.params(17);
-M_.osr.variable_indices = [M_.osr.variable_indices; 41];
-M_.osr.variable_weights(66,66) = (1-M_.params(11))*M_.params(8)*M_.params(7)*(1-M_.params(7))*(1+(1-M_.params(11))*M_.params(3));
-M_.osr.variable_indices = [M_.osr.variable_indices; 66];
-M_.osr.variable_weights(79,78) = M_.params(3)*2*(1-M_.params(11));
-M_.osr.variable_indices = [M_.osr.variable_indices; 79; 78];
-M_.osr.variable_weights(66,85) = M_.params(3)*M_.params(11)*(1-M_.params(11))*(1-M_.params(7))*M_.params(7)*2*M_.params(8);
-M_.osr.variable_indices = [M_.osr.variable_indices; 66; 85];
-options_.TeX = true;
-options_.irf = 200;
-options_.nocorr = true;
-options_.nograph = true;
-options_.nomoments = true;
-options_.osr.opt_algo = 9;
-options_.irf_shocks = {'eps_a_starr'};
-var_list_ = {};
-oo_.osr = osr(var_list_,M_.osr.param_names,M_.osr.variable_indices,M_.osr.variable_weights);
-[pol_name,folder_name,benchmark_folder_name]=get_folder_name("OSR","POP_WEIGHT","TAYLOR","MB","FOREIGN_UNCONSTRAINED","HOME_UNION_ORIENTED",h,ALPHA_bar,THETA);
-mkdir(folder_name)
-analyze_welfare(oo_.irfs,options_.irf,"POP_WEIGHT","OSR",folder_name,benchmark_folder_name,BETA,SIGMA,DELTA,PHI,GAMMA,EPSILON,LAMBDA,LAMBDA_starr,h,ALPHA_bar);
-T_plot=100
-my_annotation=[char(strrep(strrep("POP_WEIGHT, "+pol_name," - ",", "),"_"," ")) ', $$h$$ = ' num2str(h) ', $$\bar{\alpha}$$ =' num2str(ALPHA_bar) ', $$\theta$$ = ' num2str(THETA)]
-generate_plot(oo_.irfs,T_plot,my_annotation,folder_name)
-OSR_coef_table=rows2vars(struct2table(oo_.osr.optim_params));
-OSR_coef_table.Properties.VariableNames = ["Coefficient","Value"];
-writetable(OSR_coef_table, folder_name+"/OSR_coef.csv","WriteRowNames",true)        
-close all
-M_.params(7) = 0.5;
-h = M_.params(7);
-M_.params(8) = 0.6;
-ALPHA_bar = M_.params(8);
-M_.params(9) = 0.5;
-THETA = M_.params(9);
-M_.params(14) = M_.params(8)*(1-M_.params(7));
-ALPHA = M_.params(14);
-M_.params(15) = M_.params(8)*M_.params(7);
-ALPHA_starr = M_.params(15);
-M_.params(16) = (1-M_.params(9))*(1-M_.params(1)*M_.params(9))/M_.params(9);
-LAMBDA = M_.params(16);
-M_.params(18) = 1+(2-M_.params(8))*(M_.params(2)*M_.params(5)-1);
-W_ALPHA_bar = M_.params(18);
-M_.params(20) = M_.params(18)-1;
-THETA_ALPHA_bar = M_.params(20);
-M_.params(21) = M_.params(19)/(1+M_.params(8)*M_.params(20));
-SIGMA_tilde_ALPHA_bar = M_.params(21);
-M_.params(22) = 1+M_.params(8)*M_.params(7)*M_.params(20);
-OMEGA = M_.params(22);
-M_.params(23) = 1+M_.params(8)*(1-M_.params(7))*M_.params(20);
-OMEGA_starr = M_.params(23);
-estim_params_.var_exo = zeros(0, 10);
-estim_params_.var_endo = zeros(0, 10);
-estim_params_.corrx = zeros(0, 11);
-estim_params_.corrn = zeros(0, 11);
-estim_params_.param_vals = zeros(0, 10);
-estim_params_.param_vals = [estim_params_.param_vals; 25, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 26, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 27, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 28, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 29, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 30, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-options_.varobs = M_.endo_names; 
-options_gsa = struct();
-dynare_sensitivity(options_gsa);
-%
-% OPTIM_WEIGHTS
-%
-M_.osr.variable_weights = sparse(M_.endo_nbr,M_.endo_nbr);
-M_.osr.variable_indices = [];
-
-M_.osr.variable_weights(79,79) = (1-M_.params(11))*(M_.params(2)+(1-M_.params(11))*M_.params(3));
-M_.osr.variable_indices = [M_.osr.variable_indices; 79];
-M_.osr.variable_weights(60,60) = M_.params(11)*M_.params(7)*(M_.params(4)+M_.params(11)*M_.params(3));
-M_.osr.variable_indices = [M_.osr.variable_indices; 60];
-M_.osr.variable_weights(69,69) = (M_.params(4)+M_.params(11)*M_.params(3))*M_.params(11)*(1-M_.params(7));
-M_.osr.variable_indices = [M_.osr.variable_indices; 69];
-M_.osr.variable_weights(31,31) = M_.params(7)*M_.params(6)/M_.params(16);
-M_.osr.variable_indices = [M_.osr.variable_indices; 31];
-M_.osr.variable_weights(41,41) = (1-M_.params(7))*M_.params(6)/M_.params(17);
-M_.osr.variable_indices = [M_.osr.variable_indices; 41];
-M_.osr.variable_weights(66,66) = (1-M_.params(11))*M_.params(8)*M_.params(7)*(1-M_.params(7))*(1+(1-M_.params(11))*M_.params(3));
-M_.osr.variable_indices = [M_.osr.variable_indices; 66];
-M_.osr.variable_weights(79,78) = M_.params(3)*2*(1-M_.params(11));
-M_.osr.variable_indices = [M_.osr.variable_indices; 79; 78];
-M_.osr.variable_weights(66,85) = M_.params(3)*M_.params(11)*(1-M_.params(11))*(1-M_.params(7))*M_.params(7)*2*M_.params(8);
-M_.osr.variable_indices = [M_.osr.variable_indices; 66; 85];
-options_.TeX = true;
-options_.irf = 200;
-options_.nocorr = true;
-options_.nograph = true;
-options_.nomoments = true;
-options_.osr.opt_algo = 9;
-options_.irf_shocks = {'eps_a_starr'};
-var_list_ = {};
-oo_.osr = osr(var_list_,M_.osr.param_names,M_.osr.variable_indices,M_.osr.variable_weights);
-[pol_name,folder_name,benchmark_folder_name]=get_folder_name("OSR","POP_WEIGHT","TAYLOR","MB","FOREIGN_UNCONSTRAINED","HOME_UNION_ORIENTED",h,ALPHA_bar,THETA);
-mkdir(folder_name)
-analyze_welfare(oo_.irfs,options_.irf,"POP_WEIGHT","OSR",folder_name,benchmark_folder_name,BETA,SIGMA,DELTA,PHI,GAMMA,EPSILON,LAMBDA,LAMBDA_starr,h,ALPHA_bar);
-T_plot=100
-my_annotation=[char(strrep(strrep("POP_WEIGHT, "+pol_name," - ",", "),"_"," ")) ', $$h$$ = ' num2str(h) ', $$\bar{\alpha}$$ =' num2str(ALPHA_bar) ', $$\theta$$ = ' num2str(THETA)]
-generate_plot(oo_.irfs,T_plot,my_annotation,folder_name)
-OSR_coef_table=rows2vars(struct2table(oo_.osr.optim_params));
-OSR_coef_table.Properties.VariableNames = ["Coefficient","Value"];
-writetable(OSR_coef_table, folder_name+"/OSR_coef.csv","WriteRowNames",true)        
-close all
-M_.params(7) = 0.5;
-h = M_.params(7);
-M_.params(8) = 0.6;
-ALPHA_bar = M_.params(8);
-M_.params(9) = 0.75;
-THETA = M_.params(9);
-M_.params(14) = M_.params(8)*(1-M_.params(7));
-ALPHA = M_.params(14);
-M_.params(15) = M_.params(8)*M_.params(7);
-ALPHA_starr = M_.params(15);
-M_.params(16) = (1-M_.params(9))*(1-M_.params(1)*M_.params(9))/M_.params(9);
-LAMBDA = M_.params(16);
-M_.params(18) = 1+(2-M_.params(8))*(M_.params(2)*M_.params(5)-1);
-W_ALPHA_bar = M_.params(18);
-M_.params(20) = M_.params(18)-1;
-THETA_ALPHA_bar = M_.params(20);
-M_.params(21) = M_.params(19)/(1+M_.params(8)*M_.params(20));
-SIGMA_tilde_ALPHA_bar = M_.params(21);
-M_.params(22) = 1+M_.params(8)*M_.params(7)*M_.params(20);
-OMEGA = M_.params(22);
-M_.params(23) = 1+M_.params(8)*(1-M_.params(7))*M_.params(20);
-OMEGA_starr = M_.params(23);
-estim_params_.var_exo = zeros(0, 10);
-estim_params_.var_endo = zeros(0, 10);
-estim_params_.corrx = zeros(0, 11);
-estim_params_.corrn = zeros(0, 11);
-estim_params_.param_vals = zeros(0, 10);
-estim_params_.param_vals = [estim_params_.param_vals; 25, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 26, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 27, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 28, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 29, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 30, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-options_.varobs = M_.endo_names; 
-options_gsa = struct();
-dynare_sensitivity(options_gsa);
-%
-% OPTIM_WEIGHTS
-%
-M_.osr.variable_weights = sparse(M_.endo_nbr,M_.endo_nbr);
-M_.osr.variable_indices = [];
-
-M_.osr.variable_weights(79,79) = (1-M_.params(11))*(M_.params(2)+(1-M_.params(11))*M_.params(3));
-M_.osr.variable_indices = [M_.osr.variable_indices; 79];
-M_.osr.variable_weights(60,60) = M_.params(11)*M_.params(7)*(M_.params(4)+M_.params(11)*M_.params(3));
-M_.osr.variable_indices = [M_.osr.variable_indices; 60];
-M_.osr.variable_weights(69,69) = (M_.params(4)+M_.params(11)*M_.params(3))*M_.params(11)*(1-M_.params(7));
-M_.osr.variable_indices = [M_.osr.variable_indices; 69];
-M_.osr.variable_weights(31,31) = M_.params(7)*M_.params(6)/M_.params(16);
-M_.osr.variable_indices = [M_.osr.variable_indices; 31];
-M_.osr.variable_weights(41,41) = (1-M_.params(7))*M_.params(6)/M_.params(17);
-M_.osr.variable_indices = [M_.osr.variable_indices; 41];
-M_.osr.variable_weights(66,66) = (1-M_.params(11))*M_.params(8)*M_.params(7)*(1-M_.params(7))*(1+(1-M_.params(11))*M_.params(3));
-M_.osr.variable_indices = [M_.osr.variable_indices; 66];
-M_.osr.variable_weights(79,78) = M_.params(3)*2*(1-M_.params(11));
-M_.osr.variable_indices = [M_.osr.variable_indices; 79; 78];
-M_.osr.variable_weights(66,85) = M_.params(3)*M_.params(11)*(1-M_.params(11))*(1-M_.params(7))*M_.params(7)*2*M_.params(8);
-M_.osr.variable_indices = [M_.osr.variable_indices; 66; 85];
-options_.TeX = true;
-options_.irf = 200;
-options_.nocorr = true;
-options_.nograph = true;
-options_.nomoments = true;
-options_.osr.opt_algo = 9;
-options_.irf_shocks = {'eps_a_starr'};
-var_list_ = {};
-oo_.osr = osr(var_list_,M_.osr.param_names,M_.osr.variable_indices,M_.osr.variable_weights);
-[pol_name,folder_name,benchmark_folder_name]=get_folder_name("OSR","POP_WEIGHT","TAYLOR","MB","FOREIGN_UNCONSTRAINED","HOME_UNION_ORIENTED",h,ALPHA_bar,THETA);
-mkdir(folder_name)
-analyze_welfare(oo_.irfs,options_.irf,"POP_WEIGHT","OSR",folder_name,benchmark_folder_name,BETA,SIGMA,DELTA,PHI,GAMMA,EPSILON,LAMBDA,LAMBDA_starr,h,ALPHA_bar);
-T_plot=100
-my_annotation=[char(strrep(strrep("POP_WEIGHT, "+pol_name," - ",", "),"_"," ")) ', $$h$$ = ' num2str(h) ', $$\bar{\alpha}$$ =' num2str(ALPHA_bar) ', $$\theta$$ = ' num2str(THETA)]
-generate_plot(oo_.irfs,T_plot,my_annotation,folder_name)
-OSR_coef_table=rows2vars(struct2table(oo_.osr.optim_params));
-OSR_coef_table.Properties.VariableNames = ["Coefficient","Value"];
-writetable(OSR_coef_table, folder_name+"/OSR_coef.csv","WriteRowNames",true)        
-close all
-M_.params(7) = 0.5;
-h = M_.params(7);
-M_.params(8) = 1;
-ALPHA_bar = M_.params(8);
-M_.params(9) = 0.5;
-THETA = M_.params(9);
-M_.params(14) = M_.params(8)*(1-M_.params(7));
-ALPHA = M_.params(14);
-M_.params(15) = M_.params(8)*M_.params(7);
-ALPHA_starr = M_.params(15);
-M_.params(16) = (1-M_.params(9))*(1-M_.params(1)*M_.params(9))/M_.params(9);
-LAMBDA = M_.params(16);
-M_.params(18) = 1+(2-M_.params(8))*(M_.params(2)*M_.params(5)-1);
-W_ALPHA_bar = M_.params(18);
-M_.params(20) = M_.params(18)-1;
-THETA_ALPHA_bar = M_.params(20);
-M_.params(21) = M_.params(19)/(1+M_.params(8)*M_.params(20));
-SIGMA_tilde_ALPHA_bar = M_.params(21);
-M_.params(22) = 1+M_.params(8)*M_.params(7)*M_.params(20);
-OMEGA = M_.params(22);
-M_.params(23) = 1+M_.params(8)*(1-M_.params(7))*M_.params(20);
-OMEGA_starr = M_.params(23);
-estim_params_.var_exo = zeros(0, 10);
-estim_params_.var_endo = zeros(0, 10);
-estim_params_.corrx = zeros(0, 11);
-estim_params_.corrn = zeros(0, 11);
-estim_params_.param_vals = zeros(0, 10);
-estim_params_.param_vals = [estim_params_.param_vals; 25, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 26, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 27, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 28, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 29, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 30, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-options_.varobs = M_.endo_names; 
-options_gsa = struct();
-dynare_sensitivity(options_gsa);
-%
-% OPTIM_WEIGHTS
-%
-M_.osr.variable_weights = sparse(M_.endo_nbr,M_.endo_nbr);
-M_.osr.variable_indices = [];
-
-M_.osr.variable_weights(79,79) = (1-M_.params(11))*(M_.params(2)+(1-M_.params(11))*M_.params(3));
-M_.osr.variable_indices = [M_.osr.variable_indices; 79];
-M_.osr.variable_weights(60,60) = M_.params(11)*M_.params(7)*(M_.params(4)+M_.params(11)*M_.params(3));
-M_.osr.variable_indices = [M_.osr.variable_indices; 60];
-M_.osr.variable_weights(69,69) = (M_.params(4)+M_.params(11)*M_.params(3))*M_.params(11)*(1-M_.params(7));
-M_.osr.variable_indices = [M_.osr.variable_indices; 69];
-M_.osr.variable_weights(31,31) = M_.params(7)*M_.params(6)/M_.params(16);
-M_.osr.variable_indices = [M_.osr.variable_indices; 31];
-M_.osr.variable_weights(41,41) = (1-M_.params(7))*M_.params(6)/M_.params(17);
-M_.osr.variable_indices = [M_.osr.variable_indices; 41];
-M_.osr.variable_weights(66,66) = (1-M_.params(11))*M_.params(8)*M_.params(7)*(1-M_.params(7))*(1+(1-M_.params(11))*M_.params(3));
-M_.osr.variable_indices = [M_.osr.variable_indices; 66];
-M_.osr.variable_weights(79,78) = M_.params(3)*2*(1-M_.params(11));
-M_.osr.variable_indices = [M_.osr.variable_indices; 79; 78];
-M_.osr.variable_weights(66,85) = M_.params(3)*M_.params(11)*(1-M_.params(11))*(1-M_.params(7))*M_.params(7)*2*M_.params(8);
-M_.osr.variable_indices = [M_.osr.variable_indices; 66; 85];
-options_.TeX = true;
-options_.irf = 200;
-options_.nocorr = true;
-options_.nograph = true;
-options_.nomoments = true;
-options_.osr.opt_algo = 9;
-options_.irf_shocks = {'eps_a_starr'};
-var_list_ = {};
-oo_.osr = osr(var_list_,M_.osr.param_names,M_.osr.variable_indices,M_.osr.variable_weights);
-[pol_name,folder_name,benchmark_folder_name]=get_folder_name("OSR","POP_WEIGHT","TAYLOR","MB","FOREIGN_UNCONSTRAINED","HOME_UNION_ORIENTED",h,ALPHA_bar,THETA);
-mkdir(folder_name)
-analyze_welfare(oo_.irfs,options_.irf,"POP_WEIGHT","OSR",folder_name,benchmark_folder_name,BETA,SIGMA,DELTA,PHI,GAMMA,EPSILON,LAMBDA,LAMBDA_starr,h,ALPHA_bar);
-T_plot=100
-my_annotation=[char(strrep(strrep("POP_WEIGHT, "+pol_name," - ",", "),"_"," ")) ', $$h$$ = ' num2str(h) ', $$\bar{\alpha}$$ =' num2str(ALPHA_bar) ', $$\theta$$ = ' num2str(THETA)]
-generate_plot(oo_.irfs,T_plot,my_annotation,folder_name)
-OSR_coef_table=rows2vars(struct2table(oo_.osr.optim_params));
-OSR_coef_table.Properties.VariableNames = ["Coefficient","Value"];
-writetable(OSR_coef_table, folder_name+"/OSR_coef.csv","WriteRowNames",true)        
-close all
-M_.params(7) = 0.5;
-h = M_.params(7);
-M_.params(8) = 1;
-ALPHA_bar = M_.params(8);
-M_.params(9) = 0.75;
-THETA = M_.params(9);
-M_.params(14) = M_.params(8)*(1-M_.params(7));
-ALPHA = M_.params(14);
-M_.params(15) = M_.params(8)*M_.params(7);
-ALPHA_starr = M_.params(15);
-M_.params(16) = (1-M_.params(9))*(1-M_.params(1)*M_.params(9))/M_.params(9);
-LAMBDA = M_.params(16);
-M_.params(18) = 1+(2-M_.params(8))*(M_.params(2)*M_.params(5)-1);
-W_ALPHA_bar = M_.params(18);
-M_.params(20) = M_.params(18)-1;
-THETA_ALPHA_bar = M_.params(20);
-M_.params(21) = M_.params(19)/(1+M_.params(8)*M_.params(20));
-SIGMA_tilde_ALPHA_bar = M_.params(21);
-M_.params(22) = 1+M_.params(8)*M_.params(7)*M_.params(20);
-OMEGA = M_.params(22);
-M_.params(23) = 1+M_.params(8)*(1-M_.params(7))*M_.params(20);
-OMEGA_starr = M_.params(23);
-estim_params_.var_exo = zeros(0, 10);
-estim_params_.var_endo = zeros(0, 10);
-estim_params_.corrx = zeros(0, 11);
-estim_params_.corrn = zeros(0, 11);
-estim_params_.param_vals = zeros(0, 10);
-estim_params_.param_vals = [estim_params_.param_vals; 25, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 26, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 27, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 28, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 29, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 30, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-options_.varobs = M_.endo_names; 
-options_gsa = struct();
-dynare_sensitivity(options_gsa);
-%
-% OPTIM_WEIGHTS
-%
-M_.osr.variable_weights = sparse(M_.endo_nbr,M_.endo_nbr);
-M_.osr.variable_indices = [];
-
-M_.osr.variable_weights(79,79) = (1-M_.params(11))*(M_.params(2)+(1-M_.params(11))*M_.params(3));
-M_.osr.variable_indices = [M_.osr.variable_indices; 79];
-M_.osr.variable_weights(60,60) = M_.params(11)*M_.params(7)*(M_.params(4)+M_.params(11)*M_.params(3));
-M_.osr.variable_indices = [M_.osr.variable_indices; 60];
-M_.osr.variable_weights(69,69) = (M_.params(4)+M_.params(11)*M_.params(3))*M_.params(11)*(1-M_.params(7));
-M_.osr.variable_indices = [M_.osr.variable_indices; 69];
-M_.osr.variable_weights(31,31) = M_.params(7)*M_.params(6)/M_.params(16);
-M_.osr.variable_indices = [M_.osr.variable_indices; 31];
-M_.osr.variable_weights(41,41) = (1-M_.params(7))*M_.params(6)/M_.params(17);
-M_.osr.variable_indices = [M_.osr.variable_indices; 41];
-M_.osr.variable_weights(66,66) = (1-M_.params(11))*M_.params(8)*M_.params(7)*(1-M_.params(7))*(1+(1-M_.params(11))*M_.params(3));
-M_.osr.variable_indices = [M_.osr.variable_indices; 66];
-M_.osr.variable_weights(79,78) = M_.params(3)*2*(1-M_.params(11));
-M_.osr.variable_indices = [M_.osr.variable_indices; 79; 78];
-M_.osr.variable_weights(66,85) = M_.params(3)*M_.params(11)*(1-M_.params(11))*(1-M_.params(7))*M_.params(7)*2*M_.params(8);
-M_.osr.variable_indices = [M_.osr.variable_indices; 66; 85];
-options_.TeX = true;
-options_.irf = 200;
-options_.nocorr = true;
-options_.nograph = true;
-options_.nomoments = true;
-options_.osr.opt_algo = 9;
-options_.irf_shocks = {'eps_a_starr'};
-var_list_ = {};
-oo_.osr = osr(var_list_,M_.osr.param_names,M_.osr.variable_indices,M_.osr.variable_weights);
-[pol_name,folder_name,benchmark_folder_name]=get_folder_name("OSR","POP_WEIGHT","TAYLOR","MB","FOREIGN_UNCONSTRAINED","HOME_UNION_ORIENTED",h,ALPHA_bar,THETA);
-mkdir(folder_name)
-analyze_welfare(oo_.irfs,options_.irf,"POP_WEIGHT","OSR",folder_name,benchmark_folder_name,BETA,SIGMA,DELTA,PHI,GAMMA,EPSILON,LAMBDA,LAMBDA_starr,h,ALPHA_bar);
-T_plot=100
-my_annotation=[char(strrep(strrep("POP_WEIGHT, "+pol_name," - ",", "),"_"," ")) ', $$h$$ = ' num2str(h) ', $$\bar{\alpha}$$ =' num2str(ALPHA_bar) ', $$\theta$$ = ' num2str(THETA)]
-generate_plot(oo_.irfs,T_plot,my_annotation,folder_name)
-OSR_coef_table=rows2vars(struct2table(oo_.osr.optim_params));
-OSR_coef_table.Properties.VariableNames = ["Coefficient","Value"];
-writetable(OSR_coef_table, folder_name+"/OSR_coef.csv","WriteRowNames",true)        
-close all
 M_.params(7) = 0.75;
 h = M_.params(7);
 M_.params(8) = 0.4;
@@ -1255,8 +783,6 @@ estim_params_.param_vals = [estim_params_.param_vals; 25, 0, (-10), 10, 0, NaN, 
 estim_params_.param_vals = [estim_params_.param_vals; 26, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
 estim_params_.param_vals = [estim_params_.param_vals; 27, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
 estim_params_.param_vals = [estim_params_.param_vals; 28, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 29, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 30, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
 options_.varobs = M_.endo_names; 
 options_gsa = struct();
 dynare_sensitivity(options_gsa);
@@ -1268,19 +794,19 @@ M_.osr.variable_indices = [];
 
 M_.osr.variable_weights(79,79) = (1-M_.params(11))*(M_.params(2)+(1-M_.params(11))*M_.params(3));
 M_.osr.variable_indices = [M_.osr.variable_indices; 79];
-M_.osr.variable_weights(60,60) = M_.params(11)*M_.params(7)*(M_.params(4)+M_.params(11)*M_.params(3));
+M_.osr.variable_weights(60,60) = M_.params(11)*0.5*(M_.params(4)+M_.params(11)*M_.params(3));
 M_.osr.variable_indices = [M_.osr.variable_indices; 60];
-M_.osr.variable_weights(69,69) = (M_.params(4)+M_.params(11)*M_.params(3))*M_.params(11)*(1-M_.params(7));
+M_.osr.variable_weights(69,69) = M_.params(11)*0.5*(M_.params(4)+M_.params(11)*M_.params(3));
 M_.osr.variable_indices = [M_.osr.variable_indices; 69];
-M_.osr.variable_weights(31,31) = M_.params(7)*M_.params(6)/M_.params(16);
+M_.osr.variable_weights(31,31) = 0.5*M_.params(6)/M_.params(16);
 M_.osr.variable_indices = [M_.osr.variable_indices; 31];
-M_.osr.variable_weights(41,41) = (1-M_.params(7))*M_.params(6)/M_.params(17);
+M_.osr.variable_weights(41,41) = 0.5*M_.params(6)/M_.params(17);
 M_.osr.variable_indices = [M_.osr.variable_indices; 41];
-M_.osr.variable_weights(66,66) = (1-M_.params(11))*M_.params(8)*M_.params(7)*(1-M_.params(7))*(1+(1-M_.params(11))*M_.params(3));
+M_.osr.variable_weights(66,66) = (1-M_.params(11))*0.25*M_.params(8)*(1+(1-M_.params(11))*M_.params(3));
 M_.osr.variable_indices = [M_.osr.variable_indices; 66];
 M_.osr.variable_weights(79,78) = M_.params(3)*2*(1-M_.params(11));
 M_.osr.variable_indices = [M_.osr.variable_indices; 79; 78];
-M_.osr.variable_weights(66,85) = M_.params(3)*M_.params(11)*(1-M_.params(11))*(1-M_.params(7))*M_.params(7)*2*M_.params(8);
+M_.osr.variable_weights(66,85) = M_.params(3)*M_.params(11)*(1-M_.params(11))*0.5*0.5*2*M_.params(8);
 M_.osr.variable_indices = [M_.osr.variable_indices; 66; 85];
 options_.TeX = true;
 options_.irf = 200;
@@ -1291,11 +817,11 @@ options_.osr.opt_algo = 9;
 options_.irf_shocks = {'eps_a_starr'};
 var_list_ = {};
 oo_.osr = osr(var_list_,M_.osr.param_names,M_.osr.variable_indices,M_.osr.variable_weights);
-[pol_name,folder_name,benchmark_folder_name]=get_folder_name("OSR","POP_WEIGHT","TAYLOR","MB","FOREIGN_UNCONSTRAINED","HOME_UNION_ORIENTED",h,ALPHA_bar,THETA);
+[pol_name,folder_name,benchmark_folder_name]=get_folder_name("OSR","EQUAL_WEIGHT","BLANCHARD","F_GAP_RULE","FOREIGN_UNCONSTRAINED","HOME_UNION_ORIENTED",h,ALPHA_bar,THETA);
 mkdir(folder_name)
-analyze_welfare(oo_.irfs,options_.irf,"POP_WEIGHT","OSR",folder_name,benchmark_folder_name,BETA,SIGMA,DELTA,PHI,GAMMA,EPSILON,LAMBDA,LAMBDA_starr,h,ALPHA_bar);
+analyze_welfare(oo_.irfs,options_.irf,"EQUAL_WEIGHT","OSR",folder_name,benchmark_folder_name,BETA,SIGMA,DELTA,PHI,GAMMA,EPSILON,LAMBDA,LAMBDA_starr,h,ALPHA_bar);
 T_plot=100
-my_annotation=[char(strrep(strrep("POP_WEIGHT, "+pol_name," - ",", "),"_"," ")) ', $$h$$ = ' num2str(h) ', $$\bar{\alpha}$$ =' num2str(ALPHA_bar) ', $$\theta$$ = ' num2str(THETA)]
+my_annotation=[char(strrep(strrep("EQUAL_WEIGHT, "+pol_name," - ",", "),"_"," ")) ', $$h$$ = ' num2str(h) ', $$\bar{\alpha}$$ =' num2str(ALPHA_bar) ', $$\theta$$ = ' num2str(THETA)]
 generate_plot(oo_.irfs,T_plot,my_annotation,folder_name)
 OSR_coef_table=rows2vars(struct2table(oo_.osr.optim_params));
 OSR_coef_table.Properties.VariableNames = ["Coefficient","Value"];
@@ -1332,8 +858,6 @@ estim_params_.param_vals = [estim_params_.param_vals; 25, 0, (-10), 10, 0, NaN, 
 estim_params_.param_vals = [estim_params_.param_vals; 26, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
 estim_params_.param_vals = [estim_params_.param_vals; 27, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
 estim_params_.param_vals = [estim_params_.param_vals; 28, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 29, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 30, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
 options_.varobs = M_.endo_names; 
 options_gsa = struct();
 dynare_sensitivity(options_gsa);
@@ -1345,19 +869,19 @@ M_.osr.variable_indices = [];
 
 M_.osr.variable_weights(79,79) = (1-M_.params(11))*(M_.params(2)+(1-M_.params(11))*M_.params(3));
 M_.osr.variable_indices = [M_.osr.variable_indices; 79];
-M_.osr.variable_weights(60,60) = M_.params(11)*M_.params(7)*(M_.params(4)+M_.params(11)*M_.params(3));
+M_.osr.variable_weights(60,60) = M_.params(11)*0.5*(M_.params(4)+M_.params(11)*M_.params(3));
 M_.osr.variable_indices = [M_.osr.variable_indices; 60];
-M_.osr.variable_weights(69,69) = (M_.params(4)+M_.params(11)*M_.params(3))*M_.params(11)*(1-M_.params(7));
+M_.osr.variable_weights(69,69) = M_.params(11)*0.5*(M_.params(4)+M_.params(11)*M_.params(3));
 M_.osr.variable_indices = [M_.osr.variable_indices; 69];
-M_.osr.variable_weights(31,31) = M_.params(7)*M_.params(6)/M_.params(16);
+M_.osr.variable_weights(31,31) = 0.5*M_.params(6)/M_.params(16);
 M_.osr.variable_indices = [M_.osr.variable_indices; 31];
-M_.osr.variable_weights(41,41) = (1-M_.params(7))*M_.params(6)/M_.params(17);
+M_.osr.variable_weights(41,41) = 0.5*M_.params(6)/M_.params(17);
 M_.osr.variable_indices = [M_.osr.variable_indices; 41];
-M_.osr.variable_weights(66,66) = (1-M_.params(11))*M_.params(8)*M_.params(7)*(1-M_.params(7))*(1+(1-M_.params(11))*M_.params(3));
+M_.osr.variable_weights(66,66) = (1-M_.params(11))*0.25*M_.params(8)*(1+(1-M_.params(11))*M_.params(3));
 M_.osr.variable_indices = [M_.osr.variable_indices; 66];
 M_.osr.variable_weights(79,78) = M_.params(3)*2*(1-M_.params(11));
 M_.osr.variable_indices = [M_.osr.variable_indices; 79; 78];
-M_.osr.variable_weights(66,85) = M_.params(3)*M_.params(11)*(1-M_.params(11))*(1-M_.params(7))*M_.params(7)*2*M_.params(8);
+M_.osr.variable_weights(66,85) = M_.params(3)*M_.params(11)*(1-M_.params(11))*0.5*0.5*2*M_.params(8);
 M_.osr.variable_indices = [M_.osr.variable_indices; 66; 85];
 options_.TeX = true;
 options_.irf = 200;
@@ -1368,11 +892,11 @@ options_.osr.opt_algo = 9;
 options_.irf_shocks = {'eps_a_starr'};
 var_list_ = {};
 oo_.osr = osr(var_list_,M_.osr.param_names,M_.osr.variable_indices,M_.osr.variable_weights);
-[pol_name,folder_name,benchmark_folder_name]=get_folder_name("OSR","POP_WEIGHT","TAYLOR","MB","FOREIGN_UNCONSTRAINED","HOME_UNION_ORIENTED",h,ALPHA_bar,THETA);
+[pol_name,folder_name,benchmark_folder_name]=get_folder_name("OSR","EQUAL_WEIGHT","BLANCHARD","F_GAP_RULE","FOREIGN_UNCONSTRAINED","HOME_UNION_ORIENTED",h,ALPHA_bar,THETA);
 mkdir(folder_name)
-analyze_welfare(oo_.irfs,options_.irf,"POP_WEIGHT","OSR",folder_name,benchmark_folder_name,BETA,SIGMA,DELTA,PHI,GAMMA,EPSILON,LAMBDA,LAMBDA_starr,h,ALPHA_bar);
+analyze_welfare(oo_.irfs,options_.irf,"EQUAL_WEIGHT","OSR",folder_name,benchmark_folder_name,BETA,SIGMA,DELTA,PHI,GAMMA,EPSILON,LAMBDA,LAMBDA_starr,h,ALPHA_bar);
 T_plot=100
-my_annotation=[char(strrep(strrep("POP_WEIGHT, "+pol_name," - ",", "),"_"," ")) ', $$h$$ = ' num2str(h) ', $$\bar{\alpha}$$ =' num2str(ALPHA_bar) ', $$\theta$$ = ' num2str(THETA)]
+my_annotation=[char(strrep(strrep("EQUAL_WEIGHT, "+pol_name," - ",", "),"_"," ")) ', $$h$$ = ' num2str(h) ', $$\bar{\alpha}$$ =' num2str(ALPHA_bar) ', $$\theta$$ = ' num2str(THETA)]
 generate_plot(oo_.irfs,T_plot,my_annotation,folder_name)
 OSR_coef_table=rows2vars(struct2table(oo_.osr.optim_params));
 OSR_coef_table.Properties.VariableNames = ["Coefficient","Value"];
@@ -1409,8 +933,6 @@ estim_params_.param_vals = [estim_params_.param_vals; 25, 0, (-10), 10, 0, NaN, 
 estim_params_.param_vals = [estim_params_.param_vals; 26, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
 estim_params_.param_vals = [estim_params_.param_vals; 27, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
 estim_params_.param_vals = [estim_params_.param_vals; 28, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 29, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 30, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
 options_.varobs = M_.endo_names; 
 options_gsa = struct();
 dynare_sensitivity(options_gsa);
@@ -1422,19 +944,19 @@ M_.osr.variable_indices = [];
 
 M_.osr.variable_weights(79,79) = (1-M_.params(11))*(M_.params(2)+(1-M_.params(11))*M_.params(3));
 M_.osr.variable_indices = [M_.osr.variable_indices; 79];
-M_.osr.variable_weights(60,60) = M_.params(11)*M_.params(7)*(M_.params(4)+M_.params(11)*M_.params(3));
+M_.osr.variable_weights(60,60) = M_.params(11)*0.5*(M_.params(4)+M_.params(11)*M_.params(3));
 M_.osr.variable_indices = [M_.osr.variable_indices; 60];
-M_.osr.variable_weights(69,69) = (M_.params(4)+M_.params(11)*M_.params(3))*M_.params(11)*(1-M_.params(7));
+M_.osr.variable_weights(69,69) = M_.params(11)*0.5*(M_.params(4)+M_.params(11)*M_.params(3));
 M_.osr.variable_indices = [M_.osr.variable_indices; 69];
-M_.osr.variable_weights(31,31) = M_.params(7)*M_.params(6)/M_.params(16);
+M_.osr.variable_weights(31,31) = 0.5*M_.params(6)/M_.params(16);
 M_.osr.variable_indices = [M_.osr.variable_indices; 31];
-M_.osr.variable_weights(41,41) = (1-M_.params(7))*M_.params(6)/M_.params(17);
+M_.osr.variable_weights(41,41) = 0.5*M_.params(6)/M_.params(17);
 M_.osr.variable_indices = [M_.osr.variable_indices; 41];
-M_.osr.variable_weights(66,66) = (1-M_.params(11))*M_.params(8)*M_.params(7)*(1-M_.params(7))*(1+(1-M_.params(11))*M_.params(3));
+M_.osr.variable_weights(66,66) = (1-M_.params(11))*0.25*M_.params(8)*(1+(1-M_.params(11))*M_.params(3));
 M_.osr.variable_indices = [M_.osr.variable_indices; 66];
 M_.osr.variable_weights(79,78) = M_.params(3)*2*(1-M_.params(11));
 M_.osr.variable_indices = [M_.osr.variable_indices; 79; 78];
-M_.osr.variable_weights(66,85) = M_.params(3)*M_.params(11)*(1-M_.params(11))*(1-M_.params(7))*M_.params(7)*2*M_.params(8);
+M_.osr.variable_weights(66,85) = M_.params(3)*M_.params(11)*(1-M_.params(11))*0.5*0.5*2*M_.params(8);
 M_.osr.variable_indices = [M_.osr.variable_indices; 66; 85];
 options_.TeX = true;
 options_.irf = 200;
@@ -1445,11 +967,11 @@ options_.osr.opt_algo = 9;
 options_.irf_shocks = {'eps_a_starr'};
 var_list_ = {};
 oo_.osr = osr(var_list_,M_.osr.param_names,M_.osr.variable_indices,M_.osr.variable_weights);
-[pol_name,folder_name,benchmark_folder_name]=get_folder_name("OSR","POP_WEIGHT","TAYLOR","MB","FOREIGN_UNCONSTRAINED","HOME_UNION_ORIENTED",h,ALPHA_bar,THETA);
+[pol_name,folder_name,benchmark_folder_name]=get_folder_name("OSR","EQUAL_WEIGHT","BLANCHARD","F_GAP_RULE","FOREIGN_UNCONSTRAINED","HOME_UNION_ORIENTED",h,ALPHA_bar,THETA);
 mkdir(folder_name)
-analyze_welfare(oo_.irfs,options_.irf,"POP_WEIGHT","OSR",folder_name,benchmark_folder_name,BETA,SIGMA,DELTA,PHI,GAMMA,EPSILON,LAMBDA,LAMBDA_starr,h,ALPHA_bar);
+analyze_welfare(oo_.irfs,options_.irf,"EQUAL_WEIGHT","OSR",folder_name,benchmark_folder_name,BETA,SIGMA,DELTA,PHI,GAMMA,EPSILON,LAMBDA,LAMBDA_starr,h,ALPHA_bar);
 T_plot=100
-my_annotation=[char(strrep(strrep("POP_WEIGHT, "+pol_name," - ",", "),"_"," ")) ', $$h$$ = ' num2str(h) ', $$\bar{\alpha}$$ =' num2str(ALPHA_bar) ', $$\theta$$ = ' num2str(THETA)]
+my_annotation=[char(strrep(strrep("EQUAL_WEIGHT, "+pol_name," - ",", "),"_"," ")) ', $$h$$ = ' num2str(h) ', $$\bar{\alpha}$$ =' num2str(ALPHA_bar) ', $$\theta$$ = ' num2str(THETA)]
 generate_plot(oo_.irfs,T_plot,my_annotation,folder_name)
 OSR_coef_table=rows2vars(struct2table(oo_.osr.optim_params));
 OSR_coef_table.Properties.VariableNames = ["Coefficient","Value"];
@@ -1486,8 +1008,6 @@ estim_params_.param_vals = [estim_params_.param_vals; 25, 0, (-10), 10, 0, NaN, 
 estim_params_.param_vals = [estim_params_.param_vals; 26, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
 estim_params_.param_vals = [estim_params_.param_vals; 27, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
 estim_params_.param_vals = [estim_params_.param_vals; 28, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 29, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 30, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
 options_.varobs = M_.endo_names; 
 options_gsa = struct();
 dynare_sensitivity(options_gsa);
@@ -1499,19 +1019,19 @@ M_.osr.variable_indices = [];
 
 M_.osr.variable_weights(79,79) = (1-M_.params(11))*(M_.params(2)+(1-M_.params(11))*M_.params(3));
 M_.osr.variable_indices = [M_.osr.variable_indices; 79];
-M_.osr.variable_weights(60,60) = M_.params(11)*M_.params(7)*(M_.params(4)+M_.params(11)*M_.params(3));
+M_.osr.variable_weights(60,60) = M_.params(11)*0.5*(M_.params(4)+M_.params(11)*M_.params(3));
 M_.osr.variable_indices = [M_.osr.variable_indices; 60];
-M_.osr.variable_weights(69,69) = (M_.params(4)+M_.params(11)*M_.params(3))*M_.params(11)*(1-M_.params(7));
+M_.osr.variable_weights(69,69) = M_.params(11)*0.5*(M_.params(4)+M_.params(11)*M_.params(3));
 M_.osr.variable_indices = [M_.osr.variable_indices; 69];
-M_.osr.variable_weights(31,31) = M_.params(7)*M_.params(6)/M_.params(16);
+M_.osr.variable_weights(31,31) = 0.5*M_.params(6)/M_.params(16);
 M_.osr.variable_indices = [M_.osr.variable_indices; 31];
-M_.osr.variable_weights(41,41) = (1-M_.params(7))*M_.params(6)/M_.params(17);
+M_.osr.variable_weights(41,41) = 0.5*M_.params(6)/M_.params(17);
 M_.osr.variable_indices = [M_.osr.variable_indices; 41];
-M_.osr.variable_weights(66,66) = (1-M_.params(11))*M_.params(8)*M_.params(7)*(1-M_.params(7))*(1+(1-M_.params(11))*M_.params(3));
+M_.osr.variable_weights(66,66) = (1-M_.params(11))*0.25*M_.params(8)*(1+(1-M_.params(11))*M_.params(3));
 M_.osr.variable_indices = [M_.osr.variable_indices; 66];
 M_.osr.variable_weights(79,78) = M_.params(3)*2*(1-M_.params(11));
 M_.osr.variable_indices = [M_.osr.variable_indices; 79; 78];
-M_.osr.variable_weights(66,85) = M_.params(3)*M_.params(11)*(1-M_.params(11))*(1-M_.params(7))*M_.params(7)*2*M_.params(8);
+M_.osr.variable_weights(66,85) = M_.params(3)*M_.params(11)*(1-M_.params(11))*0.5*0.5*2*M_.params(8);
 M_.osr.variable_indices = [M_.osr.variable_indices; 66; 85];
 options_.TeX = true;
 options_.irf = 200;
@@ -1522,11 +1042,11 @@ options_.osr.opt_algo = 9;
 options_.irf_shocks = {'eps_a_starr'};
 var_list_ = {};
 oo_.osr = osr(var_list_,M_.osr.param_names,M_.osr.variable_indices,M_.osr.variable_weights);
-[pol_name,folder_name,benchmark_folder_name]=get_folder_name("OSR","POP_WEIGHT","TAYLOR","MB","FOREIGN_UNCONSTRAINED","HOME_UNION_ORIENTED",h,ALPHA_bar,THETA);
+[pol_name,folder_name,benchmark_folder_name]=get_folder_name("OSR","EQUAL_WEIGHT","BLANCHARD","F_GAP_RULE","FOREIGN_UNCONSTRAINED","HOME_UNION_ORIENTED",h,ALPHA_bar,THETA);
 mkdir(folder_name)
-analyze_welfare(oo_.irfs,options_.irf,"POP_WEIGHT","OSR",folder_name,benchmark_folder_name,BETA,SIGMA,DELTA,PHI,GAMMA,EPSILON,LAMBDA,LAMBDA_starr,h,ALPHA_bar);
+analyze_welfare(oo_.irfs,options_.irf,"EQUAL_WEIGHT","OSR",folder_name,benchmark_folder_name,BETA,SIGMA,DELTA,PHI,GAMMA,EPSILON,LAMBDA,LAMBDA_starr,h,ALPHA_bar);
 T_plot=100
-my_annotation=[char(strrep(strrep("POP_WEIGHT, "+pol_name," - ",", "),"_"," ")) ', $$h$$ = ' num2str(h) ', $$\bar{\alpha}$$ =' num2str(ALPHA_bar) ', $$\theta$$ = ' num2str(THETA)]
+my_annotation=[char(strrep(strrep("EQUAL_WEIGHT, "+pol_name," - ",", "),"_"," ")) ', $$h$$ = ' num2str(h) ', $$\bar{\alpha}$$ =' num2str(ALPHA_bar) ', $$\theta$$ = ' num2str(THETA)]
 generate_plot(oo_.irfs,T_plot,my_annotation,folder_name)
 OSR_coef_table=rows2vars(struct2table(oo_.osr.optim_params));
 OSR_coef_table.Properties.VariableNames = ["Coefficient","Value"];
@@ -1563,8 +1083,6 @@ estim_params_.param_vals = [estim_params_.param_vals; 25, 0, (-10), 10, 0, NaN, 
 estim_params_.param_vals = [estim_params_.param_vals; 26, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
 estim_params_.param_vals = [estim_params_.param_vals; 27, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
 estim_params_.param_vals = [estim_params_.param_vals; 28, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 29, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 30, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
 options_.varobs = M_.endo_names; 
 options_gsa = struct();
 dynare_sensitivity(options_gsa);
@@ -1576,19 +1094,19 @@ M_.osr.variable_indices = [];
 
 M_.osr.variable_weights(79,79) = (1-M_.params(11))*(M_.params(2)+(1-M_.params(11))*M_.params(3));
 M_.osr.variable_indices = [M_.osr.variable_indices; 79];
-M_.osr.variable_weights(60,60) = M_.params(11)*M_.params(7)*(M_.params(4)+M_.params(11)*M_.params(3));
+M_.osr.variable_weights(60,60) = M_.params(11)*0.5*(M_.params(4)+M_.params(11)*M_.params(3));
 M_.osr.variable_indices = [M_.osr.variable_indices; 60];
-M_.osr.variable_weights(69,69) = (M_.params(4)+M_.params(11)*M_.params(3))*M_.params(11)*(1-M_.params(7));
+M_.osr.variable_weights(69,69) = M_.params(11)*0.5*(M_.params(4)+M_.params(11)*M_.params(3));
 M_.osr.variable_indices = [M_.osr.variable_indices; 69];
-M_.osr.variable_weights(31,31) = M_.params(7)*M_.params(6)/M_.params(16);
+M_.osr.variable_weights(31,31) = 0.5*M_.params(6)/M_.params(16);
 M_.osr.variable_indices = [M_.osr.variable_indices; 31];
-M_.osr.variable_weights(41,41) = (1-M_.params(7))*M_.params(6)/M_.params(17);
+M_.osr.variable_weights(41,41) = 0.5*M_.params(6)/M_.params(17);
 M_.osr.variable_indices = [M_.osr.variable_indices; 41];
-M_.osr.variable_weights(66,66) = (1-M_.params(11))*M_.params(8)*M_.params(7)*(1-M_.params(7))*(1+(1-M_.params(11))*M_.params(3));
+M_.osr.variable_weights(66,66) = (1-M_.params(11))*0.25*M_.params(8)*(1+(1-M_.params(11))*M_.params(3));
 M_.osr.variable_indices = [M_.osr.variable_indices; 66];
 M_.osr.variable_weights(79,78) = M_.params(3)*2*(1-M_.params(11));
 M_.osr.variable_indices = [M_.osr.variable_indices; 79; 78];
-M_.osr.variable_weights(66,85) = M_.params(3)*M_.params(11)*(1-M_.params(11))*(1-M_.params(7))*M_.params(7)*2*M_.params(8);
+M_.osr.variable_weights(66,85) = M_.params(3)*M_.params(11)*(1-M_.params(11))*0.5*0.5*2*M_.params(8);
 M_.osr.variable_indices = [M_.osr.variable_indices; 66; 85];
 options_.TeX = true;
 options_.irf = 200;
@@ -1599,11 +1117,11 @@ options_.osr.opt_algo = 9;
 options_.irf_shocks = {'eps_a_starr'};
 var_list_ = {};
 oo_.osr = osr(var_list_,M_.osr.param_names,M_.osr.variable_indices,M_.osr.variable_weights);
-[pol_name,folder_name,benchmark_folder_name]=get_folder_name("OSR","POP_WEIGHT","TAYLOR","MB","FOREIGN_UNCONSTRAINED","HOME_UNION_ORIENTED",h,ALPHA_bar,THETA);
+[pol_name,folder_name,benchmark_folder_name]=get_folder_name("OSR","EQUAL_WEIGHT","BLANCHARD","F_GAP_RULE","FOREIGN_UNCONSTRAINED","HOME_UNION_ORIENTED",h,ALPHA_bar,THETA);
 mkdir(folder_name)
-analyze_welfare(oo_.irfs,options_.irf,"POP_WEIGHT","OSR",folder_name,benchmark_folder_name,BETA,SIGMA,DELTA,PHI,GAMMA,EPSILON,LAMBDA,LAMBDA_starr,h,ALPHA_bar);
+analyze_welfare(oo_.irfs,options_.irf,"EQUAL_WEIGHT","OSR",folder_name,benchmark_folder_name,BETA,SIGMA,DELTA,PHI,GAMMA,EPSILON,LAMBDA,LAMBDA_starr,h,ALPHA_bar);
 T_plot=100
-my_annotation=[char(strrep(strrep("POP_WEIGHT, "+pol_name," - ",", "),"_"," ")) ', $$h$$ = ' num2str(h) ', $$\bar{\alpha}$$ =' num2str(ALPHA_bar) ', $$\theta$$ = ' num2str(THETA)]
+my_annotation=[char(strrep(strrep("EQUAL_WEIGHT, "+pol_name," - ",", "),"_"," ")) ', $$h$$ = ' num2str(h) ', $$\bar{\alpha}$$ =' num2str(ALPHA_bar) ', $$\theta$$ = ' num2str(THETA)]
 generate_plot(oo_.irfs,T_plot,my_annotation,folder_name)
 OSR_coef_table=rows2vars(struct2table(oo_.osr.optim_params));
 OSR_coef_table.Properties.VariableNames = ["Coefficient","Value"];
@@ -1640,8 +1158,6 @@ estim_params_.param_vals = [estim_params_.param_vals; 25, 0, (-10), 10, 0, NaN, 
 estim_params_.param_vals = [estim_params_.param_vals; 26, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
 estim_params_.param_vals = [estim_params_.param_vals; 27, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
 estim_params_.param_vals = [estim_params_.param_vals; 28, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 29, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
-estim_params_.param_vals = [estim_params_.param_vals; 30, 0, (-10), 10, 0, NaN, NaN, NaN, NaN, NaN ];
 options_.varobs = M_.endo_names; 
 options_gsa = struct();
 dynare_sensitivity(options_gsa);
@@ -1653,19 +1169,19 @@ M_.osr.variable_indices = [];
 
 M_.osr.variable_weights(79,79) = (1-M_.params(11))*(M_.params(2)+(1-M_.params(11))*M_.params(3));
 M_.osr.variable_indices = [M_.osr.variable_indices; 79];
-M_.osr.variable_weights(60,60) = M_.params(11)*M_.params(7)*(M_.params(4)+M_.params(11)*M_.params(3));
+M_.osr.variable_weights(60,60) = M_.params(11)*0.5*(M_.params(4)+M_.params(11)*M_.params(3));
 M_.osr.variable_indices = [M_.osr.variable_indices; 60];
-M_.osr.variable_weights(69,69) = (M_.params(4)+M_.params(11)*M_.params(3))*M_.params(11)*(1-M_.params(7));
+M_.osr.variable_weights(69,69) = M_.params(11)*0.5*(M_.params(4)+M_.params(11)*M_.params(3));
 M_.osr.variable_indices = [M_.osr.variable_indices; 69];
-M_.osr.variable_weights(31,31) = M_.params(7)*M_.params(6)/M_.params(16);
+M_.osr.variable_weights(31,31) = 0.5*M_.params(6)/M_.params(16);
 M_.osr.variable_indices = [M_.osr.variable_indices; 31];
-M_.osr.variable_weights(41,41) = (1-M_.params(7))*M_.params(6)/M_.params(17);
+M_.osr.variable_weights(41,41) = 0.5*M_.params(6)/M_.params(17);
 M_.osr.variable_indices = [M_.osr.variable_indices; 41];
-M_.osr.variable_weights(66,66) = (1-M_.params(11))*M_.params(8)*M_.params(7)*(1-M_.params(7))*(1+(1-M_.params(11))*M_.params(3));
+M_.osr.variable_weights(66,66) = (1-M_.params(11))*0.25*M_.params(8)*(1+(1-M_.params(11))*M_.params(3));
 M_.osr.variable_indices = [M_.osr.variable_indices; 66];
 M_.osr.variable_weights(79,78) = M_.params(3)*2*(1-M_.params(11));
 M_.osr.variable_indices = [M_.osr.variable_indices; 79; 78];
-M_.osr.variable_weights(66,85) = M_.params(3)*M_.params(11)*(1-M_.params(11))*(1-M_.params(7))*M_.params(7)*2*M_.params(8);
+M_.osr.variable_weights(66,85) = M_.params(3)*M_.params(11)*(1-M_.params(11))*0.5*0.5*2*M_.params(8);
 M_.osr.variable_indices = [M_.osr.variable_indices; 66; 85];
 options_.TeX = true;
 options_.irf = 200;
@@ -1676,11 +1192,11 @@ options_.osr.opt_algo = 9;
 options_.irf_shocks = {'eps_a_starr'};
 var_list_ = {};
 oo_.osr = osr(var_list_,M_.osr.param_names,M_.osr.variable_indices,M_.osr.variable_weights);
-[pol_name,folder_name,benchmark_folder_name]=get_folder_name("OSR","POP_WEIGHT","TAYLOR","MB","FOREIGN_UNCONSTRAINED","HOME_UNION_ORIENTED",h,ALPHA_bar,THETA);
+[pol_name,folder_name,benchmark_folder_name]=get_folder_name("OSR","EQUAL_WEIGHT","BLANCHARD","F_GAP_RULE","FOREIGN_UNCONSTRAINED","HOME_UNION_ORIENTED",h,ALPHA_bar,THETA);
 mkdir(folder_name)
-analyze_welfare(oo_.irfs,options_.irf,"POP_WEIGHT","OSR",folder_name,benchmark_folder_name,BETA,SIGMA,DELTA,PHI,GAMMA,EPSILON,LAMBDA,LAMBDA_starr,h,ALPHA_bar);
+analyze_welfare(oo_.irfs,options_.irf,"EQUAL_WEIGHT","OSR",folder_name,benchmark_folder_name,BETA,SIGMA,DELTA,PHI,GAMMA,EPSILON,LAMBDA,LAMBDA_starr,h,ALPHA_bar);
 T_plot=100
-my_annotation=[char(strrep(strrep("POP_WEIGHT, "+pol_name," - ",", "),"_"," ")) ', $$h$$ = ' num2str(h) ', $$\bar{\alpha}$$ =' num2str(ALPHA_bar) ', $$\theta$$ = ' num2str(THETA)]
+my_annotation=[char(strrep(strrep("EQUAL_WEIGHT, "+pol_name," - ",", "),"_"," ")) ', $$h$$ = ' num2str(h) ', $$\bar{\alpha}$$ =' num2str(ALPHA_bar) ', $$\theta$$ = ' num2str(THETA)]
 generate_plot(oo_.irfs,T_plot,my_annotation,folder_name)
 OSR_coef_table=rows2vars(struct2table(oo_.osr.optim_params));
 OSR_coef_table.Properties.VariableNames = ["Coefficient","Value"];
