@@ -1,5 +1,5 @@
 function [residual, g1, g2, g3] = static(y, x, params)
-    T = NaN(1, 1);
+    T = NaN(0, 1);
     if nargout <= 1
         residual = MODEL_MAIN_9.static_resid(T, y, x, params, true);
     elseif nargout == 2

@@ -10,12 +10,12 @@
 
 @#define OBJECTIVE = "EQUAL_WEIGHT" // "EQUAL_WEIGHT" or "POP_WEIGHT" 
 
-@#define FP_FOREIGN = "FOREIGN_UNCONSTRAINED" // "FOREIGN_UNCONSTRAINED" or "FOREIGN_CONSTRAINED"
+@#define FP_FOREIGN = "FOREIGN_CONSTRAINED" // "FOREIGN_UNCONSTRAINED" or "FOREIGN_CONSTRAINED"
 
 @#define POLICY = "OSR" // Are FP and MP "RAMSEY" or "OSR"
 
 @#define OSR_MP_RULE = "BLANCHARD" // "BLANCHARD" or "TAYLOR"
-@#define OSR_FP_RULE = "F_GAP_RULE" // "G_GAP_RULE" or "F_GAP_RULE" or "BEETSMA" or "BEETSMA_NATIONAL" or "KIRSANOVA" or "KIRSANOVA_NATIONAL" or "MB" or "F_GAP_RULE"
+@#define OSR_FP_RULE = "G_GAP_RULE" // "G_GAP_RULE" or "F_GAP_RULE" or "F_GAP_RULE_2" or "BEETSMA" or "BEETSMA_NATIONAL" or "KIRSANOVA" or "KIRSANOVA_NATIONAL" or "MB" or "F_GAP_RULE"
 
 @#define OSR_FP_HOME = "HOME_DOM_ORIENTED" // "HOME_UNION_ORIENTED" or "HOME_DOM_ORIENTED"
 
@@ -167,7 +167,17 @@ RHOG
         FP_c_gapF_starr
         FP_s_gapF_starr
         @#endif
+    
+    @#elseif OSR_FP_RULE == "F_GAP_RULE_2"
 
+        FP_c_H_gapH
+        FP_c_H_gapF
+        
+        @#if FP_FOREIGN == "FOREIGN_UNCONSTRAINED"
+        FP_c_F_gapH_starr
+        FP_c_F_gapF_starr
+        @#endif
+        
     @#endif
 
 @#endif
@@ -294,7 +304,8 @@ model(linear);
         @#if FP_FOREIGN == "FOREIGN_UNCONSTRAINED"
         g_gap_starr =   RHOG * g_gap_starr(-1)  +FP_y_gapF_starr * (y_gap_starr(-1)-y_gap_cu(-1))   +FP_pieF_starr * (pie_starr(-1)-pie_cu(-1));
         @#elseif FP_FOREIGN == "FOREIGN_CONSTRAINED"
-        g_gap_starr=0;
+        f_gap_starr=0;
+%         g_gap_starr=0;
         @#endif
 
 
@@ -318,13 +329,22 @@ model(linear);
 
     @#elseif OSR_FP_RULE == "F_GAP_RULE"
 
-        f_gap       =   RHOG * f_gap(-1)        +FP_c_gapH * (c_gap(-1)-y_gap(-1)-(c_gap_cu(-1)-y_gap_cu(-1)))                      +FP_s_gapH * s_gap(-1);
+        f_gap       =   RHOG * (f_gap(-1))        +FP_c_gapH * (c_gap(-1)-y_gap(-1)-(c_gap_cu(-1)-y_gap_cu(-1)))                      +FP_s_gapH * s_gap(-1);
         @#if FP_FOREIGN == "FOREIGN_UNCONSTRAINED"
-        f_gap_starr =   RHOG * f_gap_starr(-1)  +FP_c_gapF_starr * (c_gap_starr(-1)-y_gap_starr(-1)-(c_gap_cu(-1)-y_gap_cu(-1)))    +FP_s_gapF_starr * s_gap_starr(-1);
+        f_gap_starr =   RHOG * (f_gap_starr(-1))  +FP_c_gapF_starr * (c_gap_starr(-1)-y_gap_starr(-1)-(c_gap_cu(-1)-y_gap_cu(-1)))    +FP_s_gapF_starr * s_gap_starr(-1);
         @#elseif FP_FOREIGN == "FOREIGN_CONSTRAINED"
         f_gap_starr=0; 
         @#endif
    
+    @#elseif OSR_FP_RULE == "F_GAP_RULE_2"
+
+        f_gap       =   RHOG * (f_gap(-1))        +FP_c_H_gapH * (c_H_gap(-1)-y_gap(-1))                    +FP_c_H_gapF * (c_H_gap_starr(-1)-y_gap_starr(-1));
+        @#if FP_FOREIGN == "FOREIGN_UNCONSTRAINED"
+        f_gap_starr =   RHOG * (f_gap_starr(-1))  +FP_c_F_gapF_starr * (c_F_gap_starr(-1)-y_gap_starr(-1))  +FP_c_F_gapH_starr * (c_F_gap(-1)-y_gap(-1));
+        @#elseif FP_FOREIGN == "FOREIGN_CONSTRAINED"
+        f_gap_starr=0; 
+        @#endif
+
     @#endif
 
 @#endif
@@ -610,6 +630,28 @@ end;
             FP_s_gapF_starr, -10, 10;
             @#endif
         end;
+
+    @#elseif OSR_FP_RULE == "F_GAP_RULE_2"
+
+        osr_params
+            FP_c_H_gapH
+            FP_c_H_gapF
+    
+            @#if FP_FOREIGN == "FOREIGN_UNCONSTRAINED" 
+            FP_c_F_gapH_starr
+            FP_c_F_gapF_starr
+            @#endif
+        ;
+    
+        osr_params_bounds;
+            FP_c_H_gapH, -10, 10;
+            FP_c_H_gapF, -10, 10;
+   
+            @#if FP_FOREIGN == "FOREIGN_UNCONSTRAINED" 
+            FP_c_F_gapH_starr, -10, 10;
+            FP_c_F_gapF_starr, -10, 10;
+            @#endif
+        end;
       
     @#endif    
 
@@ -713,6 +755,16 @@ end;
         @#if FP_FOREIGN == "FOREIGN_UNCONSTRAINED" 
         FP_c_gapF_starr, 0, -10, 10;
         FP_s_gapF_starr, 0, -10, 10;
+        @#endif
+
+    @#elseif OSR_FP_RULE == "F_GAP_RULE_2"
+
+        FP_c_H_gapH, 0, -10, 10;
+        FP_c_H_gapF, 0, -10, 10;
+
+        @#if FP_FOREIGN == "FOREIGN_UNCONSTRAINED" 
+        FP_c_F_gapH_starr, 0, -10, 10;
+        FP_c_F_gapF_starr, 0, -10, 10;
         @#endif
 
     @#endif
