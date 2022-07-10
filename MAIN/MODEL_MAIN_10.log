@@ -1,0 +1,5 @@
+Starting Dynare (version 5.0).
+Calling Dynare with arguments: none
+Starting preprocessing of the model file ...
+ERROR: MODEL_MAIN_10.mod: line 578, cols 9-12: f is not a parameter
+

@@ -1,0 +1,16 @@
+Starting Dynare (version 5.0).
+Calling Dynare with arguments: none
+Starting preprocessing of the model file ...
+Found 94 equation(s).
+Evaluating expressions...done
+Computing static model derivatives (order 1).
+Computing dynamic model derivatives (order 2).
+Processing outputs ...
+done
+Preprocessing completed.
+
+[Warning: stoch_simul: using order = 1 because Hessian is equal
+to zero] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('stoch_simul', 'C:\dynare\5.0\matlab\stoch_simul.m', 60)" style="font-weight:bold">stoch_simul</a> (<a href="matlab: opentoline('C:\dynare\5.0\matlab\stoch_simul.m',60,0)">line 60</a>)
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('MODEL_MAIN_11.driver', 'C:\Users\33689\Documents\GitHub\Master-Thesis\MAIN\+MODEL_MAIN_11\driver.m', 815)" style="font-weight:bold">MODEL_MAIN_11.driver</a> (<a href="matlab: opentoline('C:\Users\33689\Documents\GitHub\Master-Thesis\MAIN\+MODEL_MAIN_11\driver.m',815,0)">line 815</a>)
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('dynare', 'C:\dynare\5.0\matlab\dynare.m', 281)" style="font-weight:bold">dynare</a> (<a href="matlab: opentoline('C:\dynare\5.0\matlab\dynare.m',281,0)">line 281</a>)] 

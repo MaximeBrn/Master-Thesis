@@ -9,7 +9,7 @@ if POLICY == "RAMSEY"
     pol_name=FP_FOREIGN+" - "+POLICY;
     benchmark_folder_name = "NA"; % The RAMSEY policy is the benchmark 
 
-elseif POLICY == "OSR"
+else
 
     benchmark_folder_name = "OUTPUT/"+calibration_name+"/"+OBJECTIVE+"/"+FP_FOREIGN+" - "+"RAMSEY";
 

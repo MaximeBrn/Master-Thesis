@@ -17,6 +17,7 @@ var
     f_nat           ${\hat {\bar f}}$         (long_name='Home natural fiscal stance (log dev ss)')
     s_nat           ${\bar s}$                (long_name='Home natural terms of trade (log dev ss)')
     r_nat           ${\bar r}$                (long_name='Home natural rate (log dev ss)')
+    nx_nat          ${\bar{nx}}$  
 
     y_nat_starr     ${\hat {\bar y}^*}$       (long_name='Foreign natural output (log dev ss)')
     g_nat_starr     ${\hat {\bar g}^*}$       (long_name='Foreign natural government spending (log dev ss)') 
@@ -27,24 +28,25 @@ var
     f_nat_starr     ${\hat {\bar f}^*}$       (long_name='Foreign natural fiscal stance (log dev ss)')
     s_nat_starr     ${\bar s^*}$              (long_name='Foreign natural terms of trade (log dev ss)')
     r_nat_starr     ${\bar r^*}$              (long_name='Foreign natural rate (log dev ss)')
-
+    nx_nat_starr    ${\bar{nx}^*}$  
 
     y_nat_cu        ${\hat {\bar y}^{cu}}$      (long_name='Union natural output (log dev ss)')  
     g_nat_cu        ${\hat {\bar g}^{cu}}$      (long_name='Union natural government consumption (log dev ss)')
     c_nat_cu        ${\hat {\bar c}^{cu}}$      (long_name='Union natural consumption (log dev ss)')
-    c_H_nat_cu
-    c_F_nat_cu      
+    c_H_nat_cu      ${\hat {\bar c}^{H,cu}}$ 
+    c_F_nat_cu      ${\hat {\bar c}^{F,cu}}$
     r_nat_cu        ${\hat {\bar r}^{cu}}$      (long_name='Union natural rate (log dev ss)')
-    f_nat_cu
-    n_nat_cu
+    f_nat_cu        ${\hat {\bar f}^{H,cu}}$
+    n_nat_cu        ${\hat {\bar n}^{H,cu}}$
+    nx_nat_cu       ${\hat {\bar{nx}}^{H,cu}}$
 ;       
 
 %-------------------------------------------------------------------------%
 %---------------------------  MODEL EQUATIONS ----------------------------%
 %-------------------------------------------------------------------------%
 
-model(linear); 
-
+% model(linear); 
+model;
 %------------------  Natural Marginal Cost Conditions --------------------%
 
 [name='Home natural marginal cost condition']
@@ -160,6 +162,13 @@ c_F_nat_cu=h*c_F_nat+(1-h)*c_F_nat_starr;
 f_nat_cu = h*f_nat+(1-h)*f_nat_starr;
 
 n_nat_cu= h*n_nat+(1-h)*n_nat_starr;
+
+nx_nat = y_nat-(1-DELTA)*(c_nat+ALPHA*s_nat)-DELTA*g_nat;
+nx_nat_starr = y_nat_starr-(1-DELTA)*(c_nat_starr+ALPHA_starr*s_nat_starr)-DELTA*g_nat_starr;
+
+nx_nat_cu = h*nx_nat+(1-h)*nx_nat_starr;
+
+
 end;
 
 %-------------------------------------------------------------------------%
@@ -193,6 +202,9 @@ c_H_nat_cu=0;
 c_F_nat_cu=0;
 f_nat_cu=0;
 n_nat_cu=0;
+nx_nat=0;
+nx_nat_starr=0;
+nx_nat_cu=0;
 end;
 
 

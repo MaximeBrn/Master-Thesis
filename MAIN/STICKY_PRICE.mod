@@ -19,6 +19,8 @@ var
     f           ${\hat f}$        (long_name='Home fiscal stance (log dev ss)')
     s           ${s}$             (long_name='Home terms of trade (log dev ss)')
     ii          ${i}$             (long_name='Home nominal interest rate (log dev ss)')
+    nx          ${nx}$
+
 
     y_starr     ${\hat y^*}$      (long_name='Foreign output (log dev ss)')
     pie_starr   ${\pi^{F*}}$     (long_name='Foreign inflation (log dev ss)')
@@ -30,16 +32,18 @@ var
     f_starr     ${\hat f^*}$      (long_name='Foreign fiscal stance (log dev ss)')
     ii_starr    ${i^*}$           (long_name='Foreign nominal interest rate (log dev ss)')
     s_starr     ${s^*}$           (long_name='Foreign terms of trade (log dev ss)')
-   
+    nx_starr    ${nx^*}$
+    
     y_cu        ${\hat y^{cu}}$       (long_name='Union output (log dev ss)')
     g_cu        ${\hat g^{cu}}$       (long_name='Union government spending (log dev ss)')
     c_cu        ${\hat c^{cu}}$       (long_name='Union consumption (log dev ss)')
-    c_H_cu
-    c_F_cu      
+    c_H_cu      ${\hat c^{H,cu}}$
+    c_F_cu      ${\hat c^{F,cu}}$
     ii_cu       ${i^{cu}}$            (long_name='Union nominal interest rate (log dev ss)')
     pie_cu      ${\pi^{cu}}$          (long_name='Union inflation (log dev ss)')
-    f_cu
-    n_cu
+    f_cu        ${\hat f^{cu}}$
+    n_cu        ${\hat n^{cu}}$
+    nx_cu       ${\hat{nx}^{cu}}$
 
     ;       
 
@@ -47,7 +51,8 @@ var
 %-----------------------  STICKY PRICE EQUATIONS -------------------------%
 %-------------------------------------------------------------------------%
 
-model(linear); 
+% model(linear);
+model;
 
 %--------------------------------  NKPCs  --------------------------------%
 
@@ -164,6 +169,11 @@ c_F_cu=h*c_F+(1-h)*c_F_starr;
 f_cu=h*f+(1-h)*f_starr;
 
 n_cu=h*n+(1-h)*n_starr;
+
+nx = y-(1-DELTA)*(c+ALPHA*s)-DELTA*g;
+nx_starr = y_starr-(1-DELTA)*(c_starr+ALPHA_starr*s_starr)-DELTA*g_starr;
+nx_cu = h*nx+(1-h)*nx_starr;
+
 end;
 
 %-------------------------------------------------------------------------%
@@ -200,6 +210,9 @@ c_H_cu=0;
 c_F_cu=0;
 f_cu=0;
 n_cu=0;
+nx=0;
+nx_starr=0;
+nx_cu=0;
 end;
 
 

@@ -17,6 +17,7 @@ var
     n_gap           ${\tilde n}$      (long_name='Home labor gap (log dev ss)')
     s_gap           ${\tilde s}$      (long_name='Home terms of trade gap (log dev ss)')   
     ii_gap          ${\tilde i}$
+    nx_gap          ${\tilde{nx}}$
 
 
     y_gap_starr     ${\tilde y^*}$    (long_name='Foreign output gap (log dev ss)') 
@@ -28,17 +29,18 @@ var
     n_gap_starr     ${\tilde n^*}$    (long_name='Foreign labor gap (log dev ss)')
     s_gap_starr     ${\tilde s^*}$    (long_name='Foreign terms of trade gap (log dev ss)')   
     ii_gap_starr    ${\tilde i^*}$
-
+    nx_gap_starr    ${\tilde{nx}^*}$
 
     y_gap_cu        ${\tilde y^{cu}}$     (long_name='Union output gap (log dev ss)')
     g_gap_cu        ${\tilde g^{cu}}$     (long_name='Union government spending gap (log dev ss)')  
     c_gap_cu        ${\tilde c^{cu}}$     (long_name='Union government spending gap (log dev ss)')
-    c_H_gap_cu
-    c_F_gap_cu
+    c_H_gap_cu      ${\tilde c^{H,cu}}$ 
+    c_F_gap_cu      ${\tilde c^{F,cu}}$ 
     ii_gap_cu       ${\tilde i^{cu}}$
-    n_gap_cu
-    f_gap_cu
-
+    n_gap_cu        ${\tilde n^{cu}}$ 
+    f_gap_cu        ${\tilde f^{cu}}$ 
+    nx_gap_cu       ${\tilde{nx}^{cu}}$ 
+        
     g_gap_r         ${\tilde g^{r}}$     (long_name='Relative output gap (log dev ss)')
 ;
 
@@ -46,7 +48,8 @@ var
 %---------------------------  MODEL EQUATIONS ----------------------------%
 %-------------------------------------------------------------------------%
 
-model(linear);
+% model(linear);
+model;
 
 %---------------------------  Gap Definitions  ---------------------------%
 
@@ -148,6 +151,12 @@ c_H_gap_cu = h*c_H_gap + (1-h)*c_H_gap_starr;
 
 c_F_gap_cu = h*c_F_gap + (1-h)*c_F_gap_starr;
 
+nx_gap = nx-nx_nat;
+
+nx_gap_starr = nx_starr-nx_nat_starr;
+
+nx_gap_cu = h*nx_gap+(1-h)*nx_gap_starr;
+
 
 end;
 
@@ -183,5 +192,8 @@ g_gap_r=0;
 f_gap_cu=0;
 c_H_gap_cu=0;
 c_F_gap_cu=0;
+nx_gap=0;
+nx_gap_starr=0;
+nx_gap_cu=0;
 end;
 

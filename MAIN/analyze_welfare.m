@@ -66,7 +66,7 @@ if POLICY == "RAMSEY"
 
     writetable(Loss_RAMSEY_table,folder_name+"/Loss_RAMSEY.csv","WriteRowNames",true)
 
-elseif POLICY == "OSR"
+else
     
     % Get the benchmark loss (need to run RAMSEY before)
     Loss_RAMSEY_table=readtable(benchmark_folder_name+"/Loss_RAMSEY.csv");
