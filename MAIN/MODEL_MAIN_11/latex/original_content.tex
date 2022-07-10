@@ -116,23 +116,23 @@
 \end{dmath}
 % Equation 30
 \begin{dmath}
-{{\pi^H}}_{t}={{\beta}}\, {{\pi^H}}_{t+1}+{{\lambda}}\, \left(\left({{\varphi}}+{{\tilde\sigma_{\bar{\alpha}}}}\, {{\Omega_{\bar \alpha,h}}}\right)\, {{\hat y}}_{t}+\left({{\tilde{\sigma}}}-{{\tilde\sigma_{\bar{\alpha}}}}\, {{\Omega_{\bar \alpha,h}}}\right)\, {{\hat y^*}}_{t}-\left(1+{{\varphi}}\right)\, {{a}}_{t}\right)
+{{\pi^H}}_{t}={{\beta}}\, {{\pi^H}}_{t+1}+{{\lambda}}\, \left(\left({{\varphi}}+{{\tilde\sigma_{\bar{\alpha}}}}\, {{\Omega_{\bar \alpha,h}}}\right)\, {{\hat y}}_{t}-{{\delta}}\, {{\tilde\sigma_{\bar{\alpha}}}}\, {{\Omega_{\bar \alpha,h}}}\, {{\hat g}}_{t}+\left({{\tilde{\sigma}}}-{{\tilde\sigma_{\bar{\alpha}}}}\, {{\Omega_{\bar \alpha,h}}}\right)\, \left({{\hat y^*}}_{t}-{{\delta}}\, {{\hat g^*}}_{t}\right)-\left(1+{{\varphi}}\right)\, {{a}}_{t}\right)
 \end{dmath}
 % Equation 31
 \begin{dmath}
-{{\pi^{F*}}}_{t}={{\beta}}\, {{\pi^{F*}}}_{t+1}+{{\lambda^*}}\, \left({{\hat y^*}}_{t}\, \left({{\varphi}}+{{\tilde\sigma_{\bar{\alpha}}}}\, {{\Omega_{\bar \alpha,1-h}}}\right)+{{\hat y}}_{t}\, \left({{\tilde{\sigma}}}-{{\tilde\sigma_{\bar{\alpha}}}}\, {{\Omega_{\bar \alpha,1-h}}}\right)-\left(1+{{\varphi}}\right)\, {{a^*}}_{t}\right)
+{{\pi^{F*}}}_{t}={{\beta}}\, {{\pi^{F*}}}_{t+1}+{{\lambda^*}}\, \left({{\hat y^*}}_{t}\, \left({{\varphi}}+{{\tilde\sigma_{\bar{\alpha}}}}\, {{\Omega_{\bar \alpha,1-h}}}\right)-{{\hat g^*}}_{t}\, {{\delta}}\, {{\tilde\sigma_{\bar{\alpha}}}}\, {{\Omega_{\bar \alpha,1-h}}}+\left({{\tilde{\sigma}}}-{{\tilde\sigma_{\bar{\alpha}}}}\, {{\Omega_{\bar \alpha,1-h}}}\right)\, \left({{\hat y}}_{t}-{{\delta}}\, {{\hat g}}_{t}\right)-\left(1+{{\varphi}}\right)\, {{a^*}}_{t}\right)
 \end{dmath}
 % Equation 32
 \begin{dmath}
-{{\hat y}}_{t}={{\hat y}}_{t+1}-\frac{1}{{{\tilde\sigma_{\bar{\alpha}}}}\, {{\Omega_{\bar \alpha,h}}}}\, \left({{i}}_{t}-{{\pi^H}}_{t+1}\right)+\left(\frac{1+{{\bar{\alpha}}}\, {{\Theta{\bar{\alpha}}}}}{{{\Omega_{\bar \alpha,h}}}}-1\right)\, \left({{\hat y^*}}_{t+1}-{{\hat y^*}}_{t}\right)
+{{\hat y}}_{t}={{\hat y}}_{t+1}-{{\delta}}\, \left({{\hat g}}_{t+1}-{{\hat g}}_{t}\right)-\frac{1}{{{\tilde\sigma_{\bar{\alpha}}}}\, {{\Omega_{\bar \alpha,h}}}}\, \left({{i}}_{t}-{{\pi^H}}_{t+1}\right)+\left(\frac{1+{{\bar{\alpha}}}\, {{\Theta{\bar{\alpha}}}}}{{{\Omega_{\bar \alpha,h}}}}-1\right)\, \left({{\hat y^*}}_{t+1}-{{\hat y^*}}_{t}-{{\delta}}\, \left({{\hat g^*}}_{t+1}-{{\hat g^*}}_{t}\right)\right)
 \end{dmath}
 % Equation 33
 \begin{dmath}
-{{\hat y^*}}_{t}={{\hat y^*}}_{t+1}-\frac{1}{{{\tilde\sigma_{\bar{\alpha}}}}\, {{\Omega_{\bar \alpha,1-h}}}}\, \left({{i^*}}_{t}-{{\pi^{F*}}}_{t+1}\right)+\left(\frac{1+{{\bar{\alpha}}}\, {{\Theta{\bar{\alpha}}}}}{{{\Omega_{\bar \alpha,1-h}}}}-1\right)\, \left({{\hat y}}_{t+1}-{{\hat y}}_{t}\right)
+{{\hat y^*}}_{t}={{\hat y^*}}_{t+1}-{{\delta}}\, \left({{\hat g^*}}_{t+1}-{{\hat g^*}}_{t}\right)-\frac{1}{{{\tilde\sigma_{\bar{\alpha}}}}\, {{\Omega_{\bar \alpha,1-h}}}}\, \left({{i^*}}_{t}-{{\pi^{F*}}}_{t+1}\right)+\left(\frac{1+{{\bar{\alpha}}}\, {{\Theta{\bar{\alpha}}}}}{{{\Omega_{\bar \alpha,1-h}}}}-1\right)\, \left({{\hat y}}_{t+1}-{{\hat y}}_{t}-{{\delta}}\, \left({{\hat g}}_{t+1}-{{\hat g}}_{t}\right)\right)
 \end{dmath}
 % Equation 34
 \begin{dmath}
-{{s}}_{t}={{\tilde\sigma_{\bar{\alpha}}}}\, \left({{\hat y}}_{t}-{{\hat y^*}}_{t}\right)
+{{s}}_{t}={{\tilde\sigma_{\bar{\alpha}}}}\, \left({{\hat y}}_{t}-{{\hat y^*}}_{t}-{{\delta}}\, \left({{\hat g}}_{t}-{{\hat g^*}}_{t}\right)\right)
 \end{dmath}
 % Equation 35
 \begin{dmath}
@@ -148,19 +148,19 @@
 \end{dmath}
 % Equation 38
 \begin{dmath}
-{{\tilde{\sigma}}}\, {{\hat y}}_{t}={{\sigma}}\, {{\hat c}}_{t}+{{\bar{\alpha}}}\, \left(1-{{h}}\right)\, {{w_{\bar{\alpha}}}}\, {{s}}_{t}
+{{\tilde{\sigma}}}\, \left({{\hat y}}_{t}-{{\delta}}\, {{\hat g}}_{t}\right)={{\sigma}}\, {{\hat c}}_{t}+{{\bar{\alpha}}}\, \left(1-{{h}}\right)\, {{w_{\bar{\alpha}}}}\, {{s}}_{t}
 \end{dmath}
 % Equation 39
 \begin{dmath}
-{{\tilde{\sigma}}}\, {{\hat y^*}}_{t}={{\sigma}}\, {{\hat c^*}}_{t}-{{w_{\bar{\alpha}}}}\, {{\bar{\alpha}}}\, {{h}}\, {{s}}_{t}
+{{\tilde{\sigma}}}\, \left({{\hat y^*}}_{t}-{{\delta}}\, {{\hat g^*}}_{t}\right)={{\sigma}}\, {{\hat c^*}}_{t}-{{w_{\bar{\alpha}}}}\, {{\bar{\alpha}}}\, {{h}}\, {{s}}_{t}
 \end{dmath}
 % Equation 40
 \begin{dmath}
-{{\hat f}}_{t}=\left(-{{\hat y}}_{t}\right)
+{{\hat f}}_{t}={{\hat g}}_{t}-{{\hat y}}_{t}
 \end{dmath}
 % Equation 41
 \begin{dmath}
-{{\hat f^*}}_{t}=\left(-{{\hat y^*}}_{t}\right)
+{{\hat f^*}}_{t}={{\hat g^*}}_{t}-{{\hat y^*}}_{t}
 \end{dmath}
 % Equation 42
 \begin{dmath}
@@ -196,7 +196,7 @@
 \end{dmath}
 % Equation 50
 \begin{dmath}
-{{\hat g^{cu}}}_{t}=0
+{{\hat g^{cu}}}_{t}={{h}}\, {{\hat g}}_{t}+\left(1-{{h}}\right)\, {{\hat g^*}}_{t}
 \end{dmath}
 % Equation 51
 \begin{dmath}
@@ -220,11 +220,11 @@
 \end{dmath}
 % Equation 56
 \begin{dmath}
-{{nx}}_{t}={{\hat y}}_{t}-\left(1-{{\delta}}\right)\, \left({{\hat c}}_{t}+{{\alpha}}\, {{s}}_{t}\right)
+{{nx}}_{t}={{\hat y}}_{t}-\left(1-{{\delta}}\right)\, \left({{\hat c}}_{t}+{{\alpha}}\, {{s}}_{t}\right)-{{\delta}}\, {{\hat g}}_{t}
 \end{dmath}
 % Equation 57
 \begin{dmath}
-{{nx^*}}_{t}={{\hat y^*}}_{t}-\left(1-{{\delta}}\right)\, \left({{\hat c^*}}_{t}+{{\alpha^*}}\, {{s^*}}_{t}\right)
+{{nx^*}}_{t}={{\hat y^*}}_{t}-\left(1-{{\delta}}\right)\, \left({{\hat c^*}}_{t}+{{\alpha^*}}\, {{s^*}}_{t}\right)-{{\delta}}\, {{\hat g^*}}_{t}
 \end{dmath}
 % Equation 58
 \begin{dmath}
@@ -236,7 +236,7 @@
 \end{dmath}
 % Equation 60
 \begin{dmath}
-{{\tilde g}}_{t}=\left(-{{\hat {\bar g}}}_{t}\right)
+{{\tilde g}}_{t}={{\hat g}}_{t}-{{\hat {\bar g}}}_{t}
 \end{dmath}
 % Equation 61
 \begin{dmath}
@@ -272,7 +272,7 @@
 \end{dmath}
 % Equation 69
 \begin{dmath}
-{{\tilde g^*}}_{t}=\left(-{{\hat {\bar g}^*}}_{t}\right)
+{{\tilde g^*}}_{t}={{\hat g^*}}_{t}-{{\hat {\bar g}^*}}_{t}
 \end{dmath}
 % Equation 70
 \begin{dmath}
@@ -356,11 +356,11 @@
 \end{dmath}
 % Equation 90
 \begin{dmath}
-{{\hat g}}_{t}=0
+{{\tilde g}}_{t}={RHOG}\, {{\tilde g}}_{t-1}+{FP\_y\_gapH}\, \left({{\tilde y}}_{t-1}-{{\tilde y^{cu}}}_{t-1}\right)+{FP\_pieH}\, \left({{\pi^H}}_{t-1}-{{\pi^{cu}}}_{t-1}\right)
 \end{dmath}
 % Equation 91
 \begin{dmath}
-{{\hat g^*}}_{t}=0
+{{\tilde g^*}}_{t}={RHOG}\, {{\tilde g^*}}_{t-1}+{FP\_y\_gapF\_starr}\, \left({{\tilde y^*}}_{t-1}-{{\tilde y^{cu}}}_{t-1}\right)+{FP\_pieF\_starr}\, \left({{\pi^{F*}}}_{t-1}-{{\pi^{cu}}}_{t-1}\right)
 \end{dmath}
 % Equation 92
 \begin{dmath}

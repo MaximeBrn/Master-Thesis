@@ -8,14 +8,14 @@
 %----------------------------  POLICY REGIME  ----------------------------%
 %-------------------------------------------------------------------------%
 
-@#define OBJECTIVE = "EQUAL_WEIGHT" // "EQUAL_WEIGHT" or "POP_WEIGHT" 
+@#define OBJECTIVE = "POP_WEIGHT" // "EQUAL_WEIGHT" or "POP_WEIGHT" 
 
 @#define FP_FOREIGN = "FOREIGN_UNCONSTRAINED" // "FOREIGN_UNCONSTRAINED" or "FOREIGN_CONSTRAINED"
  
-@#define POLICY = "SUBOPTIMAL" // Are FP and MP "RAMSEY" or "OSR" or "SUBOPTIMAL"
+@#define POLICY = "OSR" // Are FP and MP "RAMSEY" or "OSR"
 
 @#define OSR_MP_RULE = "BLANCHARD" // "BLANCHARD" or "TAYLOR"
-@#define OSR_FP_RULE = "NX_GAP_RULE" // "G_GAP_RULE" or "NX_GAP_RULE"
+@#define OSR_FP_RULE = "G_GAP_RULE" // "G_GAP_RULE" or "NX_GAP_RULE"
 
 @#define OSR_FP_HOME = "HOME_UNION_ORIENTED" // "HOME_UNION_ORIENTED" or "HOME_DOM_ORIENTED"
 
@@ -90,7 +90,7 @@ parameters
 
 RHOG
 
-@#if POLICY == "OSR" || POLICY == "SUBOPTIMAL"
+@#if POLICY == "OSR"
 
     @#if OSR_FP_RULE == "G_GAP_RULE"
 
@@ -122,12 +122,6 @@ RHOG
 %-------------------------------------------------------------------------%
 %--------------------------- PARAMETERS VALUE ----------------------------%
 %-------------------------------------------------------------------------%
-
-%---------------------------  Union Features  ----------------------------%
-
-% h               =   0.5; % 0.5 or 0.75
-% ALPHA_bar       =   0.4; % 0.4 or 0.6
-% THETA           =   0.75; % 0.5 or 0.75
 
 %---------------------------  Fixed Parameters  --------------------------%
 
@@ -177,7 +171,7 @@ model;
 
 %---------------------------  Monetary Policy  ---------------------------%
 
-@#if POLICY == "OSR" || POLICY == "SUBOPTIMAL"
+@#if POLICY == "OSR"
 
     @#if OSR_MP_RULE == "TAYLOR"
 
@@ -194,14 +188,11 @@ model;
 %----------------------------  Fiscal Policy  ----------------------------%
 
 @#if FP_FOREIGN == "FOREIGN_CONSTRAINED"  
-
-%         f_gap_starr=0;
-%           f_starr=0;
           g_gap_starr=0;
 @#endif
 
 
-@#if POLICY == "OSR" || "SUBOPTIMAL"
+@#if POLICY == "OSR"
 
     @#if OSR_FP_RULE == "G_GAP_RULE"
 
@@ -350,12 +341,10 @@ end;
     
         osr_params_bounds;
             FP_y_gapH, -10, 10;
-%             FP_y_gapH, -10, 0;
             FP_pieH, -10, 10;
     
             @#if FP_FOREIGN == "FOREIGN_UNCONSTRAINED" 
             FP_y_gapF_starr, -10, 10;
-%             FP_y_gapF_starr, -10, 0;
             FP_pieF_starr, -10, 10;
             @#endif
         end;
@@ -384,8 +373,8 @@ end;
 
 %--------------------------  Check Determinacy  --------------------------%
     
-%     @#for h_val in [ "0.5", "0.75"]
-    @#for h_val in [ "0.75"]
+    @#for h_val in [ "0.5", "0.75"]
+%     @#for h_val in [ "0.75"]
     @#for ALPHA_bar_val in ["0.4", "0.6"]
     @#for THETA_val in ["0.5", "0.75"]
     
@@ -409,12 +398,10 @@ end;
      @#if OSR_FP_RULE == "G_GAP_RULE"
 
         FP_y_gapH, 0, -10, 10;
-%         FP_y_gapH, -5, -10, 0;
         FP_pieH, 0, -10, 10;
 
         @#if FP_FOREIGN == "FOREIGN_UNCONSTRAINED" 
         FP_y_gapF_starr, 0, -10, 10;
-%         FP_y_gapF_starr, -5, -10, 0;
         FP_pieF_starr, 0, -10, 10;
         @#endif
 
@@ -498,105 +485,6 @@ end;
     writetable(OSR_coef_table, folder_name+"/OSR_coef.csv","WriteRowNames",true)        
     
     close all
-
-    @#endfor
-    @#endfor
-    @#endfor
-
-%-------------------------------  SUBOPTIMAL  ----------------------------%
-
-@#elseif POLICY == "SUBOPTIMAL"
-
-@#for h_val in [ "0.5", "0.75"]
-% @#for h_val in [ "0.5"]
-@#for ALPHA_bar_val in ["0.4"]
-@#for THETA_val in ["0.5"]
-
-        
-        % Economic features
-        h = @{h_val};
-        ALPHA_bar = @{ALPHA_bar_val};
-        THETA = @{THETA_val};
-     
-        % Composite parameters which depend on economic features
-        ALPHA                   =   ALPHA_bar*(1-h);
-        ALPHA_starr             =   ALPHA_bar*h;
-        LAMBDA                  =   (1-THETA)*(1-THETA*BETA)/THETA;
-        W_ALPHA_bar             =   1+(2-ALPHA_bar)*(SIGMA*ETA-1);
-        THETA_ALPHA_bar         =   W_ALPHA_bar-1;
-        SIGMA_tilde_ALPHA_bar   =   SIGMA_tilde/(1+ALPHA_bar*THETA_ALPHA_bar);
-        OMEGA                   =   1+ALPHA_bar*h*THETA_ALPHA_bar ;
-        OMEGA_starr             =   1+ALPHA_bar*(1-h)*THETA_ALPHA_bar; 
-
-        % Optimal parameters
-
-%         @#if ALPHA_bar_val == "0.4"
-% 
-%              @#if OSR_FP_RULE == "G_GAP_RULE"
-% 
-%                 FP_y_gapH = 0;
-%                 FP_pieH = 0;
-%                 
-%                 @#if FP_FOREIGN == "FOREIGN_UNCONSTRAINED"
-%                 FP_y_gapF_starr = 0;
-%                 FP_pieF_starr = 0;
-%                 @#endif
-%      
-%             @#elseif OSR_FP_RULE == "NX_GAP_RULE"
-%         
-%                         FP_nx_gapH = 0;
-%                         
-%                         @#if FP_FOREIGN == "FOREIGN_UNCONSTRAINED"
-%                         FP_nx_gapF_starr = 0;
-%                         @#endif 
-% 
-%            @#endif
-% 
-%         @#elseif ALPHA_bar_val == "0.6"
-%     
-%                  @#if OSR_FP_RULE == "G_GAP_RULE"
-%     
-%                     FP_y_gapH = 0;
-%                     FP_pieH = 0;
-%                     
-%                     @#if FP_FOREIGN == "FOREIGN_UNCONSTRAINED"
-%                     FP_y_gapF_starr = 0;
-%                     FP_pieF_starr = 0;
-%                     @#endif
-%          
-%                 @#elseif OSR_FP_RULE == "NX_GAP_RULE"
-%             
-%                             FP_nx_gapH = 0;
-%                             
-%                             @#if FP_FOREIGN == "FOREIGN_UNCONSTRAINED"
-%                             FP_nx_gapF_starr = 0;
-%                             @#endif 
-%     
-%                @#endif
-%         @#endif
-
-
-
-        % Run simulations
-        stoch_simul(irf_shocks=(eps_a_starr),nograph,nocorr,nodecomposition,nomoments,irf=200);
-
-        % Get folder name to store outputs
-        [pol_name,folder_name,benchmark_folder_name]=get_folder_name("@{POLICY}","@{OBJECTIVE}","@{OSR_MP_RULE}","@{OSR_FP_RULE}","@{FP_FOREIGN}","@{OSR_FP_HOME}",h,ALPHA_bar,THETA);
-
-        % Create folder to store output
-        mkdir(folder_name)
-
-        % Analyze welfare
-        analyze_welfare(oo_.irfs,options_.irf,"@{OBJECTIVE}","@{POLICY}",folder_name,benchmark_folder_name,BETA,SIGMA,DELTA,PHI,GAMMA,EPSILON,LAMBDA,LAMBDA_starr,h,ALPHA_bar);
-
-        % Generate plot
-        T_plot=100
-        @#if OSR_FP_RULE == "G_GAP_RULE"
-            my_annotation=[char(strrep(strrep("@{OBJECTIVE}, "+pol_name," - ",", "),"_"," ")) ', $$\Phi_y$$ = $$\Phi_y^*$$ = ' num2str(FP_y_gapH) ', $$\Phi_\pi$$ = $$\Phi_\pi^*$$ = ' num2str(FP_pieH) ', $$h$$ = ' num2str(h) ', $$\bar{\alpha}$$ =' num2str(ALPHA_bar) ', $$\theta$$ = ' num2str(THETA)]
-        @#elseif OSR_FP_RULE == "NX_GAP_RULE" 
-            my_annotation=[char(strrep(strrep("@{OBJECTIVE}, "+pol_name," - ",", "),"_"," ")) ', $$\Phi_{nx}$$ = $$\Phi_{nx}^*$$ = ' num2str(FP_nx_gapH) ', $$h$$ = ' num2str(h) ', $$\bar{\alpha}$$ =' num2str(ALPHA_bar) ', $$\theta$$ = ' num2str(THETA)]
-        @#endif
-        generate_plot_2(oo_.irfs,T_plot,my_annotation,folder_name)
 
     @#endfor
     @#endfor
